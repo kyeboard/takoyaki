@@ -18,7 +18,7 @@ async fn main() -> Result<() , Box<dyn Error>> {
     let setup = utils::Setup::instance();
 
     // Ensure that the files exists
-    setup.ensureAvailability()?;
+    setup.ensure_availability()?;
 
     // Create a new rocket instance
     let _ = rocket::build()

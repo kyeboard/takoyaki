@@ -18,7 +18,7 @@ impl Setup {
         }
     }
 
-    pub fn ensureAvailability(&self) -> Result<()> {
+    pub fn ensure_availability(&self) -> Result<()> {
         // Create the deployments dir
         create_dir_all(&self.deployment_dir)?;
 
