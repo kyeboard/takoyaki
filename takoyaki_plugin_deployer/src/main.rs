@@ -5,6 +5,7 @@ use std::error::Error;
 
 mod utils;
 mod route;
+mod middlewares;
 
 // Catches all OPTION requests in order to get the CORS related Fairing triggered.
 #[options("/<_..>")]

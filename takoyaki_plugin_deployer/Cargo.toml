@@ -9,6 +9,7 @@ edition = "2021"
 rocket = { version = "0.5.0-rc.2", features = ["json"] }
 dirs = "4.0.0"
 serde = { version = "1.0", features = ["derive"] }
+reqwest = { version = "0.11", features = ["json"] }
 
 [dependencies.uuid]
 version = "1.2.2"
