@@ -1,13 +1,6 @@
-use rocket::serde::{Deserialize, Serialize, json::Json};
+use rocket::serde::{Serialize, json::Json};
+use crate::utils::{DeploymentInfo, create_deployment};
 use crate::middlewares::AuthGuard;
-
-#[derive(Deserialize)]
-pub struct DeploymentDetails {
-    pub name: String,
-    pub github_url: String,
-    pub branch: String,
-    pub path: String,
-}
 
 #[derive(Serialize)]
 pub struct Response {
@@ -15,8 +8,10 @@ pub struct Response {
 }
 
 #[post("/deploy" , format="application/json" , data="<info>")]
-pub fn create_new_deployment(info: Json<DeploymentDetails>, auth_guard: AuthGuard) -> Json<Response> {
+pub fn create_new_deployment(info: Json<DeploymentInfo>, auth_guard: AuthGuard) -> Json<Response> {
     let uuid = uuid::Uuid::new_v4().to_string();
+
+    rocket::tokio::spawn(create_deployment(info.0 , auth_guard.username));
 
     Json(Response {
         deployment_id: uuid

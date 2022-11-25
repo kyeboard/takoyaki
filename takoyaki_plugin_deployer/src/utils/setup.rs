@@ -28,5 +28,15 @@ impl Setup {
         // Ok!
         Ok(())
     }
+
+    pub fn setup_for_me(&self, project: &str, whoami: &str) -> Result<()> {
+        // Create the folder at the build directory
+        create_dir_all(self.builds_dir.join(whoami))?;
+
+        // Create the deployments directory
+        create_dir_all(self.deployment_dir.join(whoami).join(project))?;
+
+        Ok(())
+    }
 }
 

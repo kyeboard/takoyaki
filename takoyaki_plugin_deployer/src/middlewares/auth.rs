@@ -2,7 +2,7 @@ use rocket::{request::{FromRequest, Outcome}, Request, http::Status};
 use crate::utils::get_user;
 
 pub struct AuthGuard {
-    username: String
+    pub username: String
 }
 
 #[derive(Debug)]
@@ -37,3 +37,4 @@ impl<'r> FromRequest<'r> for AuthGuard {
         Outcome::Success(Self { username: user.users.unwrap().into_iter().next().unwrap().screen_name })
     }
 }
+
