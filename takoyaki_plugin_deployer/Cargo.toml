@@ -9,6 +9,7 @@ edition = "2021"
 rocket = { version = "0.5.0-rc.2", features = ["json"] }
 dirs = "4.0.0"
 serde = { version = "1.0", features = ["derive"] }
+cargo_toml = "0.13.0"
 reqwest = { version = "0.11", features = ["json"] }
 
 [dependencies.uuid]
@@ -18,3 +19,7 @@ features = [
     "fast-rng",          # Use a faster (but still sufficiently random) RNG
     "macro-diagnostics", # Enable better diagnostics for compile-time UUIDs
 ]
+
+[[bin]]
+name = "daemon"
+path = "src/daemon/bin/main.rs"

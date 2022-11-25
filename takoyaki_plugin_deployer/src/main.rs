@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate rocket;
 
-use std::error::Error;
+use std::{error::Error, path::PathBuf};
 
 mod middlewares;
 mod route;
