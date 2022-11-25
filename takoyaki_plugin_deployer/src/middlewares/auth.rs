@@ -1,14 +1,18 @@
-use rocket::{request::{FromRequest, Outcome}, Request, http::Status};
 use crate::utils::get_user;
+use rocket::{
+    http::Status,
+    request::{FromRequest, Outcome},
+    Request,
+};
 
 pub struct AuthGuard {
-    pub username: String
+    pub username: String,
 }
 
 #[derive(Debug)]
 pub enum Error {
     InvalidAuthorizationHeader,
-    InvalidToken
+    InvalidToken,
 }
 
 #[rocket::async_trait]
@@ -28,12 +32,16 @@ impl<'r> FromRequest<'r> for AuthGuard {
             return Outcome::Failure((Status::Unauthorized, Error::InvalidAuthorizationHeader));
         }
 
-        let user = get_user(authorize_header.next().unwrap_or("")).await.unwrap();
+        let user = get_user(authorize_header.next().unwrap_or(""))
+            .await
+            .unwrap();
 
         if user.error.is_some() {
             return Outcome::Failure((Status::Unauthorized, Error::InvalidToken));
         }
 
-        Outcome::Success(Self { username: user.users.unwrap().into_iter().next().unwrap().screen_name })
+        Outcome::Success(Self {
+            username: user.users.unwrap().into_iter().next().unwrap().screen_name,
+        })
     }
 }

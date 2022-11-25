@@ -3,9 +3,9 @@ extern crate rocket;
 
 use std::error::Error;
 
-mod utils;
-mod route;
 mod middlewares;
+mod route;
+mod utils;
 
 // Catches all OPTION requests in order to get the CORS related Fairing triggered.
 #[options("/<_..>")]
@@ -14,7 +14,7 @@ fn all_options() {
 }
 
 #[main]
-async fn main() -> Result<() , Box<dyn Error>> {
+async fn main() -> Result<(), Box<dyn Error>> {
     // Create a new instance of the setup
     let setup = utils::Setup::instance();
 
@@ -30,4 +30,3 @@ async fn main() -> Result<() , Box<dyn Error>> {
 
     Ok(())
 }
-

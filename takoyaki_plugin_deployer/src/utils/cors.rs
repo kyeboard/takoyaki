@@ -23,4 +23,3 @@ impl Fairing for Cors {
         response.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
     }
 }
-

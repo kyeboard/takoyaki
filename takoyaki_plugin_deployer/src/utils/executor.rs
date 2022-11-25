@@ -1,9 +1,14 @@
-use std::{path::PathBuf, process::{Stdio, Command}, fs::{File, OpenOptions}, io::Result};
+use std::{
+    fs::{File, OpenOptions},
+    io::Result,
+    path::PathBuf,
+    process::{Command, Stdio},
+};
 
 pub struct Executor<'a> {
     commands: Vec<Vec<&'a str>>,
     dirs: Vec<PathBuf>,
-    out_path: PathBuf
+    out_path: PathBuf,
 }
 
 impl<'a> Executor<'a> {
@@ -11,11 +16,11 @@ impl<'a> Executor<'a> {
         Self {
             commands,
             dirs,
-            out_path
+            out_path,
         }
     }
 
-    pub fn get_output_file(&self) -> Result<(Stdio , Stdio)> {
+    pub fn get_output_file(&self) -> Result<(Stdio, Stdio)> {
         // Create the log  file
         let file = OpenOptions::new()
             .create(true)
@@ -28,7 +33,7 @@ impl<'a> Executor<'a> {
         // Get the stdout
         let stdout = Stdio::from(file);
 
-        Ok((stderr , stdout))
+        Ok((stderr, stdout))
     }
 
     pub fn execute_at(&self, command: &Vec<&str>, cwd: &PathBuf) -> Result<()> {
@@ -50,7 +55,7 @@ impl<'a> Executor<'a> {
     pub fn pipe_commands(&self) -> Result<()> {
         for (command, cwd) in self.commands.iter().zip(&self.dirs) {
             self.execute_at(command, cwd)?;
-        } 
+        }
 
         Ok(())
     }

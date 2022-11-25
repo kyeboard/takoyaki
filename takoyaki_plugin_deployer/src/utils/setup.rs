@@ -1,12 +1,14 @@
-use std::{path::PathBuf, io::Result, fs::create_dir_all};
+use std::{fs::create_dir_all, io::Result, path::PathBuf};
 
 pub struct Setup {
     pub deployment_dir: PathBuf,
-    pub builds_dir: PathBuf
+    pub builds_dir: PathBuf,
 }
 
 // Hoping the home directory exists...
-fn home_dir() -> PathBuf { dirs::home_dir().unwrap() }
+fn home_dir() -> PathBuf {
+    dirs::home_dir().unwrap()
+}
 
 impl Setup {
     pub fn instance() -> Self {
@@ -39,4 +41,3 @@ impl Setup {
         Ok(())
     }
 }
-

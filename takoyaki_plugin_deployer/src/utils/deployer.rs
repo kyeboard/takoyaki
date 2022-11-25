@@ -1,6 +1,6 @@
-use std::io::Result;
-use serde::Deserialize;
 use super::{Executor, Setup};
+use serde::Deserialize;
+use std::io::Result;
 
 #[derive(Deserialize)]
 pub struct DeploymentInfo {
@@ -10,7 +10,11 @@ pub struct DeploymentInfo {
     pub path: String,
 }
 
-pub async fn create_deployment(details: DeploymentInfo, whoami: String, uuid: String) -> Result<()> {
+pub async fn create_deployment(
+    details: DeploymentInfo,
+    whoami: String,
+    uuid: String,
+) -> Result<()> {
     // Get an instance of the setup
     let setup = Setup::instance();
 
@@ -21,19 +25,30 @@ pub async fn create_deployment(details: DeploymentInfo, whoami: String, uuid: St
     let mut out_file_path = setup.deployment_dir.clone();
 
     // Extend it to the path
-    out_file_path.extend([&whoami, &details.name, &format!("{}.txt" , uuid)]);
+    out_file_path.extend([&whoami, &details.name, &format!("{}.txt", uuid)]);
 
     // Create a new executor
     let executor = Executor::new(
         vec![
-            vec!["git", "clone", "-b", &details.branch, &details.github_url, &details.name],
-            vec!["cargo", "build", "--release"]
-        ], 
+            vec![
+                "git",
+                "clone",
+                "-b",
+                &details.branch,
+                &details.github_url,
+                &details.name,
+            ],
+            vec!["cargo", "build", "--release"],
+        ],
         vec![
             setup.builds_dir.join(&whoami),
-            setup.builds_dir.join(&whoami).join(&details.name).join(&details.path)
-        ], 
-        out_file_path
+            setup
+                .builds_dir
+                .join(&whoami)
+                .join(&details.name)
+                .join(&details.path),
+        ],
+        out_file_path,
     );
 
     // Run the commands
