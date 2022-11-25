@@ -9,8 +9,8 @@ mod utils;
 
 // Catches all OPTION requests in order to get the CORS related Fairing triggered.
 #[options("/<_..>")]
-fn all_options() {
-    /* Intentionally left empty */
+fn all_options() -> String {
+    String::from("Hi from CORS")
 }
 
 #[main]
