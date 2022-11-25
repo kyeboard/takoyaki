@@ -37,4 +37,3 @@ impl<'r> FromRequest<'r> for AuthGuard {
         Outcome::Success(Self { username: user.users.unwrap().into_iter().next().unwrap().screen_name })
     }
 }
-

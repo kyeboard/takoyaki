@@ -1,4 +1,4 @@
-use std::{path::PathBuf, process::{Stdio, Command}, fs::File, io::Result};
+use std::{path::PathBuf, process::{Stdio, Command}, fs::{File, OpenOptions}, io::Result};
 
 pub struct Executor<'a> {
     commands: Vec<Vec<&'a str>>,
@@ -17,7 +17,10 @@ impl<'a> Executor<'a> {
 
     pub fn get_output_file(&self) -> Result<(Stdio , Stdio)> {
         // Create the log  file
-        let file = File::create(&self.out_path)?;
+        let file = OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(&self.out_path)?;
 
         // Get the stderr
         let stderr = Stdio::from(file.try_clone()?);
@@ -52,4 +55,3 @@ impl<'a> Executor<'a> {
         Ok(())
     }
 }
-
