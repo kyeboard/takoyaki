@@ -2,6 +2,9 @@
 extern crate rocket;
 
 use std::{error::Error, path::PathBuf};
+use dotenv::dotenv;
+
+use utils::upload_file;
 
 mod middlewares;
 mod route;
@@ -15,6 +18,9 @@ fn all_options() -> String {
 
 #[main]
 async fn main() -> Result<(), Box<dyn Error>> {
+    // Load env
+    dotenv().ok();
+
     // Create a new instance of the setup
     let setup = utils::Setup::instance();
 

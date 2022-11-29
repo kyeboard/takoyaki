@@ -1,4 +1,4 @@
-use super::{Executor, Setup};
+use super::{Executor, Setup, upload_file, hint_binary_name};
 use serde::Deserialize;
 use std::io::Result;
 
@@ -53,6 +53,24 @@ pub async fn create_deployment(
 
     // Run the commands
     executor.pipe_commands()?;
+    let cargo_path = setup
+        .builds_dir
+        .join(&whoami)
+        .join(&details.name)
+        .join(&details.path)
+        .join("Cargo.toml");
+
+    // Upload the binary
+    upload_file(
+        setup
+            .builds_dir
+            .join(&whoami)
+            .join(&details.name)
+            .join(&details.path)
+            .join("target")
+            .join("release")
+            .join(hint_binary_name(cargo_path).unwrap())
+    ).await.ok();
 
     // Ok!
     Ok(())

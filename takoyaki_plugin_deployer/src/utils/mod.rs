@@ -1,4 +1,5 @@
 mod cors;
+mod upload;
 mod hint_binary_name;
 mod deployer;
 mod executor;
@@ -11,3 +12,5 @@ pub use deployer::*;
 pub use executor::*;
 pub use setup::*;
 pub use user::*;
+pub use upload::*;
+
