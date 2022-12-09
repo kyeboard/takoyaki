@@ -3,6 +3,7 @@ use std::{fs::create_dir_all, io::Result, path::PathBuf};
 pub struct Setup {
     pub deployment_dir: PathBuf,
     pub builds_dir: PathBuf,
+    pub plugins_dir: PathBuf,
 }
 
 // Hoping the home directory exists...
@@ -17,6 +18,7 @@ impl Setup {
         Self {
             deployment_dir: takoyaki_root.join("deployments"),
             builds_dir: takoyaki_root.join("build"),
+            plugins_dir: takoyaki_root.join("plugins"),
         }
     }
 
@@ -26,6 +28,9 @@ impl Setup {
 
         // Create the builds directory
         create_dir_all(&self.builds_dir)?;
+
+        // Create the builds directory
+        create_dir_all(&self.plugins_dir)?;
 
         // Ok!
         Ok(())

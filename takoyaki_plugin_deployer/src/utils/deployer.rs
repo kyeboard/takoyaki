@@ -1,4 +1,5 @@
 use super::{Executor, Setup, upload_file, hint_binary_name};
+use std::path::PathBuf;
 use serde::Deserialize;
 use std::io::Result;
 
@@ -27,6 +28,21 @@ pub async fn create_deployment(
     // Extend it to the path
     out_file_path.extend([&whoami, &details.name, &format!("{}.txt", uuid)]);
 
+    // Get the binary path
+    let path = setup
+        .builds_dir
+        .join(&whoami)
+        .join(hint_binary_name())
+        .join(&details.path)
+        .display()
+        .to_string();
+
+    // Get the plugins dir
+    let outbin = setup
+        .plugins_dir
+        .display()
+        .to_string();
+
     // Create a new executor
     let executor = Executor::new(
         vec![
@@ -38,15 +54,23 @@ pub async fn create_deployment(
                 &details.github_url,
                 &details.name,
             ],
+            vec!["echo" , "Building project for production (cargo build --release)"],
             vec!["cargo", "build", "--release"],
+            vec![
+                "mv",
+                &path,
+                &outbin
+            ],
         ],
         vec![
+            setup.builds_dir.join(&whoami),
             setup.builds_dir.join(&whoami),
             setup
                 .builds_dir
                 .join(&whoami)
                 .join(&details.name)
                 .join(&details.path),
+            PathBuf::from(&outbin)
         ],
         out_file_path,
     );
