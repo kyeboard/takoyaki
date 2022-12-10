@@ -1,16 +1,8 @@
-mod cors;
-mod upload;
+mod deploy;
 mod hint_binary_name;
-mod deployer;
-mod executor;
-mod setup;
-mod user;
+mod directories;
 
-pub use cors::*;
+pub use deploy::*;
 pub use hint_binary_name::*;
-pub use deployer::*;
-pub use executor::*;
-pub use setup::*;
-pub use user::*;
-pub use upload::*;
+pub use directories::*;
 
