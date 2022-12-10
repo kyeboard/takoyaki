@@ -1,34 +1,39 @@
-// Import dependencies
 #[macro_use]
 extern crate rocket;
 
-use std::error::Error;
+use std::{error::Error, path::PathBuf};
+use dotenv::dotenv;
+
+use utils::upload_file;
 
 mod middlewares;
 mod route;
 mod utils;
 
-// Get CORS fairing triggered
+// Catches all OPTION requests in order to get the CORS related Fairing triggered.
 #[options("/<_..>")]
-fn all_options() {
-    /* Intentionally left empty */
+fn all_options() -> String {
+    String::from("Hi from CORS")
 }
 
-#[rocket::main]
+#[main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    // Create a new setup
+    // Load env
+    dotenv().ok();
+
+    // Create a new instance of the setup
     let setup = utils::Setup::instance();
 
-    // Setup directories
-    setup.setup()?;
+    // Ensure that the files exists
+    setup.ensure_availability()?;
 
-    // New Rocket!
+    // Create a new rocket instance
     let _ = rocket::build()
         .attach(utils::Cors)
-        .mount("/", routes![route::create_new_deployment, route::poll_logs, all_options])
+        .mount("/", routes![all_options, route::create_new_deployment])
         .launch()
         .await?;
 
-    // Ok!
+
     Ok(())
 }

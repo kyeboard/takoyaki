@@ -1,17 +1,21 @@
 [package]
 name = "takoyaki_plugin_deployer"
-version = "1.0.0"
+version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 rocket = { version = "0.5.0-rc.2", features = ["json"] }
-serde = { version = "1.0", features = ["derive"] }
 dirs = "4.0.0"
-tokio = { version = "1.22.0", features = ["full"] }
-reqwest = { version = "0.11", features = ["json"] }
-either = { version = "1.8.0", features = ["serde"] }
+tokio-util = { version = "0.7.4", features = ["codec"] }
+serde = { version = "1.0", features = ["derive"] }
+streamer = { version = "0.1.2", features = ["hyper"] }
+cargo_toml = "0.13.0"
+serde_json = "1.0"
+reqwest = { version = "0.11", features = ["json" , "stream", "multipart"] }
+futures = "0.3.25"
+dotenv = "0.15.0"
 
 [dependencies.uuid]
 version = "1.2.2"
