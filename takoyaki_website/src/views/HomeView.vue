@@ -1,133 +1,35 @@
 <script setup lang="ts">
-import ProductDisplay from "../components/ProductDisplay.vue";
+import ProductDisplay from '@/components/ProductDisplay.vue';
 </script>
 
 <template>
-    <div class="bg-white w-screen h-screen px-36 p-36 flex flex-col justify-center">
-        <div class="wrapper flex items-center justify-center pb-12">
-            <div class="left w-[40%] mr-auto text-gray-800">
-                <div class="text-5xl font-bold leading-[55px]">
-                    Print your contributions right in your terminal.
-                </div>
-                <div class="mt-4">
-                    Takoyaki is an blazingly fast, open source tool that prints
-                    your git in your terminal. Not only it allows you to
-                    customize it, but also install several plugins to improve
-                    overall experience [Fun fact: It can be even used to make
-                    some other things!]
-                </div>
-                <div class="buttons mt-8 flex w-2/3">
-                    <div
-                        class="install w-full bg-gray-800 text-white font-semibold py-4 rounded-xl text-center"
-                    >
-                        <i class="fa-solid fa-download mr-2" />
-                        Install
-                    </div>
-                    <div
-                        class="install w-full py-4 text-gray-800 rounded-xl text-center"
-                    >
-                        <i class="fa-solid fa-message mr-2" />
-                        Contact
-                    </div>
-                </div>
-            </div>
-            <ProductDisplay class="w-[45%] h-[95%]" />
+<div class="w-screen h-screen bg-white flex p-24 items-center justify-center">
+    <div class="left w-full h-full flex flex-col justify-center mr-10">
+        <div class="text-5xl text-gray-800 font-bold leading-[55px]">Elegantly print your contributions in your terminal.</div>
+        <div class="text-gray-600 tracking-[0.3px] font-medium mt-6 max-w-[600px] w-[600px]">Takoyaki is an open source, blazingly fast and cross platform tool that allows users to print their contributions in their terminal, eleganty with a ton of plugins to add support for major providers!</div>
+        <div class="feature mt-8 flex items-center font-bold text-gray-800">
+            <vue-feather type="check-circle" size="24" class="mr-3" /> Cross platform
         </div>
-        <div class="features w-full flex mt-10 gap-x-4">
-            <div class="feature w-full bg-text/40 p-6 rounded-xl">
-                <div
-                    class="icon bg-gray-800 text-white p-3 rounded-lg w-12 text-center"
-                >
-                    <i class="fa-solid fa-bolt"></i>
-                </div>
-                <div class="description mt-4 font-medium">
-                    Blazingly fast response so that you don't have any delay
-                    while opening your terminal.
-                </div>
-            </div>
-            <div class="feature w-full bg-text/40 p-6 rounded-xl">
-                <div
-                    class="icon bg-gray-800 text-white p-3 rounded-lg w-12 text-center"
-                >
-                    <i class="fa-brands fa-android"></i>
-                </div>
-                <div class="description mt-4 font-medium">
-                    Worried about compatible operating systems? Don't worry,
-                    takoyaki runs everywhere.
-                </div>
-            </div>
-            <div class="feature w-full bg-text/40 p-5 rounded-xl">
-                <div
-                    class="icon bg-gray-800 text-white p-3 rounded-lg w-12 text-center"
-                >
-                    <i class="fa-solid fa-brush"></i>
-                </div>
-                <div class="description mt-4 font-medium">
-                    Blazingly fast response so that you don't have any delay
-                    while opening your terminal.
-                </div>
-            </div>
-            <div class="feature w-full bg-text/40 p-5 rounded-xl">
-                <div
-                    class="icon bg-gray-800 text-white p-3 rounded-lg w-12 text-center"
-                >
-                    <i class="fa-solid fa-seedling"></i>
-                </div>
-                <div class="description mt-4 font-medium">
-                    Blazingly fast response so that you don't have any delay
-                    while opening your terminal.
-                </div>
-            </div>
+        <div class="feature mt-5 flex items-center font-bold text-gray-800">
+            <vue-feather type="check-circle" size="24" class="mr-3" /> Open Source
         </div>
-        <div class="text-gray-700 bg-red flex gap-x-7 justify-center w-full mt-auto">
-            <a
-                href="https://www.twitch.tv/kyeboard_"
-                class="animate-rise opacity-0 animation-delay-200"
-            >
-                <vue-feather type="twitch"  size="20" />
-            </a>
-            <a
-                href="https://www.github.com/kyeboard"
-                class="animate-rise opacity-0 animation-delay-210"
-            >
-                <vue-feather type="github"  size="20" />
-            </a>
-            <a
-                href="https://www.gitlab.com/kyeboard"
-                class="animate-rise opacity-0 animation-delay-220"
-            >
-                <vue-feather type="gitlab"  size="20" />
-            </a>
-            <a
-                href="https://www.twitter.com/kyeboard_"
-                class="animate-rise opacity-0 animation-delay-230"
-            >
-                <vue-feather type="twitter" size="20" />
-            </a>
-            <a
-                href="https://www.instagram.com/thekyeboard"
-                class="animate-rise opacity-0 animation-delay-240"
-            >
-                <vue-feather type="instagram" size="20" />
-            </a>
-            <a
-                href="https://www.youtube.com/@kyeboard"
-                class="animate-rise opacity-0 animation-delay-250"
-            >
-                <vue-feather type="youtube" size="20" />
-            </a>
-            <a
-                href="mailto:me@kyeboard.me"
-                class="animate-rise opacity-0 animation-delay-260"
-            >
-                <vue-feather type="mail" size="20" />
-            </a>
-            <a
-                href="https://www.github.com/sponsors/kyeboard"
-                class="animate-rise opacity-0 animation-delay-260"
-            >
-                <vue-feather type="heart" size="20" />
+        <div class="feature mt-5 flex items-center font-bold text-gray-800">
+            <vue-feather type="check-circle" size="24" class="mr-3" /> Blazingly fast
+        </div>
+        <div class="feature mt-5 flex items-center font-bold text-gray-800">
+            <vue-feather type="check-circle" size="24" class="mr-3" /> Highly customizable
+        </div>
+        <div class="feature mt-5 flex items-center font-bold text-gray-800">
+            <vue-feather type="check-circle" size="24" class="mr-3" /> Plugins to add support for major providers
+        </div>
+        <div class="buttons mt-8">
+            <a href="/installation">
+                <div class="button font-semibold bg-text/30 p-4 w-72 text-center rounded-lg">Install now</div>
             </a>
         </div>
     </div>
+    <div class="wrapper w-full h-full flex items-center">
+
+    </div>
+</div>
 </template>
