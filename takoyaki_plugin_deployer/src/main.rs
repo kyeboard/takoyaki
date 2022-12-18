@@ -2,6 +2,7 @@
 
 mod routes;
 mod utils;
+mod middlewares;
 
 #[main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

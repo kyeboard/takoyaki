@@ -1,5 +1,5 @@
 use rocket::Either;
-use crate::utils::{create_deployment, DeploymentInfo};
+use crate::{utils::{create_deployment, DeploymentInfo}, middlewares::AuthGuard};
 use rocket::serde::json::Json;
 use serde::Serialize;
 
@@ -29,7 +29,7 @@ fn create_new_uuid() -> String {
 }
 
 #[post("/deploy", format="application/json", data="<info>")]
-pub async fn create_new_deployment<'a>(info: Json<DeploymentInfo>) -> Json<Response<'a>> {
+pub async fn create_new_deployment<'a>(info: Json<DeploymentInfo>, auth: AuthGuard) -> Json<Response<'a>> {
     // Create a new uuid for the deployment
     let deployment_id = create_new_uuid();
 
