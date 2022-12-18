@@ -1,13 +1,29 @@
+// Import dependencies
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import VueFeather from "vue-feather";
+import { Client, Account, Databases } from "appwrite"
 
+// Import stylesheets
 import "./assets/styles.sass";
 
-const app = createApp(App);
+// Create new Appwrite client
+let appwrite = new Client();
 
-app.use(router);
-app.component(VueFeather.name, VueFeather);
+appwrite
+    .setProject("639eaa41605ece286d06")
+    .setEndpoint("http://localhost/v1");
 
-app.mount("#app");
+// Initiate appwrite services
+let account = new Account(appwrite);
+let database = new Databases(appwrite);
+
+// Create a new VueJS app
+createApp(App)
+    .use(router)
+    .provide("account", account)
+    .provide("client", appwrite)
+    .provide("databases", database)
+    .component(VueFeather.name, VueFeather)
+    .mount("#app");

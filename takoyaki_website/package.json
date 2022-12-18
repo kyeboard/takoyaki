@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@catppuccin/tailwindcss": "^0.1.1",
+    "appwrite": "^10.1.0",
     "feather-icons": "4",
     "vue": "3",
     "vue-feather": "2",
