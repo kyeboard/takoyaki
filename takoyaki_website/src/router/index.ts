@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import InstallationView from "../views/InstallationView.vue";
 import HomeView from "../views/HomeView.vue";
 import MarketPlaceView from "@/views/MarketPlaceView.vue";
 
@@ -15,7 +16,11 @@ const router = createRouter({
             name: "market",
             component: MarketPlaceView,
         },
-
+        {
+            path: "/installation",
+            name: "installation",
+            component: InstallationView,
+        },
     ],
 });
 
