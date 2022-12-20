@@ -1,10 +1,10 @@
 <template>
 <div class="w-screen h-screen p-40 txt-gray-800 bg-white">  
-    <div class="title text-5xl font-bold">Marketplace</div>
-    <div class="description mt-2 font-medium">The store for all the plugins built for you by the awesome developers.</div>
+    <div class="title text-gray-800 text-4xl font-bold">MarketPlace</div>
+    <div class="description text-gray-500 font-semibold mt-2">Awesome plugins developed by awesome developers; plug and enjoy!</div>
     <div class="searchbox mt-6 flex">
-        <input class="bg-text/60 p-4 rounded-lg w-full placeholder-gray-800 px-8 focus:outline-none" placeholder="Search plugins..." />
-        <button class="bg-gray-800 p-4 rounded-lg w-64 text-white ml-4 font-semibold px-8 focus:outline-none">Create new plugin</button>
+        <input class="bg-text/40 p-4 rounded-lg w-full placeholder-gray-800 px-8 focus:outline-none" placeholder="Search plugins..." />
+        <button class="bg-gray-900 p-4 rounded-lg w-64 text-white ml-4 font-semibold px-8 focus:outline-none">Create new plugin</button>
     </div>
     <div class="plugins flex mt-4 gap-x-5 text-gray-800">
         <a class="plugin w-[500px] bg-text/60 p-6 rounded-lg" v-for="plugin in plugins" :href="'/plugins/' + plugin.name.toLowerCase()">

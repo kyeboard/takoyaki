@@ -12,7 +12,7 @@ import "./assets/styles.sass";
 let appwrite = new Client();
 
 appwrite
-    .setProject("639eaa41605ece286d06")
+    .setProject("639f2e32531c70a90614")
     .setEndpoint("http://localhost/v1");
 
 // Initiate appwrite services

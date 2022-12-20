@@ -26,7 +26,8 @@ import { inject } from "vue"
 
 const account = inject<Account>("account");
 
-const authenticate_with_github = () => {
-    account?.createOAuth2Session("github", `${window.location.protocol}//${window.location.host}/dashboard`)
+const authenticate_with_github = async () => {
+    console.log((await account?.createJWT()).jwt)
+    // account?.createOAuth2Session("github", `${window.location.protocol}//${window.location.host}/dashboard`)
 }
 </script>

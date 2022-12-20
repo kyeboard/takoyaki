@@ -29,7 +29,6 @@ import ProductDisplay from '@/components/ProductDisplay.vue';
             <a href="/try">
                 <div class="button font-semibold text-white bg-gray-800 p-4 w-52 text-center rounded-lg">Try it out!</div>
             </a>
-
         </div>
     </div>
     <div class="wrapper w-full h-full flex items-center">
