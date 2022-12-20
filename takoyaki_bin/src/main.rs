@@ -1,6 +1,7 @@
 use clap::{Command, Arg};
 
 mod commands;
+mod utils;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

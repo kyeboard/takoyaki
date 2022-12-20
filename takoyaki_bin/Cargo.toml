@@ -10,6 +10,6 @@ clap = "4.0.29"
 tokio = { version = "1.23.0", features = ["full"] }
 reqwest = { version = "0.11", features = ["json", "stream"] }
 colored = "2.0.0"
-indicatif = "0.15.0"
-futures-util = "0.3.25"
+dirs = "4.0.0"
+downloader = "0.2.6"
 
