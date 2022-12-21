@@ -1,4 +1,4 @@
-use crate::middlewares::{AuthGuard, Error};
+use crate::{middlewares::{AuthGuard, Error}, utils::{DeploymentInfo, create_new_deployment}};
 use rocket::serde::json::Json;
 use serde::Serialize;
 
@@ -9,8 +9,8 @@ pub struct Response {
     message: String
 }
 
-#[post("/deploy")]
-pub fn create_deployment(auth_guard: Result<AuthGuard, Error>) -> Json<Response> {
+#[post("/deploy", format="application/json", data="<info>")]
+pub fn create_deployment(info: Json<DeploymentInfo>, auth_guard: Result<AuthGuard, Error>) -> Json<Response> {
     // Return the error as the string (response)
     if auth_guard.is_err() {
         return Json(Response {
@@ -22,6 +22,8 @@ pub fn create_deployment(auth_guard: Result<AuthGuard, Error>) -> Json<Response>
     // Unwrap the error (it is safe!)
     let user = auth_guard.unwrap().username;
 
+    // Create a new deployment
+    create_new_deployment(&user, info.0).unwrap();
 
     Json(Response {
         error: false,
