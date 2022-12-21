@@ -1,5 +1,0 @@
-fatal: destination path 'github' already exists and is not an empty directory.
-[0m[0m[1m[32m   Compiling[0m serde v1.0.151
-[0m[0m[1m[36m    Building[0m [==================>          ] 6/9: serde                       [K[0m[0m[1m[32m   Compiling[0m serde_json v1.0.91
-[0m[0m[1m[36m    Building[0m [==================>          ] 6/9: serde, serde_json           [0m[0m[1m[36m    Building[0m [=====================>       ] 7/9: serde_json                  [K[0m[0m[1m[32m   Compiling[0m sfdfdfd v0.1.0 (/home/voidcupboard/.takoyaki/build/kyeboard/github/inside)
-[0m[0m[1m[36m    Building[0m [========================>    ] 8/9: sfdfdfd(bin)                [K[0m[0m[1m[32m    Finished[0m release [optimized] target(s) in 10.27s
