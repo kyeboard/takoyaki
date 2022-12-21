@@ -1,0 +1,10 @@
+use crate::middlewares::{AuthGuard, Error};
+
+#[derive(Serialize)]
+
+#[post("/deploy")]
+pub fn create_deployment(auth_guard: Result<AuthGuard, Error>) -> String {
+    if auth_guard.is_err() {
+        String::from("HEYO")
+    }
+}
