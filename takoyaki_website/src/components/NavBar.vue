@@ -14,19 +14,38 @@
             <a href="/market">Marketplace</a>
             <a href="https://www.kyeboard.me/contact">Contact</a>
         </div>
-        <div class="login">
+        <div class="login" v-if="is_signed_in == false">
             <button class="bg-text p-3 w-32 rounded-lg" @click="authenticate_with_github()">Login</button>
+        </div>
+        <div class="user flex items-center gap-x-9 text-gray-900" v-else>
+            <img :src="profile_photo" class="w-10 h-10 rounded-full" />
+            <vue-feather type="github" size="20" />
+            <vue-feather type="log-out" size="20" />
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
 import type { Account } from "appwrite"
-import { inject } from "vue"
+import { inject, onMounted, ref } from "vue"
 
 const account = inject<Account>("account");
+const is_signed_in = ref<boolean>(false);
+const profile_photo = ref<String>("");
 
 const authenticate_with_github = async () => {
     account?.createOAuth2Session("github", `${window.location.protocol}//${window.location.host}/dashboard`)
 }
+
+onMounted(async () => {
+    if(!account) {
+        return 
+    }
+
+    const user = await account.get();
+
+    profile_photo.value = (await (await fetch(`https://api.github.com/users/${user.name}`)).json()).avatar_url
+
+    is_signed_in.value = true
+})
 </script>
