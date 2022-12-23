@@ -3,6 +3,7 @@ use std::path::PathBuf;
 pub struct Directories {
     pub build_dir: PathBuf,
     pub app_dir: PathBuf,
+    pub log_dir: PathBuf,
 }
 
 pub fn get_root() -> PathBuf {
@@ -19,7 +20,8 @@ impl Directories {
 
         Self {
             build_dir: takoyaki_root.join("build").join(username),
-            app_dir: takoyaki_root.join("build").join(username).join(name)
+            app_dir: takoyaki_root.join("build").join(username).join(name),
+            log_dir: takoyaki_root.join("deployments").join(username).join(name)
         }
     }
 }

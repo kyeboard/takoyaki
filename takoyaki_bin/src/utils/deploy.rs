@@ -16,15 +16,16 @@ pub struct DeploymentInfo {
     pub name: String
 }
 
-pub fn create_new_deployment(whoami: &str, info: DeploymentInfo) -> Result<(), Box<dyn std::error::Error>> {
+pub fn create_new_deployment(whoami: &str, info: DeploymentInfo, uuid: &str) -> Result<(), Box<dyn std::error::Error>> {
     // Get all the directories
     let dirs = Directories::get_for_me(whoami, &info.name);
 
     // Prevent edge cases
     create_dir_all(&dirs.build_dir)?;
+    create_dir_all(&dirs.log_dir)?;
 
     // Create a new executor
-    let executor = Executor::new(PathBuf::from("output.txt"));
+    let executor = Executor::new(dirs.log_dir.join(format!("{}.txt", uuid)));
 
     // Clone the repository
     executor.execute(vec!["git", "clone", &info.github_url, "-b", &info.branch, &info.name], &dirs.build_dir);
