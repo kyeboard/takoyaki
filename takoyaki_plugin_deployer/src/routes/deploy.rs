@@ -1,42 +1,40 @@
-use rocket::Either;
-use crate::{utils::{create_deployment, DeploymentInfo}, middlewares::AuthGuard};
+use crate::{middlewares::{AuthGuard, Error}, utils::{DeploymentInfo, create_new_deployment}};
+use uuid::Uuid;
 use rocket::serde::json::Json;
 use serde::Serialize;
 
-// Response structs
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]
-struct SuccessResponse {
-    deployment_id: String,
-}
-
-#[derive(Serialize)]
-#[serde(crate = "rocket::serde")]
-struct ErrorResponse<'a> {
-    message: &'a str,
-}
-
-#[derive(Serialize)]
-#[serde(crate = "rocket::serde")]
-#[serde(transparent)]
-pub struct Response<'a> {
-    #[serde(with = "either::serde_untagged")]
-    inner: Either<SuccessResponse, ErrorResponse<'a>>
-}
-
-fn create_new_uuid() -> String {
-    uuid::Uuid::new_v4().to_string()
+pub struct Response {
+    error: bool,
+    message: String,
+    deployment_uuid: Option<String>
 }
 
 #[post("/deploy", format="application/json", data="<info>")]
-pub async fn create_new_deployment<'a>(info: Json<DeploymentInfo>, auth: AuthGuard) -> Json<Response<'a>> {
-    // Create a new uuid for the deployment
-    let deployment_id = create_new_uuid();
+pub fn create_deployment(info: Json<DeploymentInfo>, auth_guard: Result<AuthGuard, Error>) -> Json<Response> {
+    // Return the error as the string (response)
+    if auth_guard.is_err() {
+        return Json(Response {
+            error: true,
+            message: auth_guard.unwrap_err().to_string(),
+            deployment_uuid: None
+        })
+    }
 
-    // Request a new deployment
-    rocket::tokio::spawn(create_deployment(info.into_inner(), Box::leak(Box::new(deployment_id.clone()))));
+    // Unwrap the error (it is safe!)
+    let user = auth_guard.unwrap().username;
 
-    Json(Response { inner: Either::Left(SuccessResponse {
-        deployment_id
-    })})
+    // Generate a new UUID
+    let uuid = Uuid::new_v4().to_string();
+
+    // Create a new deployment
+    create_new_deployment(&user, info.0, &uuid).unwrap();
+
+    // Return success message
+    Json(Response {
+        error: false,
+        message: String::from("Successfully created a new deployment"),
+        deployment_uuid: Some(uuid)
+    })
 }

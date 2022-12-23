@@ -1,5 +1,5 @@
 [package]
-name = "takoyaki_plugin_deployer"
+name = "takoyaki_bin"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,11 +7,11 @@ edition = "2021"
 
 [dependencies]
 rocket = { version = "0.5.0-rc.2", features = ["json"] }
-either = { version = "1.8.0", features = ["serde"] }
-dirs = "4.0.0"
-serde = { version = "1.0", features = ["derive"] }
-cargo_toml = "0.13.0"
+rocket_dyn_templates = { version = "0.1.0-rc.2", features = ["tera"] }
 reqwest = { version = "0.11", features = ["json"] }
+serde = { version = "1.0", features = ["derive"] }
+execute = "0.2.11"
+dirs = "4.0.0"
 
 [dependencies.uuid]
 version = "1.2.2"
@@ -20,4 +20,3 @@ features = [
     "fast-rng",          # Use a faster (but still sufficiently random) RNG
     "macro-diagnostics", # Enable better diagnostics for compile-time UUIDs
 ]
-

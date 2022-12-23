@@ -1,8 +1,8 @@
 mod deploy;
-mod hint_binary_name;
+mod executor;
 mod directories;
 
 pub use deploy::*;
-pub use hint_binary_name::*;
+pub use executor::*;
 pub use directories::*;
 

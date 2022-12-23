@@ -1,32 +1,53 @@
-use rocket::{request::{FromRequest, Outcome}, Request, http::Status};
-use reqwest::{Client, Result};
+// Import dependencies
+use rocket::{
+    http::Status,
+    request::{FromRequest, Outcome},
+    Request,
+};
+use serde::{Serialize, Deserialize};
 
+// Auth Guard struct
+#[derive(Debug)]
 pub struct AuthGuard {
-    username: String
+    pub username: String,
 }
 
+// Types of error
 #[derive(Debug)]
 pub enum Error {
-    InvalidAuthorizationHeader,
+    NoToken,
     InvalidToken
 }
 
-async fn get_user(token: &str) -> reqwest::Result<()> {
-    let client = Client::new();
+// Able to convert errors to detailed error
+impl ToString for Error {
+    fn to_string(&self) -> String {
+        match *self {
+            Error::NoToken => { "No token was passed. Make sure to set X-Appwrite-JWT header" }
+            Error::InvalidToken => { "Either the token is expired or it is invalid" }
+        }.to_string()
+    }
+}
 
+#[derive(Serialize, Deserialize, Debug)]
+pub struct AppwriteResponse {
+    message: Option<String>,
+    name: Option<String>
+}
 
-    let res = client.get("http://localhost/v1/account/sessions/current")
+// Utility to get the user from the X-Appwrite-JWT
+pub async fn get_user_from_token(token: &str) -> reqwest::Result<AppwriteResponse> {
+    // Create a new reqwest client
+    let client = reqwest::Client::new();
+
+    // Send request to get the session from the JWT
+    client.get("http://localhost/v1/account/")
+        .header("X-Appwrite-Project", "639f2e32531c70a90614")
         .header("X-Appwrite-JWT", token)
-        .header("X-Appwrite-Project", "639eaa41605ece286d06")
         .send()
         .await?
-        .text()
-        .await?
-    ;
-
-    println!("{:?}", res);
-
-    Ok(())
+        .json()
+        .await
 }
 
 #[rocket::async_trait]
@@ -34,29 +55,23 @@ impl<'r> FromRequest<'r> for AuthGuard {
     type Error = Error;
 
     async fn from_request(request: &'r Request<'_>) -> Outcome<Self, Self::Error> {
-        let mut authorize_header = request
-            .headers()
-            .get_one("Authorization")
-            .unwrap_or("")
-            .split_whitespace()
-            .collect::<Vec<&str>>()
-            .into_iter();
+        // Get the token
+        let token = request.headers().get_one("X-Appwrite-JWT");
 
-        if authorize_header.next().unwrap_or("").to_lowercase() != "bearer" {
-            return Outcome::Failure((Status::Unauthorized, Error::InvalidAuthorizationHeader));
+        // Check if it is empty
+        if token.is_none() {
+            return Outcome::Failure((Status::Unauthorized, Error::NoToken));
         }
 
-        let user = get_user(authorize_header.next().unwrap_or("")).await;
+        // Check if the token is valid
+        let user = get_user_from_token(token.unwrap()).await.unwrap();
 
-        // let user = get_user(authorize_header.next().unwrap_or("")).await.unwrap();
-        //
-        // if user.error.is_some() {
-        //     return Outcome::Failure((Status::Unauthorized, Error::InvalidToken));
-        // }
+        // Check if there is any error
+        if user.message.is_some() {
+            return Outcome::Failure((Status::Unauthorized, Error::InvalidToken))
+        }
 
-        // Outcome::Success(Self { username: user.users.unwrap().into_iter().next().unwrap().screen_name })
-        Outcome::Success(Self {
-            username: "kyeboard".to_string()
-        })
+        // Return success!
+        return Outcome::Success(Self { username: user.name.unwrap() })
     }
 }

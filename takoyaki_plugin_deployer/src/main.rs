@@ -1,15 +1,12 @@
-#[macro_use] extern crate rocket;
+#[macro_use]
+extern crate rocket;
 
-mod routes;
-mod utils;
 mod middlewares;
+mod utils;
+mod routes;
 
-#[main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let _ = rocket::build()
-        .mount("/", routes![routes::create_new_deployment])
-        .launch()
-        .await?;
-
-    Ok(())
+#[launch]
+fn rocket() -> _ {
+    rocket::build().mount("/", routes![routes::create_deployment, routes::poll_logs])
 }
+

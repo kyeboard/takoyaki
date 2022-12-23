@@ -1,40 +1,28 @@
 use std::path::PathBuf;
 
-use dirs::home_dir;
-
-fn get_home_dir() -> PathBuf {
-    home_dir().unwrap()
+pub struct Directories {
+    pub build_dir: PathBuf,
+    pub app_dir: PathBuf,
+    pub log_dir: PathBuf,
 }
 
-fn get(end: Vec<&str>) -> PathBuf {
-    let mut root = get_home_dir().join(".takoyaki");
+pub fn get_root() -> PathBuf {
+    let mut home = dirs::home_dir().unwrap();
 
-    root.extend(end);
+    home.extend([".takoyaki"]);
 
-    root
+    home
 }
 
-#[derive(Debug)]
-pub struct Dirs {
-    pub build_path: PathBuf,
-    pub log_path: PathBuf,
-    pub cargo_path: PathBuf,
-    pub project_path: PathBuf,
-    pub binary_path: PathBuf,
-    pub root: PathBuf,
-    pub plugin_path: PathBuf
-}
+impl Directories {
+    pub fn get_for_me(username: &str, name: &str) -> Self {
+        let takoyaki_root = get_root();
 
-impl Dirs {
-    pub fn get_all_dirs_for_app(user: &str, name: &str, uuid: &str, path: &str) -> Self {
         Self {
-            build_path: get(vec!["build", user]),
-            plugin_path: get(vec!["plugin"]),
-            binary_path: get(vec!["build", user, name, path, "target", "release"]),
-            cargo_path: get(vec!["build", user, name, path, "Cargo.toml"]),
-            project_path: get(vec!["build", user, name, path]),
-            log_path: get(vec!["deployments" , user, name, &format!("{}.txt", uuid)]),
-            root: get(vec![])
+            build_dir: takoyaki_root.join("build").join(username),
+            app_dir: takoyaki_root.join("build").join(username).join(name),
+            log_dir: takoyaki_root.join("deployments").join(username).join(name)
         }
     }
 }
+
