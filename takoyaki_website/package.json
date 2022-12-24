@@ -16,7 +16,8 @@
     "feather-icons": "4",
     "vue": "3",
     "vue-feather": "2",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "vuejs-tree": "^3.0.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",

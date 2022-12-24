@@ -34,14 +34,16 @@
         </div>
     </div>
     <div class="file_selector_view absolute top-0 left-0 w-full h-full bg-gray-900/40 backdrop-blur-sm z-10">
-        <FileSelector />
+        <FileSelector :owner="repo_owner" :path="path" :repo="repo_name" />
     </div>
 </div>   
 </template>
 
 <script setup lang="ts">
+import FileSelector from './FileSelector.vue';
+
 const repo_owner = "kyeboard"
 const repo_name = "takoyaki"
 const branch = "main"
-const path = "./"
+const path = "/"
 </script>

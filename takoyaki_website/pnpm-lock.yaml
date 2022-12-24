@@ -25,6 +25,7 @@ specifiers:
   vue-feather: '2'
   vue-router: ^4.1.6
   vue-tsc: ^1.0.12
+  vuejs-tree: ^3.0.2
 
 dependencies:
   '@catppuccin/tailwindcss': 0.1.1_postcss@8.4.20
@@ -33,6 +34,7 @@ dependencies:
   vue: 3.2.45
   vue-feather: 2.0.0_7ytlcwpj4bkpvhklrdvpvu4tly
   vue-router: 4.1.6_vue@3.2.45
+  vuejs-tree: 3.0.2
 
 devDependencies:
   '@rushstack/eslint-patch': 1.2.0
@@ -2472,6 +2474,14 @@ packages:
       fsevents: 2.3.2
     dev: true
 
+  /vue-class-component/8.0.0-rc.1_vue@3.2.45:
+    resolution: {integrity: sha512-w1nMzsT/UdbDAXKqhwTmSoyuJzUXKrxLE77PCFVuC6syr8acdFDAq116xgvZh9UCuV0h+rlCtxXolr3Hi3HyPQ==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.2.45
+    dev: false
+
   /vue-eslint-parser/9.1.0_eslint@8.29.0:
     resolution: {integrity: sha512-NGn/iQy8/Wb7RrRa4aRkokyCZfOUWk19OP5HP6JEozQFX5AoS/t+Z0ZN7FY4LlmWc4FNI922V7cvX28zctN8dQ==}
     engines: {node: ^14.17.0 || >=16.0.0}
@@ -2535,6 +2545,14 @@ packages:
       '@vue/runtime-dom': 3.2.45
       '@vue/server-renderer': 3.2.45_vue@3.2.45
       '@vue/shared': 3.2.45
+
+  /vuejs-tree/3.0.2:
+    resolution: {integrity: sha512-jQpDebY83CoO2ANSmwXBoV+3uJj51wsFb03SMw5tuniD0D3xiTv1zZ46EIS/fdXnehs7dzvH42HnUtGA7L0sRA==}
+    dependencies:
+      core-js: 3.26.1
+      vue: 3.2.45
+      vue-class-component: 8.0.0-rc.1_vue@3.2.45
+    dev: false
 
   /webidl-conversions/3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}

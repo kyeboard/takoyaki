@@ -17,7 +17,7 @@
         <div class="login" v-if="is_signed_in == false">
             <button class="bg-text p-3 w-32 rounded-lg" @click="authenticate_with_github()">Login</button>
         </div>
-        <div class="user flex items-center gap-x-9 text-gray-900" v-else>
+        <div class="user flex items-center gap-x-10 text-gray-900" v-else>
             <img :src="profile_photo" class="w-10 h-10 rounded-full" />
             <vue-feather type="github" size="20" />
             <vue-feather type="log-out" size="20" />
