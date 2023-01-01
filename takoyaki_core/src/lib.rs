@@ -1,14 +1,10 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+// Import in-crate modules
+mod takoyaki_core;
+
+// Reexport
+pub use takoyaki_core::*;
 
 #[cfg(test)]
 mod tests {
-    use super::*;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
 }
