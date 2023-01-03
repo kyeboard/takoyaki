@@ -169,7 +169,7 @@ paint = \"fg\"
         file.write_all(raw_config.as_bytes())?;
 
         // Create config instance
-        let config = Config::new(PathBuf::from(".temp").join("config.toml")).unwrap();
+        let config = Config::new(PathBuf::from(".temp").join("invalid_color_config.toml")).unwrap();
 
         // Get the color
         let color = config.get_color(1, "uwu".to_string());
