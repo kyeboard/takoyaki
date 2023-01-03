@@ -1,7 +1,6 @@
 # Thanks for using takoyaki and taking time to configure it, I really appreciate it <3
 # Would be glad if you star the repo - https://github.com/kyeboard/takoyaki
 # Found a bug? Report it here - https://github.com/kyeboard/takoyaki/issues/new
-# There is not much here for the moment but soon there are gonna be bunch of them
 
 [unicode]
 # The unicode to use while printing cells of the graph
@@ -19,16 +18,16 @@ paint = "fg"
 # you did 5 contributions, if you have:
 # 5_contributions = "#88C0D0"
 # It is gonna colorize the output with #88C0D0.
-# Or if you dont want to use the default colors and override the other contribution count color, use `any_contributions = <your_color>`
+# Or if you dont want to use the default colors and override the other contribution count color, use `x_contributions = <your_color>`
 0_contribution = "#4C566A"
-# 1_contribution = "#8FBCBB"
-# 2_contribution = "#91BCB6"
-# 3_contribution = "#93BCB2"
-# 4_contribution = "#95BDAD"
-# 5_contribution = "#97BDA8"
-# 6_contribution = "#99BDA4"
-# 7_contribution = "#9BBD9F"
-# 8_contribution = "#9FBE95"
-# 9_contribution = "#A1BE91"
-# any_contributions = "#A3BE8C"
+1_contribution = "#8FBCBB"
+2_contribution = "#91BCB6"
+3_contribution = "#93BCB2"
+4_contribution = "#95BDAD"
+5_contribution = "#97BDA8"
+6_contribution = "#99BDA4"
+7_contribution = "#9BBD9F"
+8_contribution = "#9FBE95"
+9_contribution = "#A1BE91"
+x_contributions = "#A3BE8C"
 

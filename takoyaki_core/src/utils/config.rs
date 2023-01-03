@@ -1,94 +1,203 @@
-use std::path::PathBuf;
+use crate::Error;
+use colorsys::Rgb;
 use serde::Deserialize;
+use std::path::PathBuf;
 
-use crate::{Result , hint_config_path, Error};
+#[derive(Deserialize)]
+pub struct ConfigType {
+    pub unicode: Unicode,
+    pub colors: serde_json::Value,
+}
+
+#[derive(Deserialize)]
+pub struct Unicode {
+    pub unicode: String,
+    pub paint: String,
+}
 
 pub struct Config {
-    config_path: PathBuf
+    pub config: ConfigType,
 }
 
 impl Config {
-    pub fn new(name: &str) -> Result<Self> {
+    pub fn new(endpoint: PathBuf) -> crate::Result<Self> {
+        // Read the config as a raw string
+        let raw = std::fs::read_to_string(endpoint).map_err(crate::Error::ReadError)?;
+
+        // Parse it to the type
         Ok(Self {
-            config_path: hint_config_path(name)?
+            config: toml::from_str(&raw).map_err(|_| crate::Error::CorruptConfig)?,
         })
     }
 
-    pub fn from_path(path: PathBuf) -> Self {
-        Self {
-            config_path: path
-        }
+    pub fn get_color(&self, count: usize, fallback: String) -> crate::Result<Rgb> {
+        // Create a json value for the fallback color
+        let fallback_color = serde_json::Value::String(fallback);
+
+        // Retrieve the color
+        let color = self
+            .config
+            .colors
+            .get(format!("{}_contribution", count)) // Get the color for the count of contributions
+            .or_else(|| self.config.colors.get("x_contribution")) // Get the color for the variable count of contributions
+            .unwrap_or(&fallback_color); // If none of them exists, use the fallback color
+
+        // Convert the color to RGB format
+        colorsys::Rgb::from_hex_str(color.as_str().unwrap()).map_err(Error::HexParseError)
     }
 
-    pub fn retrieve<T>(&self) -> Result<T> 
-    where
-        T: for<'de> Deserialize<'de>
-    {
-        let raw = std::fs::read_to_string(&self.config_path).map_err(|_| Error::CannotReadFile)?;
-
-        toml::from_str(&raw).map_err(|_| Error::SerializationTOMLError)
-    }
-
-    pub fn exists(&self) -> bool {
-        self.config_path.exists()
+    pub fn get_unicode(&self) -> &Unicode {
+        &self.config.unicode
     }
 }
 
 #[cfg(test)]
-mod test {
-    use std::fs::{create_dir_all, File};
-    use std::io::Write;
+mod tests {
+    use std::{
+        fs::{create_dir_all, File},
+        io::Write,
+        path::PathBuf,
+    };
 
-    use super::*;
+    use crate::Config;
 
-    #[test] 
-    fn config_should_not_exist() {
-        let config = Config::from_path(PathBuf::from("/some/random/path"));
+    fn before_all(name: &str) -> std::io::Result<()> {
+        let raw_config = "
+[unicode]
+unicode = \"ඞ \"
+paint = \"fg\"
 
-        assert_eq!(config.exists() , false)
+[colors]
+9_contribution = \"#A1BE91\"
+x_contribution = \"#A3BE8C\"";
+
+        // Create the temporary directory
+        create_dir_all(PathBuf::from(".temp"))?;
+
+        // Create a file that will contain the config
+        let mut file = File::create(PathBuf::from(".temp").join(format!("config_{}.toml", name)))?;
+
+        // Write to the file
+        file.write_all(raw_config.as_bytes())?;
+
+        // Ok!
+        Ok(())
     }
 
     #[test]
-    fn bugged_config_should_error_out() {
-        // Setup bugged config
-        let config_path = PathBuf::new().join(".temp").join("bugged_config.toml");
-        let bugged_config = "kekwkwkwkwk UwU Some UWU Contents UWUW"; // Uh this is a serious bugged config
+    pub fn specific_color_should_be_used() -> std::io::Result<()> {
+        before_all("specific_color")?;
 
-        assert!(create_dir_all(config_path.parent().unwrap()).is_ok());
+        // Create config instance
+        let config =
+            Config::new(PathBuf::from(".temp").join("config_specific_color.toml")).unwrap();
 
-        let mut file = File::create(&config_path).unwrap();
-        file.write_all(bugged_config.as_bytes()).unwrap();
+        // Get the color
+        let color = config.get_color(9, "".to_string()).unwrap();
 
-        let config = Config::from_path(config_path);
+        // Check
+        assert_eq!(color.red() as usize, 161);
+        assert_eq!(color.green() as usize, 190);
+        assert_eq!(color.blue() as usize, 145);
 
-        assert_eq!(config.retrieve::<toml::Value>().unwrap_err() , Error::SerializationTOMLError)
+        Ok(())
     }
 
     #[test]
-    fn valid_config_should_not_error_out() {
-        // Setup bugged config
-        let config_path = PathBuf::new().join(".temp").join("config.toml");
-        let bugged_config = r#"mood = "UwU" "#; // Uh this is a serious bugged config
+    pub fn x_contribution_color_should_be_used() -> std::io::Result<()> {
+        before_all("x_contribution")?;
 
-        // Create parent directory
-        assert!(create_dir_all(config_path.parent().unwrap()).is_ok());
+        // Create config instance
+        let config =
+            Config::new(PathBuf::from(".temp").join("config_x_contribution.toml")).unwrap();
 
-        // Write config
-        let mut file = File::create(&config_path).unwrap();
-        file.write_all(bugged_config.as_bytes()).unwrap();
+        // Get the color
+        let color = config.get_color(1, "".to_string()).unwrap();
 
-        // Create Config class
-        let config = Config::from_path(config_path);
+        // Check
+        assert_eq!(color.red() as usize, 163);
+        assert_eq!(color.green() as usize, 190);
+        assert_eq!(color.blue() as usize, 140);
 
-        // Struct that represents the config
-        #[derive(Deserialize)]
-        pub struct TConfig {
-            pub mood: String
-        }
+        Ok(())
+    }
 
-        let parsed = config.retrieve::<TConfig>().unwrap();
+    #[test]
+    pub fn fallback_color_should_be_used() -> std::io::Result<()> {
+        let raw_config = "
+[unicode]
+unicode = \"ඞ \"
+paint = \"fg\"
 
-        assert_eq!(&parsed.mood , "UwU");
+[colors]
+9_contribution = \"#A1BE91\"";
+
+        // Create the temporary directory
+        create_dir_all(PathBuf::from(".temp"))?;
+
+        // Create a file that will contain the config
+        let mut file = File::create(PathBuf::from(".temp").join("fallback_color_config.toml"))?;
+
+        // Write to the file
+        file.write_all(raw_config.as_bytes())?;
+
+        // Create config instance
+        let config =
+            Config::new(PathBuf::from(".temp").join("fallback_color_config.toml")).unwrap();
+
+        // Get the color
+        let color = config.get_color(1, "#88C0D0".to_string()).unwrap();
+
+        // Check
+        assert_eq!(color.red() as usize, 136);
+        assert_eq!(color.green() as usize, 192);
+        assert_eq!(color.blue() as usize, 208);
+
+        Ok(())
+    }
+
+    #[test]
+    pub fn invalid_color_should_error_out() -> std::io::Result<()> {
+        let raw_config = "
+[unicode]
+unicode = \"ඞ \"
+paint = \"fg\"
+
+[colors]
+9_contribution = \"#A1BE91\"";
+
+        // Create the temporary directory
+        create_dir_all(PathBuf::from(".temp"))?;
+
+        // Create a file that will contain the config
+        let mut file = File::create(PathBuf::from(".temp").join("invalid_color_config.toml"))?;
+
+        // Write to the file
+        file.write_all(raw_config.as_bytes())?;
+
+        // Create config instance
+        let config = Config::new(PathBuf::from(".temp").join("invalid_color_config.toml")).unwrap();
+
+        // Get the color
+        let color = config.get_color(1, "uwu".to_string());
+
+        // Check
+        assert!(color.is_err());
+
+        Ok(())
+    }
+
+    #[test]
+    pub fn unicode_should_be_parsed_correctly() -> std::io::Result<()> {
+        before_all("unicode_parse")?;
+
+        // Create config instance
+        let config = Config::new(PathBuf::from(".temp").join("config_unicode_parse.toml")).unwrap();
+
+        // Check
+        assert_eq!(config.get_unicode().unicode, "ඞ ");
+        assert_eq!(config.get_unicode().paint, "fg");
+
+        Ok(())
     }
 }
-

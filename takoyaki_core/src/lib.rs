@@ -1,13 +1,9 @@
-mod utils;
-mod errors;
+// Import in-crate modules
+mod error;
 mod takoyaki_core;
+mod utils;
 
 // Reexport
-pub use utils::*;
-pub use errors::*;
+pub use error::*;
 pub use takoyaki_core::*;
-
-#[cfg(test)]
-mod tests {
-
-}
+pub use utils::*;

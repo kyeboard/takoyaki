@@ -1,215 +1,187 @@
-use std::{path::PathBuf, io::Write, fs::File};
-use crate::{hint_cache_path , Result , Error};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
+use std::{fs::File, io::Write, path::PathBuf};
 
-#[derive(Clone)]
 pub struct Cache {
-    cache_file: PathBuf
+    endpoint: PathBuf,
 }
 
 impl Cache {
-    pub fn new(app_name: &str) -> Result<Self> {
-        Ok(Self {
-            cache_file: hint_cache_path(app_name)?
-        })
-    }
-
-    pub fn from_path(path: PathBuf) -> Self {
+    pub fn new(root: PathBuf, name: &str) -> Self {
         Self {
-            cache_file: path
+            endpoint: root.join("cache").join(format!("{}.json", name)),
         }
     }
 
-    pub fn validate(&self) -> bool {
-        self.cache_file.is_file()
-    }
-
-    fn create_parent_folder(&self) -> Result<()> {
-        // Create the parent folder
-        std::fs::create_dir_all(
-            self.cache_file.parent().ok_or(Error::PathWithNoParent)?
-        ).map_err(|_| Error::CannotCreateDirectory)?;
-
-        // Ok! :)
-        Ok(())
-    }
-
-    pub fn create(&self) -> Result<()> {
-        // Write some empty string to create that file
-        self.write_as_str("")?;
-
-        Ok(())
-    }
-
-    pub fn write_as_str(&self , data: &str) -> Result<()> {
-        // Just in case
-        self.create_parent_folder()?;
-
-        // Create file file
-        let mut file = File::create(&self.cache_file).map_err(|_| Error::CannotCreateFile)?;
-
-        // Write to the file
-        file.write_all(data.as_bytes()).map_err(|_| Error::CannotWriteToFile)?;
-
-        // Ok! :)
-        Ok(())
-    }
-
-    pub fn retrieve<T>(&self) -> Result<T>
-    where 
-        T: for<'de> Deserialize<'de>
-    {
-        let raw = std::fs::read_to_string(&self.cache_file).map_err(|_| Error::CannotCreateFile)?;
-
-        let parsed = serde_json::from_str(&raw).map_err(|_| Error::SerializationError)?;
-
-        Ok(parsed)
-    }
-
     pub fn exists(&self) -> bool {
-        self.cache_file.exists()
+        // Check if the file exists
+        self.endpoint.exists()
+    }
+
+    pub fn get<T>(&self) -> Result<T, serde_json::Error>
+    where
+        T: for<'de> Deserialize<'de>,
+    {
+        // Check if the cache exists
+        if !self.exists() {
+            panic!("The cache does not exists!")
+        }
+
+        // Read the content as raw string
+        let raw = std::fs::read_to_string(&self.endpoint).unwrap();
+
+        // Parse it to T type using serde_json
+        serde_json::from_str(&raw)
+    }
+
+    pub fn set<T>(&self, data: T) -> Result<(), std::io::Error>
+    where
+        T: Serialize,
+    {
+        // Parse the object to string
+        let parsed = serde_json::to_string(&data).unwrap();
+
+        // Make sure the parent of the file exists
+        if let Some(parent) = self.endpoint.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+
+        // Create the file
+        let mut file = File::create(&self.endpoint)?;
+
+        // Write the parsed object to the cache file
+        file.write_all(parsed.as_bytes())?;
+
+        Ok(())
     }
 }
 
+// Tests
 #[cfg(test)]
 mod tests {
-    use std::os::unix::prelude::PermissionsExt;
+    use std::{
+        fs::{create_dir_all, File},
+        io::Write,
+        path::PathBuf,
+    };
 
-    use super::*;
+    use crate::Cache;
 
     #[test]
-    pub fn cache_should_not_exist() {
-        let cache = Cache::from_path(PathBuf::from("/some/random/path/"));
+    pub fn non_existant_cache_should_return_false() {
+        // Some random path
+        let non_existant_root = PathBuf::from("/it/just/should/not/exist");
 
-        assert_eq!(cache.exists() , false)
+        // Create a cache instance
+        let cache = Cache::new(non_existant_root, "uwu");
+
+        // Check
+        assert!(!cache.exists());
     }
 
     #[test]
-    pub fn cache_file_should_be_created() {
-        let mut cache_path = PathBuf::new();
+    pub fn existant_cache_should_return_true() -> std::io::Result<()> {
+        // Some random path
+        let existant = PathBuf::from(".temp");
 
-        // Extend to the temp folder
-        cache_path.extend([".temp" , "cache.json"]);
+        // Create a file
+        create_dir_all(existant.join("cache"))?;
+        File::create(existant.join("cache").join("uwu.json"))?.write_all("{}".as_bytes())?;
 
-        // Build Cache from path
-        let cache = Cache::from_path(cache_path);
+        // Create a cache instance
+        let cache = Cache::new(existant, "uwu");
 
-        // Create file 
-        assert!(cache.create().is_ok());
+        // Check
+        assert!(cache.exists());
 
-        // Create cache
-        assert_eq!(cache.exists() , true)
+        // Ok!
+        Ok(())
     }
 
     #[test]
-    pub fn cache_file_with_no_parent() {
-        let cache_path = PathBuf::from("/");
+    pub fn invalid_cache_should_return_error() -> std::io::Result<()> {
+        // Some random path
+        let existant = PathBuf::from(".temp");
 
-        // Build Cache from path
-        let cache = Cache::from_path(cache_path);
+        // Create a file
+        create_dir_all(existant.join("cache"))?;
+        File::create(existant.join("cache").join("bugged_cache.json"))?
+            .write_all("{ is this acktually correct? }".as_bytes())?;
 
-        // Create cache
-        assert_eq!(cache.create().unwrap_err() , Error::PathWithNoParent)
+        // Create a cache instance
+        let cache = Cache::new(existant, "bugged_cache");
+
+        // Check
+        assert!(cache.exists());
+        assert!(cache.get::<serde_json::Value>().is_err());
+
+        // Ok!
+        Ok(())
     }
 
     #[test]
-    pub fn cache_path_which_requires_root() {
-        let cache_path = PathBuf::from("/root/cache.json");
+    pub fn valid_cache_should_not_error_out() -> std::io::Result<()> {
+        // Some random path
+        let existant = PathBuf::from(".temp");
 
-        // Build Cache from path
-        let cache = Cache::from_path(cache_path);
+        // Create a file
+        create_dir_all(existant.join("cache"))?;
+        File::create(existant.join("cache").join("valid.json"))?
+            .write_all("{ \"is this acktually correct\": true  }".as_bytes())?;
 
-        // Create cache
-        assert_eq!(cache.create().unwrap_err() , Error::CannotCreateFile)
+        // Create a cache instance
+        let cache = Cache::new(existant, "valid");
+
+        // Check
+        assert!(cache.exists());
+        assert!(cache.get::<serde_json::Value>().is_ok());
+
+        // Ok!
+        Ok(())
     }
 
     #[test]
-    pub fn cache_path_which_requires_root_with_parent() {
-        let cache_path = PathBuf::from("/root/some_parent/cache.json");
+    #[should_panic]
+    pub fn try_to_get_cache_on_an_invalid_path() {
+        // Some random path
+        let non_existant_root = PathBuf::from("/it/just/should/not/exist");
 
-        // Build Cache from path
-        let cache = Cache::from_path(cache_path);
+        // Create a cache instance
+        let cache = Cache::new(non_existant_root, "uwu");
 
-        // Create cache
-        assert_eq!(cache.create().unwrap_err() , Error::CannotCreateDirectory)
+        // Check
+        assert!(!cache.exists());
+        assert!(cache.get::<serde_json::Value>().is_err());
     }
 
     #[test]
-    pub fn cache_path_should_be_written() {
-        let mut cache_path = PathBuf::new();
+    pub fn write_cache_to_path_that_cannot_be_created_by_guests() {
+        // Some random path
+        let non_existant_root = PathBuf::from("/it/just/should/not/exist");
 
-        // Extend to the temp folder
-        cache_path.extend([".temp" , "valid_cache.json"]);
+        // Create a cache instance
+        let cache = Cache::new(non_existant_root, "uwu");
 
-        // Build Cache from path
-        let cache = Cache::from_path(cache_path.clone());
-
-        // Create cache
-        assert!(cache.create().is_ok());
-
-        // Write some random string 
-        assert!(cache.write_as_str("UwU").is_ok());
-
-        // Check if the content is same
-        assert_eq!(std::fs::read_to_string(cache_path).unwrap() , "UwU")
+        // Check
+        assert!(cache.set(serde_json::Value::Bool(false)).is_err());
     }
 
     #[test]
-    pub fn cache_path_cannot_be_written_because_of_permissions() {
-        let mut cache_path = PathBuf::new();
+    pub fn valid_file_should_be_written() -> std::io::Result<()> {
+        // Some random path
+        let existant = PathBuf::from(".temp");
 
-        // Extend to the temp folder
-        cache_path.extend([".temp" , "read_only_cache.json"]);
+        // Create a file
+        create_dir_all(existant.join("cache"))?;
+        let path = existant.join("cache").join("valid_write.json");
 
-        // Build Cache from path
-        let cache = Cache::from_path(cache_path.clone());
+        // Create a cache instance
+        let cache = Cache::new(existant, "valid_write");
 
-        // Create cache
-        assert!(cache.create().is_ok());
+        // Check
+        assert!(cache.set(serde_json::Value::Bool(false)).is_ok());
+        assert_eq!(std::fs::read_to_string(path)?, "false");
 
-        // Set read-only permissions
-        std::fs::set_permissions(&cache_path, std::fs::Permissions::from_mode(0o555)).unwrap();
-
-        // Write some random string 
-        assert_eq!(cache.write_as_str("UwU").unwrap_err() , Error::CannotCreateFile)
-    }
-
-    #[test]
-    pub fn invalid_json_cache_should_error() {
-        let mut cache_path = PathBuf::new();
-
-        // Extend to the temp folder
-        cache_path.extend([".temp" , "cache.json"]);
-
-        // Build Cache from path
-        let cache = Cache::from_path(cache_path.clone());
-
-        // Create cache
-        assert!(cache.create().is_ok());
-
-        // Write some random string 
-        assert!(cache.write_as_str(r#"{ some_bugged_json UwU }"#).is_ok());
-
-        assert_eq!(cache.retrieve::<serde_json::Value>().unwrap_err() , Error::SerializationError);
-    }
-
-    #[test]
-    pub fn valid_json_cache_should_not_error() {
-        let mut cache_path = PathBuf::new();
-
-        // Extend to the temp folder
-        cache_path.extend([".temp" , "another_cache.json"]);
-
-        // Build Cache from path
-        let cache = Cache::from_path(cache_path.clone());
-
-        // Create cache
-        assert!(cache.create().is_ok());
-
-        // Write some random string 
-        assert!(cache.write_as_str(r#"{ "mood": "UwU" }"#).is_ok());
-
-        assert!(cache.retrieve::<serde_json::Value>().is_ok());
+        // Ok!
+        Ok(())
     }
 }
-
