@@ -1,6 +1,5 @@
-use std::path::PathBuf;
-
-use serde::Deserialize;
+use std::{path::PathBuf, fs::File, io::Write};
+use serde::{Deserialize, Serialize};
 
 pub struct Cache {
     endpoint: PathBuf
@@ -33,6 +32,31 @@ impl Cache {
         // Parse it to T type using serde_json
         serde_json::from_str(&raw)
     }
+
+    pub fn set<T>(&self, data: T) -> Result<(), std::io::Error>
+    where
+        T: Serialize
+    {
+        // Parse the object to string
+        let parsed = serde_json::to_string(&data).unwrap();
+
+        // Make sure the parent of the file exists
+        match self.endpoint.parent() {
+            Some(parent) => {
+                std::fs::create_dir_all(parent)?;
+            },
+            None => {}
+        }
+
+        // Create the file
+        let mut file = File::create(&self.endpoint)?;
+
+        // Write the parsed object to the cache file
+        file.write_all(parsed.as_bytes())?;
+
+        Ok(())
+    }
+
 }
 
 // Tests
@@ -127,5 +151,35 @@ mod tests {
         assert!(cache.get::<serde_json::Value>().is_err());
     }
 
+    #[test]
+    pub fn write_cache_to_path_that_cannot_be_created_by_guests() {
+        // Some random path
+        let non_existant_root = PathBuf::from("/it/just/should/not/exist"); 
 
+        // Create a cache instance
+        let cache = Cache::new(non_existant_root, "uwu");
+
+        // Check
+        assert!(cache.set(serde_json::Value::Bool(false)).is_err());
+    }
+
+    #[test]
+    pub fn valid_file_should_be_written() -> std::io::Result<()> {
+        // Some random path
+        let existant = PathBuf::from(".temp"); 
+
+        // Create a file
+        create_dir_all(existant.join("cache"))?;
+        let path = existant.join("cache").join("valid_write.json");
+
+        // Create a cache instance
+        let cache = Cache::new(existant, "valid_write");
+
+        // Check
+        assert!(cache.set(serde_json::Value::Bool(false)).is_ok());
+        assert_eq!(std::fs::read_to_string(path)?, "false");
+
+        // Ok!
+        Ok(())
+    }
 }
