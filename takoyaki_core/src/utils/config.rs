@@ -1,8 +1,6 @@
 use std::path::PathBuf;
-
 use colorsys::Rgb;
 use serde::Deserialize;
-
 use crate::Error;
 
 #[derive(Deserialize)]
