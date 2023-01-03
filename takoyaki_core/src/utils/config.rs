@@ -1,4 +1,4 @@
-use std::{path::PathBuf, fmt::format};
+use std::path::PathBuf;
 
 use colorsys::Rgb;
 use serde::Deserialize;

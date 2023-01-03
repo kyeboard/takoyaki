@@ -14,7 +14,7 @@ impl<'a, T> Takoyaki<'a, T>
 where
     T: for<'de> Deserialize<'de>
 {
-    pub fn with_powerup(&self, name: &'a str, powerup: Box<dyn Powerup<T>>) -> Self {
+    pub fn with_powerup(name: &'a str, powerup: Box<dyn Powerup<T>>) -> Self {
         Self {
             name,
             powerup
@@ -27,7 +27,7 @@ where
         let config_file = dirs::config_dir().unwrap().join("takoyaki").join("config.toml");
 
         // Create the instance of Config, Cache
-        let config = Config::new(config_file);
+        let config = Config::new(config_file).unwrap();
         let cache = Cache::new(root, self.name);
 
         // Get the state of the plugin
@@ -38,5 +38,9 @@ where
 
         // Get the printable from the data
         let printable = self.powerup.evolve(data);
+
+        // Pretty print the data
+        printable.pretty_print(config);
     } 
 }
+

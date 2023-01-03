@@ -59,9 +59,7 @@ impl PrintableGrid {
         }
     }
 
-    pub fn pretty_print(&self) {
-        let config = Config::new(dirs::config_dir().unwrap().join("takoyaki").join("config.toml")).unwrap();
-
+    pub fn pretty_print(&self, config: Config) {
         for x in &self.grid {
             for y in x {
                 if y.is_none() {
@@ -112,18 +110,5 @@ mod tests {
         let printable = PrintableGrid::new();
 
         assert!(printable.get_at(1, 1).is_none());
-    }
-
-    #[test]
-    pub fn print_test() {
-        let mut printable = PrintableGrid::new();
-
-        for i in 0..10 {
-            for j in 0..20 {
-                printable.insert_at(i, j, Printable { count: 2, color: "#88C0D0".to_string() })
-            }
-        }
-
-        printable.pretty_print();
     }
 }
