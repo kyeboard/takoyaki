@@ -41,11 +41,8 @@ impl Cache {
         let parsed = serde_json::to_string(&data).unwrap();
 
         // Make sure the parent of the file exists
-        match self.endpoint.parent() {
-            Some(parent) => {
-                std::fs::create_dir_all(parent)?;
-            },
-            None => {}
+        if let Some(parent) = self.endpoint.parent() {
+            std::fs::create_dir_all(parent)?;
         }
 
         // Create the file

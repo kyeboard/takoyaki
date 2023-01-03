@@ -11,6 +11,13 @@ pub struct PrintableGrid {
     grid: Vec<Vec<Option<Printable>>>
 }
 
+impl Default for PrintableGrid {
+    fn default() -> Self {
+         Self::new()
+     }
+}
+
+
 impl PrintableGrid {
     pub fn new() -> Self {
         Self {
@@ -21,7 +28,7 @@ impl PrintableGrid {
     pub fn insert_at(&mut self, x: usize, y: usize, item: Printable) {
         // Extend the grid on the x axis
         if self.grid.len() < x + 1 {
-            self.grid.resize_with(x + 1 , || vec![])
+            self.grid.resize_with(x + 1 , Vec::new)
         }
 
         // Extend on the y axis

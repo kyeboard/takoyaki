@@ -22,7 +22,7 @@ pub struct Config {
 impl Config {
     pub fn new(endpoint: PathBuf) -> crate::Result<Self> {
         // Read the config as a raw string
-        let raw = std::fs::read_to_string(endpoint).map_err(|e| crate::Error::ReadError(e))?;
+        let raw = std::fs::read_to_string(endpoint).map_err(crate::Error::ReadError)?;
 
         // Parse it to the type
         Ok(Self {
@@ -36,12 +36,11 @@ impl Config {
 
         // Retrieve the color
         let color = self.config.colors.get(format!("{}_contribution", count)) // Get the color for the count of contributions
-            .or(self.config.colors.get("x_contribution")) // Get the color for the variable count of contributions
-            .or(Some(&fallback_color)) // If none of them exists, use the fallback color
-            .unwrap(); // Finally unwrap the value
+            .or_else(|| self.config.colors.get("x_contribution")) // Get the color for the variable count of contributions
+            .unwrap_or(&fallback_color); // If none of them exists, use the fallback color
         
         // Convert the color to RGB format
-        colorsys::Rgb::from_hex_str(color.as_str().unwrap()).map_err(|e| Error::HexParseError(e))
+        colorsys::Rgb::from_hex_str(color.as_str().unwrap()).map_err(Error::HexParseError)
     }
 
     pub fn get_unicode(&self) -> &Unicode {

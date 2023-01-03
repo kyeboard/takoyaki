@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-use crate::{Powerup, Config, Cache};
+use crate::{Powerup, Config, Cache, PluginConfig};
 
 pub struct Takoyaki<'a, T>
 where
@@ -28,10 +28,11 @@ where
 
         // Create the instance of Config, Cache
         let config = Config::new(config_file).unwrap();
+        let plugin_config = PluginConfig::new(root.clone(), self.name);
         let cache = Cache::new(root, self.name);
 
         // Get the state of the plugin
-        let state = self.powerup.ready(cache);
+        let state = self.powerup.ready(cache, plugin_config);
 
         // Resolve the state
         let data: T = state.resolve().await.unwrap();

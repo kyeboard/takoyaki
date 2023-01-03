@@ -31,7 +31,7 @@ impl State {
     {
         match &self.pending {
             Pending::Cache(cache) => {
-                cache.get::<T>().map_err(|e| Error::SerializeError(e))
+                cache.get::<T>().map_err(Error::SerializeError)
             },
             Pending::Reqwest(client) => {
                 client
@@ -40,10 +40,10 @@ impl State {
                     .header("User-Agent", "takoyaki")
                     .send()
                     .await
-                    .map_err(|e| Error::ReqwestError(e))?
+                    .map_err(Error::ReqwestError)?
                     .json()
                     .await
-                    .map_err(|e| Error::ReqwestError(e))
+                    .map_err(Error::ReqwestError)
             }
         }
     }
