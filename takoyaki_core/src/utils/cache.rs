@@ -1,14 +1,14 @@
-use std::{path::PathBuf, fs::File, io::Write};
 use serde::{Deserialize, Serialize};
+use std::{fs::File, io::Write, path::PathBuf};
 
 pub struct Cache {
-    endpoint: PathBuf
+    endpoint: PathBuf,
 }
 
 impl Cache {
     pub fn new(root: PathBuf, name: &str) -> Self {
         Self {
-            endpoint: root.join("cache").join(format!("{}.json", name))
+            endpoint: root.join("cache").join(format!("{}.json", name)),
         }
     }
 
@@ -19,7 +19,7 @@ impl Cache {
 
     pub fn get<T>(&self) -> Result<T, serde_json::Error>
     where
-        T: for<'de> Deserialize<'de>
+        T: for<'de> Deserialize<'de>,
     {
         // Check if the cache exists
         if !self.exists() {
@@ -35,7 +35,7 @@ impl Cache {
 
     pub fn set<T>(&self, data: T) -> Result<(), std::io::Error>
     where
-        T: Serialize
+        T: Serialize,
     {
         // Parse the object to string
         let parsed = serde_json::to_string(&data).unwrap();
@@ -53,20 +53,23 @@ impl Cache {
 
         Ok(())
     }
-
 }
 
 // Tests
 #[cfg(test)]
 mod tests {
-    use std::{path::PathBuf, fs::{create_dir_all, File}, io::Write};
+    use std::{
+        fs::{create_dir_all, File},
+        io::Write,
+        path::PathBuf,
+    };
 
     use crate::Cache;
 
     #[test]
     pub fn non_existant_cache_should_return_false() {
         // Some random path
-        let non_existant_root = PathBuf::from("/it/just/should/not/exist"); 
+        let non_existant_root = PathBuf::from("/it/just/should/not/exist");
 
         // Create a cache instance
         let cache = Cache::new(non_existant_root, "uwu");
@@ -78,7 +81,7 @@ mod tests {
     #[test]
     pub fn existant_cache_should_return_true() -> std::io::Result<()> {
         // Some random path
-        let existant = PathBuf::from(".temp"); 
+        let existant = PathBuf::from(".temp");
 
         // Create a file
         create_dir_all(existant.join("cache"))?;
@@ -97,11 +100,12 @@ mod tests {
     #[test]
     pub fn invalid_cache_should_return_error() -> std::io::Result<()> {
         // Some random path
-        let existant = PathBuf::from(".temp"); 
+        let existant = PathBuf::from(".temp");
 
         // Create a file
         create_dir_all(existant.join("cache"))?;
-        File::create(existant.join("cache").join("bugged_cache.json"))?.write_all("{ is this acktually correct? }".as_bytes())?;
+        File::create(existant.join("cache").join("bugged_cache.json"))?
+            .write_all("{ is this acktually correct? }".as_bytes())?;
 
         // Create a cache instance
         let cache = Cache::new(existant, "bugged_cache");
@@ -117,11 +121,12 @@ mod tests {
     #[test]
     pub fn valid_cache_should_not_error_out() -> std::io::Result<()> {
         // Some random path
-        let existant = PathBuf::from(".temp"); 
+        let existant = PathBuf::from(".temp");
 
         // Create a file
         create_dir_all(existant.join("cache"))?;
-        File::create(existant.join("cache").join("valid.json"))?.write_all("{ \"is this acktually correct\": true  }".as_bytes())?;
+        File::create(existant.join("cache").join("valid.json"))?
+            .write_all("{ \"is this acktually correct\": true  }".as_bytes())?;
 
         // Create a cache instance
         let cache = Cache::new(existant, "valid");
@@ -138,7 +143,7 @@ mod tests {
     #[should_panic]
     pub fn try_to_get_cache_on_an_invalid_path() {
         // Some random path
-        let non_existant_root = PathBuf::from("/it/just/should/not/exist"); 
+        let non_existant_root = PathBuf::from("/it/just/should/not/exist");
 
         // Create a cache instance
         let cache = Cache::new(non_existant_root, "uwu");
@@ -151,7 +156,7 @@ mod tests {
     #[test]
     pub fn write_cache_to_path_that_cannot_be_created_by_guests() {
         // Some random path
-        let non_existant_root = PathBuf::from("/it/just/should/not/exist"); 
+        let non_existant_root = PathBuf::from("/it/just/should/not/exist");
 
         // Create a cache instance
         let cache = Cache::new(non_existant_root, "uwu");
@@ -163,7 +168,7 @@ mod tests {
     #[test]
     pub fn valid_file_should_be_written() -> std::io::Result<()> {
         // Some random path
-        let existant = PathBuf::from(".temp"); 
+        let existant = PathBuf::from(".temp");
 
         // Create a file
         create_dir_all(existant.join("cache"))?;

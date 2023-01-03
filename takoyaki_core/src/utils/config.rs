@@ -1,22 +1,22 @@
-use std::path::PathBuf;
+use crate::Error;
 use colorsys::Rgb;
 use serde::Deserialize;
-use crate::Error;
+use std::path::PathBuf;
 
 #[derive(Deserialize)]
 pub struct ConfigType {
     pub unicode: Unicode,
-    pub colors: serde_json::Value
+    pub colors: serde_json::Value,
 }
 
 #[derive(Deserialize)]
 pub struct Unicode {
     pub unicode: String,
-    pub paint: String
+    pub paint: String,
 }
 
 pub struct Config {
-    pub config: ConfigType
+    pub config: ConfigType,
 }
 
 impl Config {
@@ -26,7 +26,7 @@ impl Config {
 
         // Parse it to the type
         Ok(Self {
-            config: toml::from_str(&raw).map_err(|_| crate::Error::CorruptConfig)?
+            config: toml::from_str(&raw).map_err(|_| crate::Error::CorruptConfig)?,
         })
     }
 
@@ -35,10 +35,13 @@ impl Config {
         let fallback_color = serde_json::Value::String(fallback);
 
         // Retrieve the color
-        let color = self.config.colors.get(format!("{}_contribution", count)) // Get the color for the count of contributions
+        let color = self
+            .config
+            .colors
+            .get(format!("{}_contribution", count)) // Get the color for the count of contributions
             .or_else(|| self.config.colors.get("x_contribution")) // Get the color for the variable count of contributions
             .unwrap_or(&fallback_color); // If none of them exists, use the fallback color
-        
+
         // Convert the color to RGB format
         colorsys::Rgb::from_hex_str(color.as_str().unwrap()).map_err(Error::HexParseError)
     }
@@ -50,7 +53,11 @@ impl Config {
 
 #[cfg(test)]
 mod tests {
-    use std::{fs::{create_dir_all, File}, path::PathBuf, io::Write};
+    use std::{
+        fs::{create_dir_all, File},
+        io::Write,
+        path::PathBuf,
+    };
 
     use crate::Config;
 
@@ -82,7 +89,8 @@ x_contribution = \"#A3BE8C\"";
         before_all("specific_color")?;
 
         // Create config instance
-        let config = Config::new(PathBuf::from(".temp").join("config_specific_color.toml")).unwrap();
+        let config =
+            Config::new(PathBuf::from(".temp").join("config_specific_color.toml")).unwrap();
 
         // Get the color
         let color = config.get_color(9, "".to_string()).unwrap();
@@ -100,7 +108,8 @@ x_contribution = \"#A3BE8C\"";
         before_all("x_contribution")?;
 
         // Create config instance
-        let config = Config::new(PathBuf::from(".temp").join("config_x_contribution.toml")).unwrap();
+        let config =
+            Config::new(PathBuf::from(".temp").join("config_x_contribution.toml")).unwrap();
 
         // Get the color
         let color = config.get_color(1, "".to_string()).unwrap();
@@ -133,7 +142,8 @@ paint = \"fg\"
         file.write_all(raw_config.as_bytes())?;
 
         // Create config instance
-        let config = Config::new(PathBuf::from(".temp").join("fallback_color_config.toml")).unwrap();
+        let config =
+            Config::new(PathBuf::from(".temp").join("fallback_color_config.toml")).unwrap();
 
         // Get the color
         let color = config.get_color(1, "#88C0D0".to_string()).unwrap();
@@ -179,7 +189,7 @@ paint = \"fg\"
 
     #[test]
     pub fn unicode_should_be_parsed_correctly() -> std::io::Result<()> {
-        before_all("unicode_parse")?;    
+        before_all("unicode_parse")?;
 
         // Create config instance
         let config = Config::new(PathBuf::from(".temp").join("config_unicode_parse.toml")).unwrap();
@@ -190,5 +200,4 @@ paint = \"fg\"
 
         Ok(())
     }
-
 }

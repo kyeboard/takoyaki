@@ -4,31 +4,28 @@ use colored::*;
 #[derive(Clone, Debug, PartialEq)]
 pub struct Printable {
     pub count: usize,
-    pub color: String
+    pub color: String,
 }
 
 pub struct PrintableGrid {
-    grid: Vec<Vec<Option<Printable>>>
+    grid: Vec<Vec<Option<Printable>>>,
 }
 
 impl Default for PrintableGrid {
     fn default() -> Self {
-         Self::new()
-     }
+        Self::new()
+    }
 }
-
 
 impl PrintableGrid {
     pub fn new() -> Self {
-        Self {
-            grid: vec![]
-        }
+        Self { grid: vec![] }
     }
 
     pub fn insert_at(&mut self, x: usize, y: usize, item: Printable) {
         // Extend the grid on the x axis
         if self.grid.len() < x + 1 {
-            self.grid.resize_with(x + 1 , Vec::new)
+            self.grid.resize_with(x + 1, Vec::new)
         }
 
         // Extend on the y axis
@@ -52,17 +49,11 @@ impl PrintableGrid {
 
                 // Check if it exists
                 match item {
-                    Some(item) => {
-                        item.clone()
-                    },
-                    None => {
-                        None
-                    }
+                    Some(item) => item.clone(),
+                    None => None,
                 }
-            },
-            None => {
-                None
             }
+            None => None,
         }
     }
 
@@ -74,17 +65,27 @@ impl PrintableGrid {
                 }
 
                 let printable = y.as_ref().unwrap();
-                let color = config.get_color(printable.count, printable.color.clone()).unwrap();
+                let color = config
+                    .get_color(printable.count, printable.color.clone())
+                    .unwrap();
 
                 if config.get_unicode().paint == "fg" {
                     print!(
-                        "{}", 
-                        config.get_unicode().unicode.truecolor(color.red() as u8, color.green() as u8, color.blue() as u8)
+                        "{}",
+                        config.get_unicode().unicode.truecolor(
+                            color.red() as u8,
+                            color.green() as u8,
+                            color.blue() as u8
+                        )
                     );
                 } else {
                     print!(
-                        "{}", 
-                        config.get_unicode().unicode.on_truecolor(color.red() as u8, color.green() as u8, color.blue() as u8)
+                        "{}",
+                        config.get_unicode().unicode.on_truecolor(
+                            color.red() as u8,
+                            color.green() as u8,
+                            color.blue() as u8
+                        )
                     );
                 }
             }
@@ -102,8 +103,14 @@ mod tests {
     pub fn printable_insert() {
         let mut printable = PrintableGrid::new();
 
-        let item = Printable { count: 0, color: "".to_string() };
-        let item2 = Printable { count: 0, color: "".to_string() };
+        let item = Printable {
+            count: 0,
+            color: "".to_string(),
+        };
+        let item2 = Printable {
+            count: 0,
+            color: "".to_string(),
+        };
 
         printable.insert_at(1, 1, item.clone());
         printable.insert_at(2, 2, item2.clone());
