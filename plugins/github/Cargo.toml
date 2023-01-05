@@ -6,9 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-takoyaki = { path = "../../takoyaki_core" }
-tokio = { version = "1.21.2", features = ["full"] }
-reqwest = { version = "0.11", features = ["json"] }
-serde_json = "1.0.87"
+takoyaki = { path = "../../takoyaki_core/" }
 serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1.23.1", features = ["full"] }
 

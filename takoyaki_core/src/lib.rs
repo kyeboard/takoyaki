@@ -7,3 +7,5 @@ mod utils;
 pub use error::*;
 pub use takoyaki_core::*;
 pub use utils::*;
+pub use reqwest;
+

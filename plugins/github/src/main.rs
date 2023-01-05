@@ -1,19 +1,74 @@
-mod types;
-
 use std::collections::HashMap;
-use takoyaki::{Takoyaki, ReadyState, PrintableGrid, Cache , Printable};
 
-#[tokio::main]
-async fn main() {
-    let mut takoyaki = Takoyaki::<types::Root>::new("github");
+// Import dependencies
+use takoyaki::{Takoyaki, Powerup, Cache, PluginConfig, State, reqwest, PrintableGrid, Printable};
 
-    takoyaki.set_ready(Box::new(|| {
-        let cache = Cache::new("github").unwrap();
+// Types 
+use serde::{Deserialize , Serialize};
 
-        if cache.exists() {
-            return ReadyState::from_cache(cache)
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Root {
+    pub data: Data,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Data {
+    pub user: User,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct User {
+    pub name: String,
+    pub contributions_collection: ContributionsCollection,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ContributionsCollection {
+    pub contribution_calendar: ContributionCalendar,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ContributionCalendar {
+    pub colors: Vec<String>,
+    pub total_contributions: i64,
+    pub weeks: Vec<Week>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Week {
+    pub contribution_days: Vec<ContributionDay>,
+    pub first_day: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ContributionDay {
+    pub color: String,
+    pub contribution_count: usize,
+    pub date: String,
+    pub weekday: i64,
+}
+
+
+// Plugin
+pub struct GitHub {
+
+}
+
+impl Powerup<Root> for GitHub {
+    fn new() -> Self {
+        Self {
+
         }
+    }
 
+    fn ready(&self, cache: Cache, config: PluginConfig) -> State {
         let mut body = HashMap::new();
 
         body.insert("query", format!(r#"query {{
@@ -37,16 +92,15 @@ async fn main() {
             }}
         }}"# , "ThePrimeagen"));
 
-        ReadyState::from_reqwest(
+        State::from_reqwest(
             reqwest::Client::new()
                 .post("https://api.github.com/graphql")
                 .header("Authorization", format!("Bearer {}" , ""))
-                .body(serde_json::to_string(&body).unwrap())
+                .json(&body)
         )
+    }
 
-    }));
-
-    takoyaki.set_execute(Box::new(|data| {
+    fn evolve(&self, data: Root) -> PrintableGrid {
         let mut grid = PrintableGrid::new();
 
         let mut x = 0;
@@ -54,7 +108,7 @@ async fn main() {
 
         for week in data.data.user.contributions_collection.contribution_calendar.weeks {
             for day in week.contribution_days {
-                grid.insert_at(x, y, Printable { color: day.color , contributions: day.contribution_count } );
+                grid.insert_at(x, y, Printable { color: day.color , count: day.contribution_count } );
 
                 x += 1;
             }
@@ -64,7 +118,12 @@ async fn main() {
         };
 
         grid
-    }));
+    }
+}
 
-    takoyaki.start().await.unwrap();
+#[tokio::main]
+async fn main() {
+    let takoyaki = Takoyaki::with_powerup("github", Box::new(GitHub::new()));
+
+    takoyaki.start().await;
 }
