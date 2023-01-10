@@ -1,124 +1,51 @@
 <template>
     <div
-        class="navbar px-16 w-full fixed items-center justify-center text-text font-semibold top-0 left-0 py-6 flex border-b border-b-surface0/60"
+        class="navbar absolute z-10 flex items-center justify-center w-full px-20 py-5 font-medium bg-white/40 backdrop-blur-lg animate-fade_in"
     >
-        <a class="left flex items-center justify-center" href="/">
-            <img src="/logo.png" class="h-10" />
-            <div class="ml-4 text-text font-bold text-lg">takoyaki</div>
-        </a>
-        <div class="mx-auto text-overlay2 links flex gap-x-14">
+        <div class="left">
+            <div class="title font-bold text-3xl tracking-wide dancing-script">
+                takoyaki
+            </div>
+        </div>
+        <div class="mx-auto font-semibold text-gray-700 flex gap-x-14">
             <a href="/">Home</a>
             <a href="/installation">Installation</a>
-            <a href="/documentation">Documentation</a>
-            <a href="/marketplace">Marketplace</a>
+            <a href="/blogs">Documentation</a>
+            <a href="/market">Marketplace</a>
+            <a href="https://www.kyeboard.me/contact">Contact</a>
         </div>
-        <div
-            class="current-user flex items-center justify-center"
-            v-if="current_user != null"
-        >
-            <a href="/logout">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.4"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-log-out"
-                >
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                    <polyline points="16 17 21 12 16 7"></polyline>
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                </svg>
-            </a>
-            <a href="/notifications">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    class="ml-10"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#cdd6f4"
-                    stroke-width="2.4"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                >
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                </svg>
-            </a>
-            <a href="/search">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    class="ml-10"
-                    fill="none"
-                    stroke="#cdd6f4"
-                    stroke-width="2.4"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                >
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-
-            </a>
-            <img
-                :src="
-                    current_user.photoURL ||
-                    'https://www.gravatar.com/avatar/00000000000000000000000000000000'
-                "
-                alt="User profile"
-                class="h-8 rounded-full ml-12"
-            />
+        <div class="login" v-if="is_signed_in == false">
+            <button class="bg-text p-3 w-32 rounded-lg" @click="authenticate_with_github()">Login</button>
         </div>
-        <button
-            class="login bg-surface0/40 text-text p-3 px-10 rounded-lg"
-            @click="oauth_with_github()"
-            v-else
-        >
-            Login
-        </button>
+        <div class="user flex items-center gap-x-10 text-gray-900" v-else>
+            <img :src="profile_photo as string" class="w-10 h-10 rounded-full" />
+            <vue-feather type="github" size="20" />
+            <vue-feather type="log-out" size="20" />
+        </div>
     </div>
 </template>
 
-<script setup lang="ts">
-import {
-    GithubAuthProvider,
-    getAuth,
-    signInWithPopup,
-    onAuthStateChanged,
-} from "firebase/auth";
-import type { User } from "firebase/auth";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+<script lang="ts" setup>
+import type { Account } from "appwrite"
+import { inject, onMounted, ref } from "vue"
 
-const provider = new GithubAuthProvider();
-const auth = getAuth();
-const current_user = ref<User | null>(null);
-const router = useRouter();
+const account = inject<Account>("account");
+const is_signed_in = ref<boolean>(false);
+const profile_photo = ref<String>("");
 
-provider.addScope("repo");
+const authenticate_with_github = async () => {
+    account?.createOAuth2Session("github", `${window.location.protocol}//${window.location.host}/dashboard`)
+}
 
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        current_user.value = user;
-
-        console.log(user)
+onMounted(async () => {
+    if(!account) {
+        return 
     }
-});
 
-const oauth_with_github = async () => {
-    const res = await signInWithPopup(auth, provider);
+    const user = await account.get();
 
-    console.log(res);
+    profile_photo.value = (await (await fetch(`https://api.github.com/users/${user.name}`)).json()).avatar_url
 
-    router.push({ path: "/user/" + res.user.displayName });
-};
+    is_signed_in.value = true
+})
 </script>

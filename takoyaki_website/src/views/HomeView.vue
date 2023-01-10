@@ -1,79 +1,38 @@
 <script setup lang="ts">
-import { useMeta } from "vue-meta";
-
-import Plus from "../components/Plus.vue";
-import Feature from "../components/Feature.vue";
-
-useMeta({
-    title: "Blazingly fast git contributions in your terminal"
-})
+import ProductDisplay from '@/components/ProductDisplay.vue';
 </script>
 
 <template>
-    <div
-        class="w-screen h-screen bg-base px-20 flex items-center justify-center"
-    >
-        <div class="text-text mr-auto pr-10 pl-14 w-1/2">
-            <div class="text-5xl font-bold leading-[60px]">
-                Get your git contributions in your terminal.
-            </div>
-            <div class="font-semibold mt-4 text-overlay1 tracking-wide">
-                Takoyaki is an blazingly fast, open source tool that prints your git contributions in your terminal. Not only it allows you to customize it, but also install several plugins to improve overall experience [Fun fact: It can be even used to make some other things!]
-            </div>
-            <div class="features mt-8 flex flex-col gap-y-5">
-                <Feature title="Open source" />
-                <Feature title="Blazingly fast" />
-                <Feature title="Highly customizable" />
-                <Feature title="Cross platform support" />
-                <Feature title="Plugins that support popular providers" />
-            </div>
-            <a href="/install">
-                <button
-                    class="mt-10 bg-surface0/40 p-4 px-10 rounded-lg text-overlay3 font-semibold"
-                >
-                    Behold the power of takoyaki
-                </button>
+<div class="w-screen h-screen bg-white flex p-20 items-center justify-center">
+    <div class="left w-full h-full flex flex-col justify-center mr-10">
+        <div class="text-5xl text-gray-800 font-bold leading-[55px] animate-rise opacity-0">Elegantly print your contributions in your terminal.</div>
+        <div class="text-gray-500 tracking-[0.3px] font-semibold mt-6 max-w-[600px] w-[600px] animate-rise opacity-0 animation-delay-100">Takoyaki is an open source, blazingly fast and cross platform tool that allows users to print their contributions in their terminal, eleganty with a ton of plugins to add support for major providers!</div>
+        <div class="feature mt-8 flex items-center font-bold text-gray-800 animate-rise opacity-0 animation-delay-200">
+            <vue-feather type="check-circle" size="20" class="mr-3" /> Cross platform
+        </div>
+        <div class="feature mt-5 flex items-center font-bold text-gray-800 animate-rise opacity-0 animation-delay-210">
+            <vue-feather type="check-circle" size="20" class="mr-3" /> Open Source
+        </div>
+        <div class="feature mt-5 flex items-center font-bold text-gray-800 animate-rise opacity-0 animation-delay-220">
+            <vue-feather type="check-circle" size="20" class="mr-3" /> Blazingly fast
+        </div>
+        <div class="feature mt-5 flex items-center font-bold text-gray-800 animate-rise opacity-0 animation-delay-230">
+            <vue-feather type="check-circle" size="20" class="mr-3" /> Highly customizable
+        </div>
+        <div class="feature mt-5 flex items-center font-bold text-gray-800 animate-rise opacity-0 animation-delay-240">
+            <vue-feather type="check-circle" size="20" class="mr-3" /> Plugins to add support for major providers
+        </div>
+        <div class="buttons mt-8 animate-rise opacity-0 animation-delay-300 flex gap-x-4">
+            <a href="/installation">
+                <div class="button font-semibold text-text bg-gray-800 p-4 w-52 text-center rounded-lg">Install now</div>
+            </a>
+            <a href="/try">
+                <div class="button font-semibold bg-text/60 text-gray-800 p-4 w-52 text-center rounded-lg">Try it out!</div>
             </a>
         </div>
-        <div class="banner w-5/12 relative ml-10">
-            <img src="/banner.png" class="w-full" />
-            <div
-                class="flex text-surface2 gap-x-2 absolute top-[-18%] left-[-8%]"
-            >
-                <div class="flex flex-col justify-end w-fit gap-y-3">
-                    <Plus />
-                    <Plus />
-                </div>
-                <div class="flex flex-col gap-y-3">
-                    <Plus />
-                    <Plus />
-                    <Plus />
-                    <Plus />
-                </div>
-                <div class="flex flex-col gap-y-3">
-                    <Plus />
-                    <Plus />
-                </div>
-            </div>
-            <div
-                class="flex text-surface2 gap-x-2 absolute top-[86.5%] left-[97.7%]"
-            >
-                <div class="flex flex-col justify-end w-fit gap-y-3">
-                    <Plus />
-                    <Plus />
-                </div>
-                <div class="flex flex-col gap-y-3">
-                    <Plus />
-                    <Plus />
-                    <Plus />
-                    <Plus />
-                </div>
-                <div class="flex flex-col gap-y-3">
-                    <Plus />
-                    <Plus />
-                </div>
-            </div>
-        </div>
     </div>
-</template>
+    <div class="wrapper w-full h-full flex items-center">
 
+    </div>
+</div>
+</template>

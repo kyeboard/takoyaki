@@ -1,31 +1,31 @@
 import { createRouter, createWebHistory } from "vue-router";
-import New from "../views/New.vue"
-import Deploy from "../views/Deploy.vue"
+import NewPluginView from "../views/NewPluginView.vue";
+import InstallationView from "../views/InstallationView.vue";
 import HomeView from "../views/HomeView.vue";
-import MarketPlace from "../views/Marketplace.vue";
+import MarketPlaceView from "@/views/MarketPlaceView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: "/",
-            name: "Home",
+            name: "home",
             component: HomeView,
         },
         {
-            path: "/marketplace",
-            name: "Marketplace",
-            component: MarketPlace,
+            path: "/market",
+            name: "market",
+            component: MarketPlaceView,
         },
         {
-            path: "/new",
-            name: "New",
-            component: New,
+            path: "/installation",
+            name: "installation",
+            component: InstallationView,
         },
         {
-            path: "/deploy/:username/:repository",
-            name: "Deploy",
-            component: Deploy,
+            path: "/market/new",
+            name: "new_plugin",
+            component: NewPluginView,
         },
     ],
 });

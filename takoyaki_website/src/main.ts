@@ -1,33 +1,29 @@
+// Import dependencies
 import { createApp } from "vue";
-import VueFeather from 'vue-feather';
 import App from "./App.vue";
 import router from "./router";
-import { createMetaManager } from 'vue-meta'
-import { initializeApp } from "firebase/app";
+import VueFeather from "vue-feather";
+import { Client, Account, Databases } from "appwrite"
 
-import "./assets/main.sass";
+// Import stylesheets
+import "./assets/styles.sass";
 
-const app = createApp(App);
+// Create new Appwrite client
+let appwrite = new Client();
 
-app.use(router);
+appwrite
+    .setProject("639f2e32531c70a90614")
+    .setEndpoint("http://localhost/v1");
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDV8RkplTsJa9NXueaUUunH7_OjxfIydEc",
-    authDomain: "kyeboard-takoyaki-ae3b1.firebaseapp.com",
-    databaseURL: "https://kyeboard-takoyaki-ae3b1-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "kyeboard-takoyaki-ae3b1",
-    storageBucket: "kyeboard-takoyaki-ae3b1.appspot.com",
-    messagingSenderId: "738243958501",
-    appId: "1:738243958501:web:9847e04f15b6d60a61660c",
-    measurementId: "G-PSB588WN8M"
-};
+// Initiate appwrite services
+let account = new Account(appwrite);
+let database = new Databases(appwrite);
 
-// Initialize Firebase
-app.provide("firebase", initializeApp(firebaseConfig));
-
-// Vue components
-app.component(VueFeather.name, VueFeather);
-app.use(createMetaManager())
-
-// Mount
-app.mount("#app");
+// Create a new VueJS app
+createApp(App)
+    .use(router)
+    .provide("account", account)
+    .provide("client", appwrite)
+    .provide("databases", database)
+    .component(VueFeather.name, VueFeather)
+    .mount("#app");
