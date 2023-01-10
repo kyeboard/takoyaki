@@ -24,10 +24,10 @@ import ProductDisplay from '@/components/ProductDisplay.vue';
         </div>
         <div class="buttons mt-8 animate-rise opacity-0 animation-delay-300 flex gap-x-4">
             <a href="/installation">
-                <div class="button font-semibold bg-text/40 p-4 w-52 text-center rounded-lg">Install now</div>
+                <div class="button font-semibold text-text bg-gray-800 p-4 w-52 text-center rounded-lg">Install now</div>
             </a>
             <a href="/try">
-                <div class="button font-semibold text-white bg-gray-800 p-4 w-52 text-center rounded-lg">Try it out!</div>
+                <div class="button font-semibold bg-text/60 text-gray-800 p-4 w-52 text-center rounded-lg">Try it out!</div>
             </a>
         </div>
     </div>
