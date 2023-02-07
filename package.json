@@ -7,31 +7,37 @@
     "build": "refine build",
     "start": "refine start",
     "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
+    "lint:fix": "eslint '**/*.{js,jsx,ts,tsx}' --fix",
+    "lint:setup": "next lint",
     "refine": "refine"
   },
   "dependencies": {
-    "@pankod/refine-cli": "^1.13.0",
-    "@pankod/refine-core": "^3.90.4",
-    "@pankod/refine-nextjs-router": "^4.1.0",
-    "@pankod/refine-inferencer": "^2.0.2",
-    "next": "^13.0.6",
-    "next-compose-plugins": "^2.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "@pankod/refine-appwrite": "^5.1.0",
     "@pankod/refine-chakra-ui": "^1.0.0",
+    "@pankod/refine-cli": "^1.13.0",
+    "@pankod/refine-core": "^3.90.4",
+    "@pankod/refine-inferencer": "^2.0.2",
+    "@pankod/refine-kbar": "^0.8.0",
+    "@pankod/refine-nextjs-router": "^4.1.0",
     "@pankod/refine-react-hook-form": "^3.27.1",
     "@pankod/refine-react-table": "^4.7.2",
     "@tabler/icons": "^1.39.1",
+    "next": "^13.0.6",
+    "next-compose-plugins": "^2.2.1",
     "next-i18next": "^8.9.0",
-    "@pankod/refine-kbar": "^0.8.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/node": "^14.14.13",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
-    "@types/node": "^14.14.13",
     "@typescript-eslint/parser": "^4.9.1",
-    "typescript": "^4.7.4",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "eslint": "8.33.0",
+    "eslint-config-next": "13.1.6",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "typescript": "^4.7.4"
   }
 }
