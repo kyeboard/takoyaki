@@ -12,6 +12,7 @@
     "refine": "refine"
   },
   "dependencies": {
+    "@next/font": "^13.1.6",
     "@pankod/refine-appwrite": "^5.1.0",
     "@pankod/refine-chakra-ui": "^1.0.0",
     "@pankod/refine-cli": "^1.13.0",
@@ -26,7 +27,8 @@
     "next-compose-plugins": "^2.2.1",
     "next-i18next": "^8.9.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-feather": "^2.0.10"
   },
   "devDependencies": {
     "@types/node": "^14.14.13",

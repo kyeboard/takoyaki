@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@next/font': ^13.1.6
   '@pankod/refine-appwrite': ^5.1.0
   '@pankod/refine-chakra-ui': ^1.0.0
   '@pankod/refine-cli': ^1.13.0
@@ -25,9 +26,11 @@ specifiers:
   next-i18next: ^8.9.0
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-feather: ^2.0.10
   typescript: ^4.7.4
 
 dependencies:
+  '@next/font': 13.1.6
   '@pankod/refine-appwrite': 5.5.0_@pankod+refine-core@3.99.2
   '@pankod/refine-chakra-ui': 1.6.6_j36enczeqv57egnyo7x2ajqhni
   '@pankod/refine-cli': 1.17.0_3stiutgnnbnfnf3uowm5cip22i
@@ -43,6 +46,7 @@ dependencies:
   next-i18next: 8.10.0_3vryta7zmbcsw4rrqf4axjqggm
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-feather: 2.0.10_react@18.2.0
 
 devDependencies:
   '@types/node': 14.18.36
@@ -1841,6 +1845,10 @@ packages:
     dependencies:
       glob: 7.1.7
     dev: true
+
+  /@next/font/13.1.6:
+    resolution: {integrity: sha512-AITjmeb1RgX1HKMCiA39ztx2mxeAyxl4ljv2UoSBUGAbFFMg8MO7YAvjHCgFhD39hL7YTbFjol04e/BPBH5RzQ==}
+    dev: false
 
   /@next/swc-android-arm-eabi/13.1.6:
     resolution: {integrity: sha512-F3/6Z8LH/pGlPzR1AcjPFxx35mPqjE5xZcf+IL+KgbW9tMkp7CYi1y7qKrEWU7W4AumxX/8OINnDQWLiwLasLQ==}
@@ -6003,6 +6011,15 @@ packages:
 
   /react-fast-compare/3.2.0:
     resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
+    dev: false
+
+  /react-feather/2.0.10_react@18.2.0:
+    resolution: {integrity: sha512-BLhukwJ+Z92Nmdcs+EMw6dy1Z/VLiJTzEQACDUEnWMClhYnFykJCGWQx+NmwP/qQHGX/5CzQ+TGi8ofg2+HzVQ==}
+    peerDependencies:
+      react: '>=16.8.6'
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
     dev: false
 
   /react-focus-lock/2.9.3_3stiutgnnbnfnf3uowm5cip22i:
