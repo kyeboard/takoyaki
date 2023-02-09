@@ -1,5 +1,5 @@
 import { Flex, Image, Text, Box } from "@pankod/refine-chakra-ui";
-import { BarChart2, Bell, Settings, Calendar, Inbox } from "react-feather";
+import { BarChart2, Bell, Settings, Calendar, Inbox, Folder, MessageSquare, Users, Video } from "react-feather";
 import { account } from "src/utility";
 import { QuickLink } from "./QuickLink";
 
@@ -7,12 +7,7 @@ interface SideBarProps {
     current: string;
 }
 
-const SideBar: React.FC<SideBarProps> = ({ current }) => {
-    (async () => {
-        console.log(await account.getSession("current"));
-        console.log(await account.get());
-    })();
-
+const SideBarProject: React.FC<SideBarProps> = ({ current }) => {
     return (
         <Flex
             flexDirection={"column"}
@@ -24,28 +19,28 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
             width={"350px"}
         >
             <QuickLink
-                title="Projects"
-                href="/dashboard"
-                icon={<BarChart2 size={22} />}
-                current={current === "dashboard"}
+                title="To-Dos"
+                href="/todos"
+                icon={<Folder size={22} />}
+                current={current === "todos"}
             />
             <QuickLink
-                title="Notifications"
-                href="/notifications"
-                icon={<Bell size={22} />}
-                current={current === "notifications"}
+                title="Team chat"
+                href="/chat"
+                icon={<MessageSquare size={22} />}
+                current={current === "chat"}
             />
             <QuickLink
-                title="Invitations"
-                href="/invitations"
-                icon={<Inbox size={22} />}
-                current={current === "invitations"}
+                title="Events"
+                href="/events"
+                icon={<Video size={22} />}
+                current={current === "events"}
             />
             <QuickLink
-                title="Calendar"
-                href="/calendar"
-                icon={<Calendar size={22} />}
-                current={current === "calendar"}
+                title="Members"
+                href="/members"
+                icon={<Users size={22} />}
+                current={current === "members"}
             />
             <QuickLink
                 title="Settings"
@@ -74,4 +69,4 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
     );
 };
 
-export default SideBar;
+export default SideBarProject;

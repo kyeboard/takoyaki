@@ -6,7 +6,7 @@ const DashBoard = () => {
     return (
         <Box>
             <SideBar current="dashboard" />
-            <NewProject />
+            {/* <NewProject /> */}
         </Box>
     );
 };

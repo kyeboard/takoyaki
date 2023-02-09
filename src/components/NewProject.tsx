@@ -7,10 +7,15 @@ import {
     Textarea,
 } from "@pankod/refine-chakra-ui";
 import { Nunito } from "@next/font/google";
+import { teams } from "src/utility";
 
 const nunito = Nunito({ subsets: ["latin"], weight: "800" });
 
 const NewProject = () => {
+    const create_project = async () => {
+        const team = await teams.create("unique()", "uwu's project");
+    };
+
     return (
         <Flex
             width={"100vw"}
@@ -32,7 +37,7 @@ const NewProject = () => {
             >
                 <Text
                     className={nunito.className}
-                    fontSize={26}
+                    fontSize={30}
                     textAlign="center"
                 >
                     New Project
@@ -103,6 +108,7 @@ const NewProject = () => {
                     padding={6}
                     marginTop={8}
                     width={"100%"}
+                    onClick={create_project}
                     _hover={{ bg: "#3861ef" }}
                 >
                     Create
