@@ -1,6 +1,7 @@
 import { Flex, Image, Text, Box } from "@pankod/refine-chakra-ui";
+import { useEffect, useState } from "react";
 import { BarChart2, Bell, Settings, Calendar, Inbox } from "react-feather";
-import { account } from "src/utility";
+import { account, storage } from "src/utility";
 import { QuickLink } from "./QuickLink";
 
 interface SideBarProps {
@@ -8,10 +9,17 @@ interface SideBarProps {
 }
 
 const SideBar: React.FC<SideBarProps> = ({ current }) => {
-    (async () => {
-        console.log(await account.getSession("current"));
-        console.log(await account.get());
-    })();
+    const [user, set_user] = useState<any>(null);
+
+    useEffect(() => {
+        const fetch_user = async () => {
+            set_user(await account.get());
+
+            console.log("REN");
+        };
+
+        fetch_user();
+    }, [set_user]);
 
     return (
         <Flex
@@ -55,15 +63,20 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
             />
             <Flex marginTop="auto" gap={5} alignItems="center">
                 <Image
-                    src="https://www.kyeboard.me/profile.png"
-                    width="14"
+                    src={
+                        storage.getFilePreview(
+                            "63dfd4b2bf3364da5f0c",
+                            user.name
+                        ).href
+                    }
+                    width="60px"
                     borderRadius={"full"}
                     alt="Test User"
                 />
                 <Box>
-                    <Text>Purple Light</Text>
+                    <Text>{user.name}</Text>
                     <Text color="gray.500" fontSize={13}>
-                        me@kyeboard.me
+                        {user.email}
                     </Text>
                 </Box>
                 <Text marginLeft="auto" fontSize={20} color="gray.500">
