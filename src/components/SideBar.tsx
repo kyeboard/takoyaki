@@ -66,7 +66,7 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
                     src={
                         storage.getFilePreview(
                             "63dfd4b2bf3364da5f0c",
-                            user.name
+                            (user ?? { name: "" }).name
                         ).href
                     }
                     width="60px"
@@ -74,9 +74,9 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
                     alt="Test User"
                 />
                 <Box>
-                    <Text>{user.name}</Text>
+                    <Text>{(user ?? { name: "" }).name}</Text>
                     <Text color="gray.500" fontSize={13}>
-                        {user.email}
+                        {(user ?? { email: "" }).email}
                     </Text>
                 </Box>
                 <Text marginLeft="auto" fontSize={20} color="gray.500">
