@@ -31,6 +31,21 @@
             "events": [],
             "schedule": "",
             "timeout": 15
+        },
+        {
+            "$id": "63e4ddf38ac89fc4a010",
+            "name": "setup_workspace",
+            "runtime": "node-16.0",
+            "path": "functions/setup_workspace",
+            "entrypoint": "src/index.js",
+            "ignore": [
+                "node_modules",
+                ".npm"
+            ],
+            "execute": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15
         }
     ]
 }
