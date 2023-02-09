@@ -18,8 +18,7 @@ interface Response {
 }
 
 interface EventData {
-    $id: string;
-    email: string;
+    userId: string
 }
 
 const change_username_to_email = async function (req: Request, res: Response) {
@@ -47,16 +46,29 @@ const change_username_to_email = async function (req: Request, res: Response) {
         req.variables["APPWRITE_FUNCTION_EVENT_DATA"]
     );
 
+    const user = await account.get(data.userId);
+
     // Extract the first part of the email with regex (for example: if the email is 0xsapphir3@gmail.com, I want only 0xsapphir3)
-    const username = (data.email.match(/^[^@]*/) as RegExpMatchArray)[0];
+    const username = (user.email.match(/^[^@]*/) as RegExpMatchArray)[0];
 
-    // Set the new username
-    await account.updateName(data.$id, username);
+    // Get the user
+    const current_username = user.name;
 
-    res.json({
-        success: true,
-        message: "Successfully changed the username to " + username,
-    });
+    // // Check if the current_username is correct by testing it against the regex which checks if it only contains alphanumeric, hyphen, non-leading underscore, period
+    if (!current_username.match(/^[a-zA-Z0-9][a-zA-Z0-9_.-]*$/)) {
+        // The name is invalid (contains special characters)
+        await account.updateName(data.userId, username);
+
+        res.json({
+            success: true,
+            message: "Username not valid, resetting to " + username,
+        });
+    } else {
+        res.json({
+            success: true,
+            message: "Skipping as the username is already valid",
+        });
+    }
 };
 
 export default change_username_to_email;
