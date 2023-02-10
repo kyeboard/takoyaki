@@ -1,5 +1,4 @@
 // Import dependencies
-import fetch from "node-fetch";
 import { google } from "googleapis";
 import { Client, InputFile, Storage, Users } from "node-appwrite";
 import { Readable } from "stream";
