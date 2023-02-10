@@ -1,5 +1,6 @@
 import SideBarProject from "@components/SideBarProject";
 import { Box, Button, Flex, Input, Text } from "@pankod/refine-chakra-ui";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Send } from "react-feather";
 import { appwriteClient, database } from "src/utility";
@@ -7,6 +8,21 @@ import { appwriteClient, database } from "src/utility";
 const Chat = () => {
     const [message, set_message] = useState<string>("");
     const [display_messages, set_display_messages] = useState<Array<any>>([]);
+    const route = useRouter();
+
+    const send_message = async () => {
+        await database.createDocument(
+            // route.query.id as string,
+            "63e6000013274e2a24af",
+            "chat",
+            "unique()",
+            {
+                message,
+                timestamp: new Date(),
+                author: "kyeboard",
+            }
+        );
+    };
 
     useEffect(() => {
         // Add event listeners
@@ -17,24 +33,12 @@ const Chat = () => {
         });
 
         const unsubscribe = appwriteClient.subscribe(
-            "databases.63e3b29fc39c2b57482b.collections.63e3b2a3f059f3ce8456.documents",
+            `databases.63e6000013274e2a24af.collections.chat.documents.create`,
             (payload) => {
                 console.log(payload);
             }
         );
-    }, [display_messages]);
-
-    const send_message = async () => {
-        await database.createDocument(
-            "63e3b29fc39c2b57482b",
-            "63e3b2a3f059f3ce8456",
-            "unique()",
-            {
-                message,
-                send_by: "kyeboard",
-            }
-        );
-    };
+    }, [display_messages, send_message]);
 
     return (
         <Flex width={"100vw"} height={"100vh"}>

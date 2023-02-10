@@ -38,7 +38,7 @@ const Members = () => {
 
     return (
         <Flex width="100vw" height="100vh">
-            <InviteMember />
+            {/* <InviteMember /> */}
             <SideBarProject current="members" />
             <Box marginTop={32} marginX={20} width="full">
                 <Text className={font.className} fontSize={36}>

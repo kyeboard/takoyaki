@@ -7,6 +7,7 @@ import {
     Flex,
     Image,
     Input,
+    Spinner,
     Text,
 } from "@pankod/refine-chakra-ui";
 import { useEffect, useState } from "react";
@@ -21,6 +22,8 @@ const DashBoard = () => {
     const [projects, set_projects] = useState<Array<any>>([]);
 
     useEffect(() => {
+        document.title = "Your projects - planetary";
+
         const fetch_data = async () => {
             const memberships = [];
 
@@ -30,9 +33,8 @@ const DashBoard = () => {
                     "63e5febc7968e4a1e24d",
                     member.$id
                 );
-                const members = await (
-                    await teams.listMemberships(member.$id)
-                ).memberships;
+                const members = (await teams.listMemberships(member.$id))
+                    .memberships;
 
                 memberships.push({
                     team: member,
@@ -66,7 +68,13 @@ const DashBoard = () => {
     return (
         <Flex width={"100vw"} height="100vh">
             <SideBar current="dashboard" />
-            <Box width={"full"} height="full" paddingTop={32} paddingX={20}>
+            <Flex
+                direction={"column"}
+                width={"calc(100vw - 350px)"}
+                height="full"
+                paddingTop={32}
+                paddingX={12}
+            >
                 <Text className={nunito.className} fontSize={28}>
                     Today, {date.getDate()} {month[date.getMonth()]}
                 </Text>
@@ -94,76 +102,95 @@ const DashBoard = () => {
                 >
                     Recent Projects
                 </Text>
-                <Flex marginTop={4}>
-                    {projects.map((p) => {
-                        return (
-                            <Link
-                                href={"/project/" + p.team.$id}
-                                key={p.team.$id}
-                            >
-                                <Flex
-                                    direction={"column"}
-                                    padding={8}
-                                    borderRadius="3xl"
-                                    bg={p.data.color}
-                                    width="500px"
+                {projects.length != 0 ? (
+                    <Flex marginTop={4}>
+                        {projects.map((p) => {
+                            return (
+                                <Link
+                                    href={"/project/" + p.team.$id}
+                                    key={p.team.$id}
                                 >
-                                    <Flex>
-                                        {p.members.map((m: any) => {
-                                            return (
-                                                <Image
-                                                    key={m.userName}
-                                                    src={
-                                                        storage.getFilePreview(
-                                                            "63dfd4b2bf3364da5f0c",
-                                                            m.userName
-                                                        ).href
-                                                    }
-                                                    width={10}
-                                                    borderRadius="full"
-                                                    alt="User profile"
-                                                />
-                                            );
-                                        })}
+                                    <Flex
+                                        direction={"column"}
+                                        padding={8}
+                                        borderRadius="3xl"
+                                        bg={p.data.color}
+                                        width="500px"
+                                    >
+                                        <Flex>
+                                            {p.members.map(
+                                                (m: any, i: number) => {
+                                                    return (
+                                                        <Image
+                                                            key={m.userName}
+                                                            borderColor="#e7e7f2"
+                                                            transform={`translateX(-${
+                                                                8 * i
+                                                            }px)`}
+                                                            borderWidth={2}
+                                                            borderStyle="solid"
+                                                            src={
+                                                                storage.getFilePreview(
+                                                                    "63dfd4b2bf3364da5f0c",
+                                                                    m.userName
+                                                                ).href
+                                                            }
+                                                            width={10}
+                                                            borderRadius="full"
+                                                            alt="User profile"
+                                                        />
+                                                    );
+                                                }
+                                            )}
+                                        </Flex>
+                                        <Text
+                                            marginTop={5}
+                                            className={nunito.className}
+                                            fontSize={24}
+                                        >
+                                            {p.team.name}
+                                        </Text>
+                                        <Text color="gray.600" marginTop={2}>
+                                            {p.data.description}
+                                        </Text>
+                                        <Text
+                                            marginTop={4}
+                                            className={nunito.className}
+                                        >
+                                            {p.data.completed + "%"}
+                                        </Text>
+                                        <Box marginTop={2} position="relative">
+                                            <Box
+                                                width="full"
+                                                height="2"
+                                                borderRadius="3xl"
+                                                bg="rgba(46, 52, 64, 0.4)"
+                                            ></Box>
+                                            <Box
+                                                position={"absolute"}
+                                                top={0}
+                                                width={p.data.completed + "%"}
+                                                height="2"
+                                                borderRadius="3xl"
+                                                bg="#2E3440"
+                                            ></Box>
+                                        </Box>
                                     </Flex>
-                                    <Text
-                                        marginTop={5}
-                                        className={nunito.className}
-                                        fontSize={22}
-                                    >
-                                        {p.team.name}
-                                    </Text>
-                                    <Text color="gray.600" marginTop={1}>
-                                        {p.data.description}
-                                    </Text>
-                                    <Text
-                                        marginTop={4}
-                                        className={nunito.className}
-                                    >
-                                        {p.data.completed + "%"}
-                                    </Text>
-                                    <Box marginTop={2} position="relative">
-                                        <Box
-                                            width="full"
-                                            height="2"
-                                            borderRadius="3xl"
-                                            bg="rgba(46, 52, 64, 0.4)"
-                                        ></Box>
-                                        <Box
-                                            position={"absolute"}
-                                            top={0}
-                                            width={p.data.completed + "%"}
-                                            height="2"
-                                            borderRadius="3xl"
-                                            bg="#2E3440"
-                                        ></Box>
-                                    </Box>
-                                </Flex>
-                            </Link>
-                        );
-                    })}
-                </Flex>
-            </Box>
+                                </Link>
+                            );
+                        })}
+                    </Flex>
+                ) : (
+                    <Flex
+                        alignItems={"center"}
+                        width="full"
+                        justifyContent={"center"}
+                        height="full"
+                    >
+                        <Spinner color="#2E3440" />
+                    </Flex>
+                )}
+            </Flex>
         </Flex>
     );
 };

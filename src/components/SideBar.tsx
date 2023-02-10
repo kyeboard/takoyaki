@@ -67,13 +67,13 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
                             (user ?? { name: "" }).name
                         ).href
                     }
-                    width="60px"
+                    width="56px"
                     borderRadius={"full"}
                     alt="Test User"
                 />
                 <Box>
                     <Text>{(user ?? { name: "" }).name}</Text>
-                    <Text color="gray.500" fontSize={13}>
+                    <Text color="gray.500" fontSize={14}>
                         {(user ?? { email: "" }).email}
                     </Text>
                 </Box>
