@@ -14,8 +14,6 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
     useEffect(() => {
         const fetch_user = async () => {
             set_user(await account.get());
-
-            console.log("REN");
         };
 
         fetch_user();

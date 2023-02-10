@@ -21,6 +21,7 @@ specifiers:
   eslint-config-next: 13.1.6
   eslint-config-prettier: ^8.6.0
   eslint-plugin-prettier: ^4.2.1
+  moment: ^2.29.4
   next: ^13.0.6
   next-compose-plugins: ^2.2.1
   next-i18next: ^8.9.0
@@ -41,6 +42,7 @@ dependencies:
   '@pankod/refine-react-hook-form': 3.37.2_22xhyyut3xutxvxxvynjf2g4qu
   '@pankod/refine-react-table': 4.9.1_fj3rbkhwgsny3zuzxkpyd5umoa
   '@tabler/icons': 1.119.0_biqbaboplfbrettd7655fr4n2y
+  moment: 2.29.4
   next: 13.1.6_biqbaboplfbrettd7655fr4n2y
   next-compose-plugins: 2.2.1
   next-i18next: 8.10.0_3vryta7zmbcsw4rrqf4axjqggm
@@ -5436,6 +5438,10 @@ packages:
     hasBin: true
     dependencies:
       minimist: 1.2.7
+    dev: false
+
+  /moment/2.29.4:
+    resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
     dev: false
 
   /ms/2.0.0:
