@@ -1,5 +1,6 @@
 import React from "react";
 import { AppProps } from "next/app";
+import "../styles/styles.sass";
 import { Refine } from "@pankod/refine-core";
 import {
     notificationProvider,
