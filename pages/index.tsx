@@ -31,7 +31,12 @@ const Index = () => {
     const riseAnimation = `${rise} 500ms ease-in-out forwards`;
 
     return (
-        <Flex width="100vw" height="100vh" alignItems="center">
+        <Flex
+            width="100vw"
+            height="100vh"
+            alignItems="center"
+            overflow={"hidden"}
+        >
             <Box width="50%" paddingX={28}>
                 <Text
                     marginTop={16}
