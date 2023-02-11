@@ -1,15 +1,34 @@
 import { Nunito } from "@next/font/google";
-import { Box, Button, Flex, Image, Text } from "@pankod/refine-chakra-ui";
+import {
+    Box,
+    Button,
+    Flex,
+    Image,
+    keyframes,
+    Text,
+} from "@pankod/refine-chakra-ui";
 import { useEffect } from "react";
 import { GitHub, Heart, Mail, Twitter } from "react-feather";
 
 const font = Nunito({ subsets: ["latin"], weight: "800" });
 const font_700 = Nunito({ subsets: ["latin"], weight: "700" });
 
+const rise = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateY(55px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+`;
+
 const Index = () => {
     useEffect(() => {
         document.title = "Welcome to planetary - a professional todo app";
     });
+    const riseAnimation = `${rise} 500ms ease-in-out forwards`;
 
     return (
         <Flex width="100vw" height="100vh" alignItems="center">
@@ -21,6 +40,7 @@ const Index = () => {
                     padding={2}
                     width={36}
                     align="center"
+                    animation={riseAnimation}
                     className={font_700.className}
                     borderRadius={"lg"}
                 >
@@ -31,10 +51,20 @@ const Index = () => {
                     fontSize={58}
                     marginTop={5}
                     lineHeight={"72px"}
+                    opacity={0}
+                    style={{ animationDelay: "100ms" }}
+                    animation={`${rise} 500ms ease-in-out forwards`}
                 >
                     To-Do&apos;s Never <br /> Looked So Good
                 </Text>
-                <Text marginTop={5} color="gray.600" width={"80%"}>
+                <Text
+                    marginTop={5}
+                    color="gray.600"
+                    width={"80%"}
+                    opacity={0}
+                    style={{ animationDelay: "200ms" }}
+                    animation={`${rise} 500ms ease-in-out forwards`}
+                >
                     Organize your to-dos in style with planetary. From &quot;Ok
                     Boomer&quot; to &quot;Ight, Imma head out&quot;, you&apos;ll
                     find a touch of humor in your task management.
@@ -45,20 +75,33 @@ const Index = () => {
                         bg="#2E3440"
                         color="#dce0f3"
                         width="full"
+                        opacity={0}
+                        style={{ animationDelay: "300ms" }}
+                        animation={`${rise} 500ms ease-in-out forwards`}
                     >
                         Get started
                     </Button>
                     <Button
                         bg="#dce0f3"
                         color="#2e3440"
+                        opacity={0}
+                        style={{ animationDelay: "320ms" }}
+                        animation={`${rise} 300ms ease-in-out forwards`}
                         padding={7}
                         width="full"
                     >
                         See features
                     </Button>
                 </Flex>
-                <Flex marginTop={20} gap={7} color="#2E3440">
-                    <Text>Find us at </Text>
+                <Flex
+                    marginTop={20}
+                    gap={7}
+                    color="#2E3440"
+                    opacity={0}
+                    style={{ animationDelay: "350ms" }}
+                    animation={`${rise} 300ms ease-in-out forwards`}
+                >
+                    <Text>Find me at </Text>
                     <GitHub />
                     <Twitter />
                     <Mail />
