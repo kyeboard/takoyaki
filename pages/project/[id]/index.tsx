@@ -4,8 +4,8 @@ import { account } from "src/utility";
 
 const DashBoard = () => {
     (async () => {
-        console.log(await account.createJWT())
-    })()
+        console.log(await account.createJWT());
+    })();
 
     return (
         <Flex>

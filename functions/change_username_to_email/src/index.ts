@@ -18,7 +18,7 @@ interface Response {
 }
 
 interface EventData {
-    userId: string
+    userId: string;
 }
 
 const change_username_to_email = async function (req: Request, res: Response) {

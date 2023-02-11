@@ -1,5 +1,15 @@
 import { Flex, Image, Text, Box } from "@pankod/refine-chakra-ui";
-import { BarChart2, Bell, Settings, Calendar, Inbox, Folder, MessageSquare, Users, Video } from "react-feather";
+import {
+    BarChart2,
+    Bell,
+    Settings,
+    Calendar,
+    Inbox,
+    Folder,
+    MessageSquare,
+    Users,
+    Video,
+} from "react-feather";
 import { account } from "src/utility";
 import { QuickLink } from "./QuickLink";
 

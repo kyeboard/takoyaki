@@ -5,53 +5,40 @@ import { useEffect, useState } from "react";
 import { Send } from "react-feather";
 import { appwriteClient, database } from "src/utility";
 
+interface Message {
+    message: string;
+    timestamp: string;
+    author: string;
+}
+
 const Chat = () => {
     const [message, set_message] = useState<string>("");
-    const [display_messages, set_display_messages] = useState<Array<any>>([]);
-    const route = useRouter();
-
-    const send_message = async () => {
-        await database.createDocument(
-            // route.query.id as string,
-            "63e6000013274e2a24af",
-            "chat",
-            "unique()",
-            {
-                message,
-                timestamp: new Date(),
-                author: "kyeboard",
-            }
-        );
-    };
+    const [incoming, set_incoming] = useState<Array<Message>>([]);
 
     useEffect(() => {
-        // Add event listeners
-        window.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-                send_message();
-            }
-        });
-
-        const unsubscribe = appwriteClient.subscribe(
-            `databases.63e6000013274e2a24af.collections.chat.documents.create`,
+        appwriteClient.subscribe<Message>(
+            "databases.63e6000013274e2a24af.collections.chat.documents",
             (payload) => {
-                console.log(payload);
+                incoming.push(payload.payload);
             }
         );
-    }, [display_messages, send_message]);
+    }, [incoming]);
+
+    const send_message = () => {
+        database.createDocument("63e6000013274e2a24af", "chat", "unique()", {
+            message,
+            author: "kyeboard",
+            timestamp: new Date(),
+        });
+    };
 
     return (
         <Flex width={"100vw"} height={"100vh"}>
             <SideBarProject current="chat" />
-            <Box width={"100%"} height={"100%"} padding={5}>
+            <Box width={"calc(100vw - 350px)"} height={"100%"} padding={5}>
                 <Box height={"calc(100vh - 90px)"}>
-                    {Array.from(display_messages).map((e) => {
-                        return (
-                            <Box key={e.message}>
-                                <Text>{e.send_by}</Text>
-                                <Text>{e.message}</Text>
-                            </Box>
-                        );
+                    {incoming.map((f) => {
+                        return <Text key={f.timestamp}>{f.message}</Text>;
                     })}
                 </Box>
                 <Flex alignItems={"center"} gap={5}>
