@@ -34,7 +34,7 @@ const Index = () => {
         <Flex width="100vw" height="100vh" alignItems="center">
             <Box width="50%" paddingX={28}>
                 <Text
-                    marginTop={24}
+                    marginTop={16}
                     textTransform="capitalize"
                     bg="#dce0f3"
                     padding={2}
@@ -86,7 +86,7 @@ const Index = () => {
                         color="#2e3440"
                         opacity={0}
                         style={{ animationDelay: "320ms" }}
-                        animation={`${rise} 300ms ease-in-out forwards`}
+                        animation={`${rise} 500ms ease-in-out forwards`}
                         padding={7}
                         width="full"
                     >
@@ -99,7 +99,7 @@ const Index = () => {
                     color="#2E3440"
                     opacity={0}
                     style={{ animationDelay: "350ms" }}
-                    animation={`${rise} 300ms ease-in-out forwards`}
+                    animation={`${rise} 500ms ease-in-out forwards`}
                 >
                     <Text>Find me at </Text>
                     <GitHub />
@@ -113,10 +113,21 @@ const Index = () => {
                     width="fit-content"
                     direction={"column"}
                     height="100vh"
+                    opacity={0}
+                    style={{ animationDelay: "200ms" }}
+                    animation={`${rise} 500ms ease-in-out forwards`}
                     justifyContent={"center"}
                     gap={6}
                 >
-                    <Flex bg="#dce0f3" borderRadius="xl" padding={8} gap={28}>
+                    <Flex
+                        bg="#dce0f3"
+                        borderRadius="xl"
+                        padding={8}
+                        gap={28}
+                        opacity={0}
+                        style={{ animationDelay: "200ms" }}
+                        animation={`${rise} 500ms ease-in-out forwards`}
+                    >
                         <Flex height="full" direction="column">
                             <Text className={font.className} fontSize={"xl"}>
                                 Effectiveness
@@ -128,6 +139,9 @@ const Index = () => {
                                 gap={2}
                                 className={font_700.className}
                                 marginTop={"auto"}
+                                opacity={0}
+                                style={{ animationDelay: "250ms" }}
+                                animation={`${rise} 500ms ease-in-out forwards`}
                                 alignItems="end"
                             >
                                 <Text
@@ -149,6 +163,9 @@ const Index = () => {
                             bg="#dce0f3"
                             direction={"column"}
                             padding={6}
+                            opacity={0}
+                            style={{ animationDelay: "250ms" }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
                             borderRadius={"2xl"}
                             height="fit-content"
                             width="50%"
@@ -161,6 +178,9 @@ const Index = () => {
                                     marginTop={6}
                                     justifyContent={"center"}
                                     // alignItems={"center"}
+                                    style={{ animationDelay: "250ms" }}
+                                    animation={`${rise} 500ms ease-in-out forwards`}
+                                    borderRadius={"2xl"}
                                     gap={3}
                                 >
                                     <Image
@@ -186,6 +206,10 @@ const Index = () => {
                                 <Flex
                                     marginTop={6}
                                     justifyContent={"center"}
+                                    opacity={0}
+                                    style={{ animationDelay: "280ms" }}
+                                    animation={`${rise} 500ms ease-in-out forwards`}
+                                    borderRadius={"2xl"}
                                     gap={3}
                                 >
                                     <Image
@@ -222,7 +246,13 @@ const Index = () => {
                                 gap={7}
                                 width="full"
                             >
-                                <Flex width={"full"} alignItems="center">
+                                <Flex
+                                    width={"full"}
+                                    alignItems="center"
+                                    opacity={0}
+                                    style={{ animationDelay: "300ms" }}
+                                    animation={`${rise} 500ms ease-in-out forwards`}
+                                >
                                     <Image
                                         src="https://avatars.githubusercontent.com/u/97718086?v=4"
                                         width={10}
@@ -233,6 +263,7 @@ const Index = () => {
                                             kraanzu
                                         </Text>
                                         <Box
+                                            marginTop={1}
                                             width="80%"
                                             height={2}
                                             borderRadius={"xl"}
@@ -249,7 +280,13 @@ const Index = () => {
                                         Send Invite
                                     </Button>
                                 </Flex>
-                                <Flex width={"full"} alignItems="center">
+                                <Flex
+                                    width={"full"}
+                                    alignItems="center"
+                                    opacity={0}
+                                    style={{ animationDelay: "320ms" }}
+                                    animation={`${rise} 500ms ease-in-out forwards`}
+                                >
                                     <Image
                                         src="https://www.kyeboard.me/profile.png"
                                         width={10}
@@ -261,6 +298,7 @@ const Index = () => {
                                         </Text>
                                         <Box
                                             width="80%"
+                                            marginTop={1}
                                             height={2}
                                             borderRadius={"xl"}
                                             bg="#cacee2"
@@ -276,7 +314,13 @@ const Index = () => {
                                         Send Invite
                                     </Button>
                                 </Flex>
-                                <Flex width={"full"} alignItems="center">
+                                <Flex
+                                    width={"full"}
+                                    alignItems="center"
+                                    opacity={0}
+                                    style={{ animationDelay: "340ms" }}
+                                    animation={`${rise} 500ms ease-in-out forwards`}
+                                >
                                     <Image
                                         src="https://avatars.githubusercontent.com/u/4458174?v=4"
                                         width={10}
@@ -288,6 +332,7 @@ const Index = () => {
                                         </Text>
                                         <Box
                                             width="80%"
+                                            marginTop={1}
                                             height={2}
                                             borderRadius={"xl"}
                                             bg="#cacee2"
@@ -303,7 +348,13 @@ const Index = () => {
                                         Send Invite
                                     </Button>
                                 </Flex>
-                                <Flex width={"full"} alignItems="center">
+                                <Flex
+                                    width={"full"}
+                                    alignItems="center"
+                                    opacity={0}
+                                    style={{ animationDelay: "360ms" }}
+                                    animation={`${rise} 500ms ease-in-out forwards`}
+                                >
                                     <Image
                                         src="https://avatars.githubusercontent.com/u/176295?v=4"
                                         width={10}
@@ -323,6 +374,7 @@ const Index = () => {
                                     <Button
                                         bg="#cacee2"
                                         fontSize={"xs"}
+                                        marginTop={1}
                                         height={8}
                                         paddingX={8}
                                         borderRadius={"3xl"}
