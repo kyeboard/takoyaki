@@ -5,6 +5,7 @@ import {
     Flex,
     Image,
     Input,
+    keyframes,
     Spinner,
     Text,
     Textarea,
@@ -16,8 +17,20 @@ import { Mail, Plus } from "react-feather";
 import { database, storage, teams } from "src/utility";
 import { useRouter } from "next/router";
 import { Permission, Role } from "@pankod/refine-appwrite";
+import Validator from "validatorjs";
 
 const nunito = Nunito({ subsets: ["latin"], weight: "800" });
+
+const rise = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateY(45px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+`;
 
 const NewProject = () => {
     const [color, set_color] = useState<string>("pink");
@@ -30,6 +43,11 @@ const NewProject = () => {
     const [email, set_email] = useState<string>("");
     const [users, set_users] = useState<Array<string>>([]);
     const router = useRouter();
+    const [invalid, set_invalid] = useState<boolean>(false);
+
+    useEffect(() => {
+        document.title = "Create a new project - kyeboard";
+    });
 
     const create_project = async () => {
         set_show_loader(true);
@@ -55,7 +73,7 @@ const NewProject = () => {
         );
 
         // Wait for a seconds for the cloud function to complete
-        await new Promise((r) => setTimeout(r, 1000));
+        await new Promise((r) => setTimeout(r, 500));
 
         // Invite members
         for (const member of users) {
@@ -75,9 +93,28 @@ const NewProject = () => {
     };
 
     const add_user = () => {
-        users.push(email);
+        const validator = new Validator(
+            {
+                email,
+            },
+            {
+                email: "required|email",
+            }
+        );
 
-        set_email("");
+        if(validator.passes()) {
+            // Add to array
+            users.push(email);
+
+            // Set the input box to input
+            set_email("");
+
+            // Just to not hit the edge case, lets keep the invalid to false
+            set_invalid(false)
+        } else {
+            set_invalid(true)
+        }
+
     };
 
     return (
@@ -89,14 +126,30 @@ const NewProject = () => {
             paddingTop={32}
             paddingX={24}
         >
-            <Text className={nunito.className} align="center" fontSize={36}>
+            <Text
+                className={nunito.className}
+                align="center"
+                fontSize={36}
+                opacity={0}
+                style={{ animationDelay: `0ms` }}
+                animation={`${rise} 500ms ease-in-out forwards`}
+            >
                 New Project
             </Text>
             <Flex gap={12} width={"full"} height="full" marginTop={10}>
                 <Box width={"full"} height={"full"}>
                     <Box>
-                        <Text>Project Name</Text>
+                        <Text
+                            opacity={0}
+                            style={{ animationDelay: `40ms` }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
+                        >
+                            Project Name
+                        </Text>
                         <Input
+                            opacity={0}
+                            style={{ animationDelay: `60ms` }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
                             bg="#dde1f3"
                             padding={6}
                             marginTop={2}
@@ -105,9 +158,18 @@ const NewProject = () => {
                         />
                     </Box>
                     <Box marginTop={5}>
-                        <Text>Project Description</Text>
+                        <Text
+                            opacity={0}
+                            style={{ animationDelay: `100ms` }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
+                        >
+                            Project Description
+                        </Text>
                         <Textarea
                             bg="#dde1f3"
+                            opacity={0}
+                            style={{ animationDelay: `120ms` }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
                             paddingX={6}
                             paddingY={4}
                             onChange={(e) => set_desc(e.target.value)}
@@ -118,14 +180,32 @@ const NewProject = () => {
                         />
                     </Box>
                     <Box marginTop={5}>
-                        <Text>Project Color</Text>
-                        <ColorSelection value={color} onChange={set_color} />
+                        <Text
+                            opacity={0}
+                            style={{ animationDelay: `140ms` }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
+                        >
+                            Project Color
+                        </Text>
+                        <Box
+                            opacity={0}
+                            style={{ animationDelay: `160ms` }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
+                        >
+                            <ColorSelection
+                                value={color}
+                                onChange={set_color}
+                            />
+                        </Box>
                     </Box>
                     <Flex gap={5} marginTop={8}>
                         <Button
                             padding={6}
                             width="full"
                             bg="transparent"
+                            opacity={0}
+                            style={{ animationDelay: `200ms` }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
                             _hover={{ bg: "transparent" }}
                             color="#f38ba8"
                         >
@@ -134,6 +214,9 @@ const NewProject = () => {
                         <Button
                             width="full"
                             padding={6}
+                            opacity={0}
+                            style={{ animationDelay: `230ms` }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
                             _hover={{ bg: "#2E3440" }}
                             bg="#2E3440"
                             onClick={create_project}
@@ -146,21 +229,36 @@ const NewProject = () => {
                 <Box
                     borderRight={"solid"}
                     borderWidth={1}
+                    opacity={0}
+                    style={{ animationDelay: `200ms` }}
+                    animation={`${rise} 500ms ease-in-out forwards`}
                     borderColor="#DCE0F3"
                 ></Box>
                 <Flex width={"full"} direction="column" position={"relative"}>
-                    <Text>Invite members</Text>
+                    <Text
+                        opacity={0}
+                        style={{ animationDelay: `240ms` }}
+                        animation={`${rise} 500ms ease-in-out forwards`}
+                    >
+                        Invite members
+                    </Text>
                     <Flex marginTop={2} gap={5}>
                         <Input
                             bg="#dde1f3"
                             padding={6}
                             value={email}
+                            opacity={0}
+                            style={{ animationDelay: `260ms` }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
                             onChange={(e) => set_email(e.target.value)}
                             placeholder="Enter member's email address..."
                         />
                         <Button
                             padding={6}
                             _hover={{ bg: "#2E3440" }}
+                            opacity={0}
+                            style={{ animationDelay: `280ms` }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
                             bg="#2E3440"
                             color="#D8DEE9"
                             onClick={add_user}
@@ -168,6 +266,18 @@ const NewProject = () => {
                             <Plus />
                         </Button>
                     </Flex>
+                    {invalid ? (
+                        <Text
+                            marginY={2}
+                            paddingX={4}
+                            color="#BF616A"
+                        >
+                            Whoops! Email not recognized. Time to double check
+                            those typos.
+                        </Text>
+                    ) : (
+                        <></>
+                    )}
                     <Box height={"full"} width="full">
                         {users.map((email) => {
                             return (
@@ -177,6 +287,8 @@ const NewProject = () => {
                                     marginTop={5}
                                     padding={4}
                                     borderRadius={10}
+                                    opacity={0}
+                                    animation={`${rise} 500ms ease-in-out forwards`}
                                     gap={4}
                                     paddingX={6}
                                 >
