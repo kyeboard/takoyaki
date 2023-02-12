@@ -224,6 +224,9 @@ const DashBoard = () => {
                     <Flex
                         alignItems={"center"}
                         width="full"
+                        opacity={0}
+                        style={{ animationDelay: "250ms" }}
+                        animation={`${rise} 500ms ease-in-out forwards`}
                         justifyContent={"center"}
                         height="full"
                     >

@@ -123,7 +123,7 @@ const Index = () => {
                     <Link href="https://www.github.com/kyeboard">
                         <GitHub />
                     </Link>
-                    <Link href="https://twitter.com/kyeboard">
+                    <Link href="https://twitter.com/kyeboard_">
                         <Twitter />
                     </Link>
                     <Link href="https://www.github.com/sponsors/kyeboard">
