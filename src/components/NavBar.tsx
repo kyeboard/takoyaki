@@ -28,8 +28,6 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
         fetch_user()
     }, [set_current_user])
 
-    console.log(current_user)
-
     return (
         <Flex
             padding={8}

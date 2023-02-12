@@ -7,6 +7,7 @@ import {
     Flex,
     Image,
     Input,
+    keyframes,
     Spinner,
     Text,
 } from "@pankod/refine-chakra-ui";
@@ -16,6 +17,17 @@ import Link from "next/link";
 
 const nunito = Nunito({ subsets: ["latin"], weight: "800" });
 const nunito_700 = Nunito({ subsets: ["latin"], weight: "700" });
+
+const rise = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateY(55px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+`;
 
 const DashBoard = () => {
     const date = new Date();
@@ -75,28 +87,51 @@ const DashBoard = () => {
                 paddingTop={32}
                 paddingX={12}
             >
-                <Text className={nunito.className} fontSize={28}>
+                <Text
+                    className={nunito.className}
+                    fontSize={28}
+                    opacity={0}
+                    style={{ animationDelay: "140ms" }}
+                    animation={`${rise} 500ms ease-in-out forwards`}
+                >
                     Today, {date.getDate()} {month[date.getMonth()]}
                 </Text>
-                <Flex marginTop={3} gap={4}>
+                <Flex
+                    marginTop={3}
+                    gap={4}
+                    opacity={0}
+                    style={{ animationDelay: "140ms" }}
+                    animation={`${rise} 500ms ease-in-out forwards`}
+                >
                     <Input
                         placeholder="Searching for..."
                         bg="#dde0f2"
                         padding={6}
+                        opacity={0}
+                        style={{ animationDelay: "160ms" }}
+                        animation={`${rise} 500ms ease-in-out forwards`}
                         _placeholder={{ color: "gray.500" }}
                     />
-                    <Button
-                        bg="#2E3440"
-                        color="#d2d8f3"
-                        padding={6}
-                        width={"300px"}
-                        _hover={{ bg: "#2E3440" }}
-                    >
-                        Create new project
-                    </Button>
+                    <Link href="/project/new">
+                        <Button
+                            bg="#2E3440"
+                            color="#d2d8f3"
+                            padding={6}
+                            opacity={0}
+                            style={{ animationDelay: "180ms" }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
+                            width={"250px"}
+                            _hover={{ bg: "#2E3440" }}
+                        >
+                            Create new project
+                        </Button>
+                    </Link>
                 </Flex>
                 <Text
                     marginTop={6}
+                    opacity={0}
+                    style={{ animationDelay: "200ms" }}
+                    animation={`${rise} 500ms ease-in-out forwards`}
                     className={nunito_700.className}
                     fontSize={16}
                 >
@@ -104,7 +139,7 @@ const DashBoard = () => {
                 </Text>
                 {projects.length != 0 ? (
                     <Flex marginTop={4}>
-                        {projects.map((p) => {
+                        {projects.map((p, i) => {
                             return (
                                 <Link
                                     href={"/project/" + p.team.$id}
@@ -116,6 +151,9 @@ const DashBoard = () => {
                                         borderRadius="3xl"
                                         bg={p.data.color}
                                         width="500px"
+                                        opacity={0}
+                                        style={{ animationDelay: `${(20 * i)}ms` }}
+                                        animation={`${rise} 500ms ease-in-out forwards`}
                                     >
                                         <Flex>
                                             {p.members.map(

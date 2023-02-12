@@ -1,4 +1,4 @@
-import { Flex, Image, Text, Box } from "@pankod/refine-chakra-ui";
+import { Flex, Image, Text, Box, keyframes } from "@pankod/refine-chakra-ui";
 import { useEffect, useState } from "react";
 import { BarChart2, Bell, Settings, Calendar, Inbox } from "react-feather";
 import { account, storage } from "src/utility";
@@ -7,6 +7,17 @@ import { QuickLink } from "./QuickLink";
 interface SideBarProps {
     current: string;
 }
+
+const rise = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateY(55px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+`;
 
 const SideBar: React.FC<SideBarProps> = ({ current }) => {
     const [user, set_user] = useState<any>(null);
@@ -33,33 +44,45 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
                 title="Projects"
                 href="/dashboard"
                 icon={<BarChart2 size={22} />}
+                delay={0}
                 current={current === "dashboard"}
             />
             <QuickLink
                 title="Notifications"
                 href="/notifications"
                 icon={<Bell size={22} />}
+                delay={30}
                 current={current === "notifications"}
             />
             <QuickLink
                 title="Invitations"
+                delay={60}
                 href="/invitations"
                 icon={<Inbox size={22} />}
                 current={current === "invitations"}
             />
             <QuickLink
                 title="Calendar"
+                delay={90}
                 href="/calendar"
                 icon={<Calendar size={22} />}
                 current={current === "calendar"}
             />
             <QuickLink
                 title="Settings"
+                delay={120}
                 href="/settings"
                 icon={<Settings size={22} />}
                 current={current === "settings"}
             />
-            <Flex marginTop="auto" gap={5} alignItems="center">
+            <Flex
+                marginTop="auto"
+                gap={5}
+                alignItems="center"
+                opacity={0}
+                style={{ animationDelay: "140ms" }}
+                animation={`${rise} 500ms ease-in-out forwards`}
+            >
                 <Image
                     src={
                         storage.getFilePreview(

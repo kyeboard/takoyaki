@@ -16,6 +16,7 @@ specifiers:
   '@types/node': ^14.14.13
   '@types/react': ^18.0.15
   '@types/react-dom': ^18.0.6
+  '@types/validatorjs': ^3.15.0
   '@typescript-eslint/parser': ^4.9.1
   cross-env: ^7.0.3
   eslint: 8.33.0
@@ -34,6 +35,7 @@ specifiers:
   react-feather: ^2.0.10
   sass: ^1.58.0
   typescript: ^4.7.4
+  validatorjs: ^3.22.1
 
 dependencies:
   '@next/font': 13.1.6
@@ -58,12 +60,14 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-feather: 2.0.10_react@18.2.0
   sass: 1.58.0
+  validatorjs: 3.22.1
 
 devDependencies:
   '@types/needle': 3.2.0
   '@types/node': 14.18.36
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
+  '@types/validatorjs': 3.15.0
   '@typescript-eslint/parser': 4.33.0_4vsywjlpuriuw3tl5oq6zy5a64
   cross-env: 7.0.3
   eslint: 8.33.0
@@ -2458,6 +2462,10 @@ packages:
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
     dev: false
+
+  /@types/validatorjs/3.15.0:
+    resolution: {integrity: sha512-tqozguXICRdPQVGho1A+lYH4IzU3ggP82OmfFrmb6N6pxmWuXegpw4Th20hy5KtMfuyP+jXB466ABFMO9vma4Q==}
+    dev: true
 
   /@types/yoga-layout/1.9.2:
     resolution: {integrity: sha512-S9q47ByT2pPvD65IvrWp7qppVMpk9WGMbVq9wbWZOHg6tnXSD4vyhao6nOSBwwfDdV2p3Kx9evA9vI+XWTfDvw==}
@@ -7377,6 +7385,10 @@ packages:
   /uuid/9.0.0:
     resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
+    dev: false
+
+  /validatorjs/3.22.1:
+    resolution: {integrity: sha512-451KiCt/3E8qV/8fOUdO0YkA8zUdQBNVxubg9jvgEB+JAg9IlRKrClzwq2ir2ndj7TWmPYQ7bXFb4BxcyX2iWw==}
     dev: false
 
   /vfile-message/2.0.4:
