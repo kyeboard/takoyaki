@@ -152,7 +152,9 @@ const DashBoard = () => {
                                         bg={p.data.color}
                                         width="500px"
                                         opacity={0}
-                                        style={{ animationDelay: `${(20 * i)}ms` }}
+                                        style={{
+                                            animationDelay: `${20 * i}ms`,
+                                        }}
                                         animation={`${rise} 500ms ease-in-out forwards`}
                                     >
                                         <Flex>

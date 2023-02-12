@@ -1,4 +1,5 @@
 import { Flex, Image, Text, Box } from "@pankod/refine-chakra-ui";
+import { useRouter } from "next/router";
 import {
     BarChart2,
     Bell,
@@ -18,6 +19,8 @@ interface SideBarProps {
 }
 
 const SideBarProject: React.FC<SideBarProps> = ({ current }) => {
+    const router = useRouter();
+
     return (
         <Flex
             flexDirection={"column"}
@@ -31,13 +34,13 @@ const SideBarProject: React.FC<SideBarProps> = ({ current }) => {
             <QuickLink
                 title="To-Dos"
                 delay={10}
-                href="/todos"
+                href={`/project/${router.query.id}`}
                 icon={<Folder size={22} />}
                 current={current === "todos"}
             />
             <QuickLink
                 title="Team chat"
-                href="/chat"
+                href={`/project/${router.query.id}/chat`}
                 delay={40}
                 icon={<MessageSquare size={22} />}
                 current={current === "chat"}
@@ -45,21 +48,21 @@ const SideBarProject: React.FC<SideBarProps> = ({ current }) => {
             <QuickLink
                 title="Events"
                 delay={70}
-                href="/events"
+                href={`/project/${router.query.id}/events`}
                 icon={<Video size={22} />}
                 current={current === "events"}
             />
             <QuickLink
                 title="Members"
                 delay={100}
-                href="/members"
+                href={`/project/${router.query.id}/members`}
                 icon={<Users size={22} />}
                 current={current === "members"}
             />
             <QuickLink
                 title="Settings"
                 delay={130}
-                href="/settings"
+                href={`/project/${router.query.id}/settings`}
                 icon={<Settings size={22} />}
                 current={current === "settings"}
             />

@@ -9,6 +9,13 @@ const theme = extendTheme({
             },
         },
     },
+    components: {
+        Button: {
+            defaultProps: {
+                _hover: { bg: "#2E3440" },
+            },
+        },
+    },
 });
 
 export default theme;

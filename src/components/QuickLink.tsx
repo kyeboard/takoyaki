@@ -5,7 +5,7 @@ interface QuickLinkProps {
     title: string;
     href: string;
     icon: React.ReactNode;
-    delay: number
+    delay: number;
     current?: boolean;
 }
 
@@ -25,10 +25,10 @@ export const QuickLink: React.FC<QuickLinkProps> = ({
     href,
     icon,
     current,
-    delay
+    delay,
 }) => {
     return (
-        <Link href={href}>
+        <Link href={href} replace>
             <Flex
                 marginTop={4}
                 bg={current ? "#d2d8f3" : "transparent"}

@@ -49,7 +49,9 @@ const ColorSelection: React.FC<ColorSelectionProps> = ({ onChange, value }) => {
                     bg={color.display}
                     cursor="pointer"
                     onClick={() => onChange(color.value)}
-                    border={value === color.value ? "2px solid #2E3440" : "none"}
+                    border={
+                        value === color.value ? "2px solid #2E3440" : "none"
+                    }
                 />
             ))}
         </Flex>

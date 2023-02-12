@@ -2,16 +2,20 @@ import { Nunito } from "@next/font/google";
 import {
     Box,
     Button,
+    chakra,
     Flex,
-    Image,
     keyframes,
     Text,
 } from "@pankod/refine-chakra-ui";
+import Link from "next/link";
+import Image from "next/image";
 import { useEffect } from "react";
 import { GitHub, Heart, Mail, Twitter } from "react-feather";
 
 const font = Nunito({ subsets: ["latin"], weight: "800" });
 const font_700 = Nunito({ subsets: ["latin"], weight: "700" });
+
+const ChakraNextImage = chakra(Image);
 
 const rise = keyframes`
     0% {
@@ -75,28 +79,34 @@ const Index = () => {
                     find a touch of humor in your task management.
                 </Text>
                 <Flex marginTop={10} width="60%" gap={5}>
-                    <Button
-                        padding={7}
-                        bg="#2E3440"
-                        color="#dce0f3"
-                        width="full"
-                        opacity={0}
-                        style={{ animationDelay: "300ms" }}
-                        animation={`${rise} 500ms ease-in-out forwards`}
-                    >
-                        Get started
-                    </Button>
-                    <Button
-                        bg="#dce0f3"
-                        color="#2e3440"
-                        opacity={0}
-                        style={{ animationDelay: "320ms" }}
-                        animation={`${rise} 500ms ease-in-out forwards`}
-                        padding={7}
-                        width="full"
-                    >
-                        See features
-                    </Button>
+                    <Link href="/login" replace style={{ width: "100%" }}>
+                        <Button
+                            padding={7}
+                            bg="#2E3440"
+                            color="#dce0f3"
+                            width="full"
+                            opacity={0}
+                            _hover={{ bg: "#2E3440" }}
+                            style={{ animationDelay: "300ms" }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
+                        >
+                            Get started
+                        </Button>
+                    </Link>
+                    <Link href="/features" replace style={{ width: "100%" }}>
+                        <Button
+                            bg="#dce0f3"
+                            _hover={{ bg: "#dce0f3" }}
+                            color="#2e3440"
+                            opacity={0}
+                            style={{ animationDelay: "320ms" }}
+                            animation={`${rise} 500ms ease-in-out forwards`}
+                            padding={7}
+                            width="full"
+                        >
+                            See features
+                        </Button>
+                    </Link>
                 </Flex>
                 <Flex
                     marginTop={20}
@@ -107,10 +117,18 @@ const Index = () => {
                     animation={`${rise} 500ms ease-in-out forwards`}
                 >
                     <Text>Find me at </Text>
-                    <GitHub />
-                    <Twitter />
-                    <Mail />
-                    <Heart />
+                    <Link href="https://www.github.com/kyeboard">
+                        <GitHub />
+                    </Link>
+                    <Link href="https://twitter.com/kyeboard">
+                        <Twitter />
+                    </Link>
+                    <Link href="https://www.github.com/sponsors/kyeboard">
+                        <Heart />
+                    </Link>
+                    <Link href="mailto:me@kyeboard.me">
+                        <Mail />
+                    </Link>
                 </Flex>
             </Box>
             <Flex width="50%" justifyContent={"center"}>
@@ -160,7 +178,12 @@ const Index = () => {
                             </Flex>
                         </Flex>
                         <Box marginLeft={"auto"}>
-                            <img src="/images/growth.svg" width={"320px"} />
+                            <Image
+                                src="/images/growth.svg"
+                                width={320}
+                                height={320}
+                                alt="Growth graph"
+                            />
                         </Box>
                     </Flex>
                     <Flex width="full" gap={5}>
@@ -188,7 +211,7 @@ const Index = () => {
                                     borderRadius={"2xl"}
                                     gap={3}
                                 >
-                                    <Image
+                                    <ChakraNextImage
                                         width={10}
                                         borderRadius="full"
                                         height={10}
@@ -217,7 +240,7 @@ const Index = () => {
                                     borderRadius={"2xl"}
                                     gap={3}
                                 >
-                                    <Image
+                                    <ChakraNextImage
                                         width={10}
                                         borderRadius="full"
                                         height={10}
@@ -258,9 +281,11 @@ const Index = () => {
                                     style={{ animationDelay: "300ms" }}
                                     animation={`${rise} 500ms ease-in-out forwards`}
                                 >
-                                    <Image
+                                    <ChakraNextImage
                                         src="https://avatars.githubusercontent.com/u/97718086?v=4"
                                         width={10}
+                                        height={10}
+                                        alt="User profile"
                                         borderRadius="full"
                                     />
                                     <Box width="full" marginLeft={5}>
@@ -277,6 +302,7 @@ const Index = () => {
                                     </Box>
                                     <Button
                                         bg="#cacee2"
+                                        _hover={{ bg: "#cacee2" }}
                                         fontSize={"xs"}
                                         height={8}
                                         paddingX={8}
@@ -292,8 +318,10 @@ const Index = () => {
                                     style={{ animationDelay: "320ms" }}
                                     animation={`${rise} 500ms ease-in-out forwards`}
                                 >
-                                    <Image
+                                    <ChakraNextImage
                                         src="https://www.kyeboard.me/profile.png"
+                                        height={10}
+                                        alt="User profile"
                                         width={10}
                                         borderRadius="full"
                                     />
@@ -312,6 +340,7 @@ const Index = () => {
                                     <Button
                                         bg="#cacee2"
                                         fontSize={"xs"}
+                                        _hover={{ bg: "#cacee2" }}
                                         height={8}
                                         paddingX={8}
                                         borderRadius={"3xl"}
@@ -326,9 +355,12 @@ const Index = () => {
                                     style={{ animationDelay: "340ms" }}
                                     animation={`${rise} 500ms ease-in-out forwards`}
                                 >
-                                    <Image
+                                    <ChakraNextImage
                                         src="https://avatars.githubusercontent.com/u/4458174?v=4"
+                                        
                                         width={10}
+                                        height={10}
+                                        alt={"User profile"}
                                         borderRadius="full"
                                     />
                                     <Box width="full" marginLeft={5}>
@@ -348,6 +380,7 @@ const Index = () => {
                                         fontSize={"xs"}
                                         height={8}
                                         paddingX={8}
+                                        _hover={{ bg: "#cacee2" }}
                                         borderRadius={"3xl"}
                                     >
                                         Send Invite
@@ -360,9 +393,11 @@ const Index = () => {
                                     style={{ animationDelay: "360ms" }}
                                     animation={`${rise} 500ms ease-in-out forwards`}
                                 >
-                                    <Image
+                                    <ChakraNextImage
                                         src="https://avatars.githubusercontent.com/u/176295?v=4"
                                         width={10}
+                                        height={10}
+                                        alt={"User profile"}
                                         borderRadius="full"
                                     />
                                     <Box width="full" marginLeft={5}>
@@ -383,6 +418,7 @@ const Index = () => {
                                         height={8}
                                         paddingX={8}
                                         borderRadius={"3xl"}
+                                        _hover={{ bg: "#cacee2" }}
                                     >
                                         Send Invite
                                     </Button>
