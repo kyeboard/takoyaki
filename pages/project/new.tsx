@@ -32,6 +32,15 @@ const rise = keyframes`
     }
 `;
 
+const unfade = keyframes`
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+`;
+
 const NewProject = () => {
     const [color, set_color] = useState<string>("pink");
     const [name, set_name] = useState<string>("");
@@ -102,7 +111,7 @@ const NewProject = () => {
             }
         );
 
-        if(validator.passes()) {
+        if (validator.passes()) {
             // Add to array
             users.push(email);
 
@@ -110,11 +119,10 @@ const NewProject = () => {
             set_email("");
 
             // Just to not hit the edge case, lets keep the invalid to false
-            set_invalid(false)
+            set_invalid(false);
         } else {
-            set_invalid(true)
+            set_invalid(true);
         }
-
     };
 
     return (
@@ -267,11 +275,7 @@ const NewProject = () => {
                         </Button>
                     </Flex>
                     {invalid ? (
-                        <Text
-                            marginY={2}
-                            paddingX={4}
-                            color="#BF616A"
-                        >
+                        <Text marginY={2} paddingX={4} color="#BF616A">
                             Whoops! Email not recognized. Time to double check
                             those typos.
                         </Text>
@@ -305,11 +309,14 @@ const NewProject = () => {
                     position={"absolute"}
                     height="100vh"
                     width="100vw"
-                    zIndex={20}
+                    zIndex={100000}
                     bg="rgba(46, 52, 64, 0.6)"
                     backdropFilter="auto"
                     backdropBlur="6px"
                     left="0"
+                    opacity={0}
+                    style={{ animationDelay: `120ms` }}
+                    animation={`${unfade} 500ms ease-in-out forwards`}
                     direction={"column"}
                     className={nunito.className}
                     fontSize={18}
