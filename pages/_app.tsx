@@ -57,7 +57,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                     resources={[{ name: "projects" }]}
                 >
                     <Box className={nunito.className}>
-                        <NavBar />
+                        <NavBar user={true} />
                         <Component {...pageProps} />
                     </Box>
                 </Refine>
