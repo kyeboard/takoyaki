@@ -68,7 +68,7 @@ const SideBarProject: React.FC<SideBarProps> = ({ current }) => {
             />
             <Flex marginTop="auto" gap={5} alignItems="center">
                 <Image
-                    src="https://www.kyeboard.me/profile.png"
+                    src="https://avatars.githubusercontent.com/u/115910279?v=4"
                     width="14"
                     borderRadius={"full"}
                     alt="Test User"

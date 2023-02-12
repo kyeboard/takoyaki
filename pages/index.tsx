@@ -15,7 +15,10 @@ import { GitHub, Heart, Mail, Twitter } from "react-feather";
 const font = Nunito({ subsets: ["latin"], weight: "800" });
 const font_700 = Nunito({ subsets: ["latin"], weight: "700" });
 
-const ChakraNextImage = chakra(Image);
+const ChakraNextImage = chakra(Image, {
+    shouldForwardProp: (prop) =>
+        ["width", "height", "src", "alt"].includes(prop),
+});
 
 const rise = keyframes`
     0% {
@@ -242,10 +245,10 @@ const Index = () => {
                                 >
                                     <ChakraNextImage
                                         width={10}
+                                        src="https://avatars.githubusercontent.com/u/115910279?v=4"
                                         borderRadius="full"
                                         height={10}
                                         alt="User profile"
-                                        src="https://www.kyeboard.me/profile.png"
                                     />
                                     <Box
                                         bg="#d2d9f2"
@@ -319,10 +322,10 @@ const Index = () => {
                                     animation={`${rise} 500ms ease-in-out forwards`}
                                 >
                                     <ChakraNextImage
-                                        src="https://www.kyeboard.me/profile.png"
+                                        width={10}
+                                        src="https://avatars.githubusercontent.com/u/115910279?v=4"
                                         height={10}
                                         alt="User profile"
-                                        width={10}
                                         borderRadius="full"
                                     />
                                     <Box width="full" marginLeft={5}>
@@ -357,7 +360,6 @@ const Index = () => {
                                 >
                                     <ChakraNextImage
                                         src="https://avatars.githubusercontent.com/u/4458174?v=4"
-                                        
                                         width={10}
                                         height={10}
                                         alt={"User profile"}
