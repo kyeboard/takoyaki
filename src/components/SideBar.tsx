@@ -34,6 +34,7 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
         <Flex
             flexDirection={"column"}
             bg="#dde0f2"
+            position="fixed"
             height="100vh"
             color="#2E3440"
             padding={6}

@@ -86,6 +86,7 @@ const DashBoard = () => {
                 height="full"
                 paddingTop={32}
                 paddingX={12}
+                marginLeft={"350px"}
             >
                 <Text
                     className={nunito.className}
@@ -138,23 +139,26 @@ const DashBoard = () => {
                     Recent Projects
                 </Text>
                 {projects.length != 0 ? (
-                    <Flex marginTop={4}>
+                    <Flex marginTop={4} gap={6} wrap="wrap" flex={"1 1 0"} height="fit-content" paddingBottom={8}>
                         {projects.map((p, i) => {
                             return (
                                 <Link
                                     href={"/project/" + p.team.$id}
                                     key={p.team.$id}
+                                    style={{ height: "auto" }}
                                 >
                                     <Flex
                                         direction={"column"}
                                         padding={8}
                                         borderRadius="3xl"
                                         bg={p.data.color}
-                                        width="500px"
+                                        width="450px"
+                                        minWidth={"300px"}
                                         opacity={0}
                                         style={{
                                             animationDelay: `${20 * i}ms`,
                                         }}
+                                        height="full"
                                         animation={`${rise} 500ms ease-in-out forwards`}
                                     >
                                         <Flex>
@@ -190,11 +194,11 @@ const DashBoard = () => {
                                         >
                                             {p.team.name}
                                         </Text>
-                                        <Text color="gray.600" marginTop={2}>
+                                        <Text color="gray.600" marginTop={2} marginBottom={4}>
                                             {p.data.description}
                                         </Text>
                                         <Text
-                                            marginTop={4}
+                                            marginTop={"auto"}
                                             className={nunito.className}
                                         >
                                             {p.data.completed + "%"}

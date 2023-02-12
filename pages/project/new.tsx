@@ -62,7 +62,7 @@ const NewProject = () => {
         set_show_loader(true);
 
         // Create team
-        const team = await teams.create("unique()", "kyeboard's HQ");
+        const team = await teams.create("unique()", name);
 
         // Create an entry in database for databases
         await database.createDocument(

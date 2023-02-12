@@ -40,6 +40,9 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
         <Flex
             padding={8}
             zIndex={1000}
+            backdropFilter={"auto"}
+            backdropBlur="5px"
+            bg="rgba(231, 231, 242, 0.5)"
             paddingX={16}
             alignItems={"center"}
             position="fixed"
