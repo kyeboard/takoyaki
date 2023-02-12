@@ -30,6 +30,7 @@ const SideBarProject: React.FC<SideBarProps> = ({ current }) => {
         >
             <QuickLink
                 title="To-Dos"
+                delay={10}
                 href="/todos"
                 icon={<Folder size={22} />}
                 current={current === "todos"}
@@ -37,23 +38,27 @@ const SideBarProject: React.FC<SideBarProps> = ({ current }) => {
             <QuickLink
                 title="Team chat"
                 href="/chat"
+                delay={40}
                 icon={<MessageSquare size={22} />}
                 current={current === "chat"}
             />
             <QuickLink
                 title="Events"
+                delay={70}
                 href="/events"
                 icon={<Video size={22} />}
                 current={current === "events"}
             />
             <QuickLink
                 title="Members"
+                delay={100}
                 href="/members"
                 icon={<Users size={22} />}
                 current={current === "members"}
             />
             <QuickLink
                 title="Settings"
+                delay={130}
                 href="/settings"
                 icon={<Settings size={22} />}
                 current={current === "settings"}
