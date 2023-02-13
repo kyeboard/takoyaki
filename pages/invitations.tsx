@@ -1,7 +1,5 @@
 const Invitations = () => {
-    return (
-        <></>
-    )
-}
+    return <></>;
+};
 
 export default Invitations;

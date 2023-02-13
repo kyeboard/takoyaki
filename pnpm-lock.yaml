@@ -12,6 +12,7 @@ specifiers:
   '@pankod/refine-react-hook-form': ^3.27.1
   '@pankod/refine-react-table': ^4.7.2
   '@tabler/icons': ^1.39.1
+  '@types/feather-icons': ^4.29.1
   '@types/needle': ^3.2.0
   '@types/node': ^14.14.13
   '@types/react': ^18.0.15
@@ -23,6 +24,7 @@ specifiers:
   eslint-config-next: 13.1.6
   eslint-config-prettier: ^8.6.0
   eslint-plugin-prettier: ^4.2.1
+  feather-icons: ^4.29.0
   googleapis: ^110.0.0
   moment: ^2.29.4
   needle: ^3.2.0
@@ -49,6 +51,7 @@ dependencies:
   '@pankod/refine-react-hook-form': 3.37.2_22xhyyut3xutxvxxvynjf2g4qu
   '@pankod/refine-react-table': 4.9.1_fj3rbkhwgsny3zuzxkpyd5umoa
   '@tabler/icons': 1.119.0_biqbaboplfbrettd7655fr4n2y
+  feather-icons: 4.29.0
   googleapis: 110.0.0
   moment: 2.29.4
   needle: 3.2.0
@@ -63,6 +66,7 @@ dependencies:
   validatorjs: 3.22.1
 
 devDependencies:
+  '@types/feather-icons': 4.29.1
   '@types/needle': 3.2.0
   '@types/node': 14.18.36
   '@types/react': 18.0.27
@@ -2394,6 +2398,10 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
+  /@types/feather-icons/4.29.1:
+    resolution: {integrity: sha512-8+PdenCN8UWTfyIHNaJdmk/oPg6zyw7S9kHtT8PdkmHEwfTHSrSWEHpNZJzbuWmZBXQKA/+dLVXjrloX9XixPg==}
+    dev: true
+
   /@types/hast/2.3.4:
     resolution: {integrity: sha512-wLEm0QvaoawEDoTRwzTXp4b4jpwiJDvR5KMnFnVodm3scufTlBOWRD6N1OBf9TZMhjlNsSfcO5V+7AF4+Vy+9g==}
     dependencies:
@@ -3109,6 +3117,10 @@ packages:
       define-property: 0.2.5
       isobject: 3.0.1
       static-extend: 0.1.2
+    dev: false
+
+  /classnames/2.3.2:
+    resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
     dev: false
 
   /cli-boxes/2.2.1:
@@ -4072,6 +4084,13 @@ packages:
     resolution: {integrity: sha512-wBrocU2LCXXa+lWBt8RoIRD89Fi8OdABODa/kEnyeyjS5aZO5/GNvI5sEINADqP/h8M29UHTHUb53sUu5Ihqdw==}
     dependencies:
       reusify: 1.0.4
+
+  /feather-icons/4.29.0:
+    resolution: {integrity: sha512-Y7VqN9FYb8KdaSF0qD1081HCkm0v4Eq/fpfQYQnubpqi0hXx14k+gF9iqtRys1SIcTEi97xDi/fmsPFZ8xo0GQ==}
+    dependencies:
+      classnames: 2.3.2
+      core-js: 3.27.2
+    dev: false
 
   /figlet/1.5.2:
     resolution: {integrity: sha512-WOn21V8AhyE1QqVfPIVxe3tupJacq1xGkPTB4iagT6o+P2cAgEOOwIxMftr4+ZCTI6d551ij9j61DFr0nsP2uQ==}

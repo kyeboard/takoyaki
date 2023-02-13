@@ -23,6 +23,7 @@
     "@pankod/refine-react-hook-form": "^3.27.1",
     "@pankod/refine-react-table": "^4.7.2",
     "@tabler/icons": "^1.39.1",
+    "feather-icons": "^4.29.0",
     "googleapis": "^110.0.0",
     "moment": "^2.29.4",
     "needle": "^3.2.0",
@@ -37,6 +38,7 @@
     "validatorjs": "^3.22.1"
   },
   "devDependencies": {
+    "@types/feather-icons": "^4.29.1",
     "@types/needle": "^3.2.0",
     "@types/node": "^14.14.13",
     "@types/react": "^18.0.15",

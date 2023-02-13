@@ -139,7 +139,14 @@ const DashBoard = () => {
                     Recent Projects
                 </Text>
                 {projects.length != 0 ? (
-                    <Flex marginTop={4} gap={6} wrap="wrap" flex={"1 1 0"} height="fit-content" paddingBottom={8}>
+                    <Flex
+                        marginTop={4}
+                        gap={6}
+                        wrap="wrap"
+                        flex={"1 1 0"}
+                        height="fit-content"
+                        paddingBottom={8}
+                    >
                         {projects.map((p, i) => {
                             return (
                                 <Link
@@ -156,7 +163,7 @@ const DashBoard = () => {
                                         minWidth={"300px"}
                                         opacity={0}
                                         style={{
-                                            animationDelay: `${20 * i}ms`,
+                                            animationDelay: `${40 * i}ms`,
                                         }}
                                         height="full"
                                         animation={`${rise} 500ms ease-in-out forwards`}
@@ -194,7 +201,11 @@ const DashBoard = () => {
                                         >
                                             {p.team.name}
                                         </Text>
-                                        <Text color="gray.600" marginTop={2} marginBottom={4}>
+                                        <Text
+                                            color="gray.600"
+                                            marginTop={2}
+                                            marginBottom={4}
+                                        >
                                             {p.data.description}
                                         </Text>
                                         <Text

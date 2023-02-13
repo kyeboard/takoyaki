@@ -10,6 +10,7 @@ import {
     MessageSquare,
     Users,
     Video,
+    Key,
 } from "react-feather";
 import { account } from "src/utility";
 import { QuickLink } from "./QuickLink";
@@ -58,6 +59,13 @@ const SideBarProject: React.FC<SideBarProps> = ({ current }) => {
                 href={`/project/${router.query.id}/members`}
                 icon={<Users size={22} />}
                 current={current === "members"}
+            />
+            <QuickLink
+                title="Roles"
+                delay={100}
+                href={`/project/${router.query.id}/roles`}
+                icon={<Key size={22} />}
+                current={current === "roles"}
             />
             <QuickLink
                 title="Settings"
