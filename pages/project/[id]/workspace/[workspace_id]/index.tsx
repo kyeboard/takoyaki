@@ -1,4 +1,5 @@
 import SideBarProject from "@components/SideBarProject";
+import NewTask from "@components/NewTodo";
 import { Miltonian, Nunito } from "@next/font/google";
 import { motion, AnimatePresence } from "framer-motion";
 import moment from "moment";
@@ -155,11 +156,12 @@ const Todos = () => {
 
     return (
         <Flex>
+            <NewTask />
             <SideBarProject current="todos" />
             <Box paddingY={40} paddingX={10} width="calc(100% - 350px)">
                 <Text
                     className={font.className}
-                    fontSize={30}
+                    fontSize={34}
                     opacity={0}
                     animation={`${rise} 500ms ease-in-out forwards`}
                 >
@@ -172,11 +174,12 @@ const Todos = () => {
                         style={{ animationDelay: "10ms" }}
                         opacity={0}
                         animation={`${rise} 500ms ease-in-out forwards`}
-                        placeholder="Search your todo..."
+                        placeholder="Searching for a needle in haystack? Start here..."
                     />
                     <Button
                         padding={6}
                         width="250px"
+                        _hover={{ bg: "#2E3440" }}
                         bg="#2E3440"
                         color="#dde0f2"
                         style={{ animationDelay: "30ms" }}
