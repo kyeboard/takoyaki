@@ -25,6 +25,7 @@ specifiers:
   eslint-config-prettier: ^8.6.0
   eslint-plugin-prettier: ^4.2.1
   feather-icons: ^4.29.0
+  framer-motion: ^9.0.2
   googleapis: ^110.0.0
   moment: ^2.29.4
   needle: ^3.2.0
@@ -52,6 +53,7 @@ dependencies:
   '@pankod/refine-react-table': 4.9.1_fj3rbkhwgsny3zuzxkpyd5umoa
   '@tabler/icons': 1.119.0_biqbaboplfbrettd7655fr4n2y
   feather-icons: 4.29.0
+  framer-motion: 9.0.2_biqbaboplfbrettd7655fr4n2y
   googleapis: 110.0.0
   moment: 2.29.4
   needle: 3.2.0
@@ -4250,6 +4252,21 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       tslib: 2.4.0
+    optionalDependencies:
+      '@emotion/is-prop-valid': 0.8.8
+    dev: false
+
+  /framer-motion/9.0.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-n7ZdIUBrT1xklowQNRQ6/h54+3ysmz422CP0rrhjE1X2tshiJy0WWQ7tv6y/fcOSQd23htNA9vvbUFLYMQ5lEQ==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      '@motionone/dom': 10.15.5
+      hey-listen: 1.0.8
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      tslib: 2.5.0
     optionalDependencies:
       '@emotion/is-prop-valid': 0.8.8
     dev: false

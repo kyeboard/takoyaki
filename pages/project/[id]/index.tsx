@@ -23,7 +23,8 @@ const DashBoard = () => {
             set_workspaces(
                 (
                     await database.listDocuments(
-                        router.query.id as string,
+                        // router.query.id as string,
+                        "63e89f329f780a476204",
                         "63e993ffd9b4c6d37712"
                     )
                 ).documents

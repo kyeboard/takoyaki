@@ -1,5 +1,6 @@
 import SideBarProject from "@components/SideBarProject";
-import { Nunito } from "@next/font/google";
+import { Miltonian, Nunito } from "@next/font/google";
+import { motion, AnimatePresence } from "framer-motion";
 import moment from "moment";
 import { Models } from "@pankod/refine-appwrite";
 import {
@@ -8,6 +9,7 @@ import {
     Checkbox,
     Flex,
     Input,
+    keyframes,
     Tab,
     Table,
     TableContainer,
@@ -32,6 +34,28 @@ interface Todo extends Models.Document {
     priority: number;
 }
 
+const rise = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateY(55px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+`;
+
+const fallDown = keyframes`
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+`;
+
 const font = Nunito({ subsets: ["latin"], weight: "800" });
 
 const Todos = () => {
@@ -42,10 +66,11 @@ const Todos = () => {
 
     useEffect(() => {
         const fetch_todos = async () => {
-            // console.log();
+            console.log();
             const todos = (
                 await database.listDocuments<Todo>(
-                    router.query.id as string,
+                    "63e89f329f780a476204",
+                    // router.query.id as string,
                     "todos"
                 )
             ).documents;
@@ -132,13 +157,21 @@ const Todos = () => {
         <Flex>
             <SideBarProject current="todos" />
             <Box paddingY={40} paddingX={10} width="calc(100% - 350px)">
-                <Text className={font.className} fontSize={30}>
+                <Text
+                    className={font.className}
+                    fontSize={30}
+                    opacity={0}
+                    animation={`${rise} 500ms ease-in-out forwards`}
+                >
                     Tasks
                 </Text>
                 <Flex gap={4} width="full" marginY={4}>
                     <Input
                         padding={6}
                         bg="#dde0f2"
+                        style={{ animationDelay: "10ms" }}
+                        opacity={0}
+                        animation={`${rise} 500ms ease-in-out forwards`}
                         placeholder="Search your todo..."
                     />
                     <Button
@@ -146,6 +179,9 @@ const Todos = () => {
                         width="250px"
                         bg="#2E3440"
                         color="#dde0f2"
+                        style={{ animationDelay: "30ms" }}
+                        opacity={0}
+                        animation={`${rise} 500ms ease-in-out forwards`}
                     >
                         Create new task
                     </Button>
@@ -161,6 +197,9 @@ const Todos = () => {
                                 borderBottomWidth: "2px",
                                 transition: "border-bottom 0.2s",
                             }}
+                            style={{ animationDelay: "60ms" }}
+                            opacity={0}
+                            animation={`${rise} 500ms ease-in-out forwards`}
                             onSelect={() => filter_todos("today")}
                         >
                             All tasks
@@ -171,6 +210,9 @@ const Todos = () => {
                                 borderBottomWidth: "2px",
                                 transition: "border-bottom 0.2s",
                             }}
+                            style={{ animationDelay: "90ms" }}
+                            opacity={0}
+                            animation={`${rise} 500ms ease-in-out forwards`}
                         >
                             Today
                         </Tab>
@@ -180,6 +222,9 @@ const Todos = () => {
                                 borderBottomWidth: "2px",
                                 transition: "border-bottom 0.2s",
                             }}
+                            style={{ animationDelay: "120ms" }}
+                            opacity={0}
+                            animation={`${rise} 500ms ease-in-out forwards`}
                         >
                             Tomorrow
                         </Tab>
@@ -189,6 +234,9 @@ const Todos = () => {
                                 borderBottomWidth: "2px",
                                 transition: "border-bottom 0.2s",
                             }}
+                            style={{ animationDelay: "150ms" }}
+                            opacity={0}
+                            animation={`${rise} 500ms ease-in-out forwards`}
                         >
                             This week
                         </Tab>
@@ -198,6 +246,9 @@ const Todos = () => {
                                 borderBottomWidth: "2px",
                                 transition: "border-bottom 0.2s",
                             }}
+                            style={{ animationDelay: "180ms" }}
+                            opacity={0}
+                            animation={`${rise} 500ms ease-in-out forwards`}
                         >
                             This month
                         </Tab>
@@ -207,6 +258,9 @@ const Todos = () => {
                                 borderBottomWidth: "2px",
                                 transition: "border-bottom 0.2s",
                             }}
+                            style={{ animationDelay: "210ms" }}
+                            opacity={0}
+                            animation={`${rise} 500ms ease-in-out forwards`}
                         >
                             This year
                         </Tab>
@@ -231,62 +285,129 @@ const Todos = () => {
                                 <Th
                                     borderBottomColor={"transparent"}
                                     width={"full"}
+                                    style={{ animationDelay: "180ms" }}
+                                    opacity={0}
+                                    animation={`${rise} 500ms ease-in-out forwards`}
                                 >
                                     Title
                                 </Th>
-                                <Th borderBottomColor={"transparent"}>
+                                <Th
+                                    borderBottomColor={"transparent"}
+                                    style={{ animationDelay: "210ms" }}
+                                    opacity={0}
+                                    animation={`${rise} 500ms ease-in-out forwards`}
+                                >
                                     Due Date
                                 </Th>
-                                <Th borderBottomColor={"transparent"}>
+                                <Th
+                                    borderBottomColor={"transparent"}
+                                    style={{ animationDelay: "240ms" }}
+                                    opacity={0}
+                                    animation={`${rise} 500ms ease-in-out forwards`}
+                                >
                                     Assignee
                                 </Th>
                                 <Th
                                     borderBottomColor={"transparent"}
                                     borderRightRadius="xl"
+                                    style={{ animationDelay: "270ms" }}
+                                    opacity={0}
+                                    animation={`${rise} 500ms ease-in-out forwards`}
                                 >
                                     Priority
                                 </Th>
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {todos.map((t) => {
+                            {todos.map((t, i) => {
                                 return (
-                                    <Tr key={t.$id} bg="#dde0f2">
-                                        <Td
-                                            borderLeftRadius={"xl"}
-                                            borderBottomColor={"transparent"}
+                                    <AnimatePresence key={t.$id}>
+                                        <Tr
+                                            bg="#dde0f2"
+                                            style={{
+                                                animationDelay: `${30 * i}ms`,
+                                            }}
+                                            opacity={0}
+                                            _before={{
+                                                exit: {
+                                                    animation: `${fallDown} 0.2s ease-in-out`,
+                                                },
+                                            }}
+                                            animation={`${rise} 500ms ease-in-out forwards`}
                                         >
-                                            {t.status ? (
-                                                <Checkbox bg="#d2d8f3"></Checkbox>
-                                            ) : (
-                                                <Checkbox
-                                                    bg="#d2d8f3"
-                                                    borderColor={"#d2d8f3"}
-                                                    borderRadius={"2xl"}
-                                                />
-                                            )}
-                                        </Td>
-                                        <Td borderBottomColor={"transparent"}>
-                                            {t.title}
-                                        </Td>
-                                        <Td
-                                            padding={5}
-                                            borderBottomColor={"transparent"}
-                                        >
-                                            {moment(t.due_date).format(
-                                                "MMMM Do YYYY"
-                                            )}
-                                        </Td>
-                                        <Td borderBottomColor={"transparent"}>
-                                            {t.assignee}
-                                        </Td>
-                                        <Td
-                                            borderBottomColor={"transparent"}
-                                            borderRightRadius={"xl"}
-                                        >
-                                            {t.priority}
-                                        </Td>
-                                    </Tr>
+                                            <Td
+                                                borderLeftRadius={"xl"}
+                                                borderBottomColor={
+                                                    "transparent"
+                                                }
+                                            >
+                                                <motion.div
+                                                    initial={{
+                                                        opacity: 0,
+                                                        transform:
+                                                            "translateY(-10px)",
+                                                    }}
+                                                    animate={{
+                                                        opacity: 1,
+                                                        transform:
+                                                            "translateY(0px)",
+                                                    }}
+                                                    exit={{
+                                                        opacity: 0,
+                                                        transform:
+                                                            "translate(10px)",
+                                                    }}
+                                                    transition={{
+                                                        duration: 0.2,
+                                                    }}
+                                                >
+                                                    {t.status ? (
+                                                        <Checkbox bg="#d2d8f3"></Checkbox>
+                                                    ) : (
+                                                        <Checkbox
+                                                            bg="#d2d8f3"
+                                                            borderColor={
+                                                                "#d2d8f3"
+                                                            }
+                                                            borderRadius={"2xl"}
+                                                        />
+                                                    )}
+                                                </motion.div>
+                                            </Td>
+                                            <Td
+                                                borderBottomColor={
+                                                    "transparent"
+                                                }
+                                            >
+                                                {t.title}
+                                            </Td>
+                                            <Td
+                                                padding={5}
+                                                borderBottomColor={
+                                                    "transparent"
+                                                }
+                                            >
+                                                {moment(t.due_date).format(
+                                                    "MMMM Do YYYY"
+                                                )}
+                                            </Td>
+                                            <Td
+                                                borderBottomColor={
+                                                    "transparent"
+                                                }
+                                            >
+                                                {t.assignee}
+                                            </Td>
+                                            <Td
+                                                borderBottomColor={
+                                                    "transparent"
+                                                }
+                                                borderRightRadius={"xl"}
+                                            >
+                                                {t.priority}
+                                            </Td>
+                                        </Tr>
+                                    </AnimatePresence>
                                 );
                             })}
                         </Tbody>

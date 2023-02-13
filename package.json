@@ -24,6 +24,7 @@
     "@pankod/refine-react-table": "^4.7.2",
     "@tabler/icons": "^1.39.1",
     "feather-icons": "^4.29.0",
+    "framer-motion": "^9.0.2",
     "googleapis": "^110.0.0",
     "moment": "^2.29.4",
     "needle": "^3.2.0",
