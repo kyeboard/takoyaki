@@ -11,7 +11,7 @@ import {
 import { Nunito } from "@next/font/google";
 import ColorSelection from "@components/ColorInput";
 import { useEffect, useState } from "react";
-import feathericons from "feather-icons";
+import feathericons, { FeatherIcon } from "feather-icons";
 import { database, storage, teams } from "src/utility";
 import { useRouter } from "next/router";
 
@@ -48,6 +48,8 @@ const NewWorkspace = () => {
     const [email, set_email] = useState<string>("");
     const router = useRouter();
     const [invalid, set_invalid] = useState<boolean>(false);
+
+    const icons: { [key: string]: any } = new Object(feathericons.icons);
 
     useEffect(() => {
         document.title = "Create a new workspace - kyeboard";
@@ -212,7 +214,9 @@ const NewWorkspace = () => {
                                             rounded="lg"
                                             bg="#dde1f3"
                                             key={key[0]}
-                                            dangerouslySetInnerHTML={{ __html: (new Object(feathericons.icons))[key[0]].toSvg() }}
+                                            dangerouslySetInnerHTML={{
+                                                __html: icons[key[0]].toSvg(),
+                                            }}
                                         ></Flex>
                                     );
                                 } else {
