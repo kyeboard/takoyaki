@@ -36,23 +36,97 @@ const font = Nunito({ subsets: ["latin"], weight: "800" });
 
 const Todos = () => {
     const [todos, set_todos] = useState<Array<Todo>>([]);
+    const [all_todos, set_all_todos] = useState<Array<Todo>>([]);
     const router = useRouter();
+    const actions = ["all", "today", "tomorrow", "week", "month", "year"];
 
     useEffect(() => {
         const fetch_todos = async () => {
             // console.log();
-            set_todos(
-                (
-                    await database.listDocuments<Todo>(
-                        router.query.id as string,
-                        "todos"
-                    )
-                ).documents
-            );
+            const todos = (
+                await database.listDocuments<Todo>(
+                    router.query.id as string,
+                    "todos"
+                )
+            ).documents;
+
+            set_all_todos(todos);
+
+            set_todos(todos);
         };
 
         fetch_todos();
-    });
+    }, []);
+
+    const filter_with_difference = (
+        key: moment.unitOfTime.Diff,
+        value: number
+    ): Array<Todo> => {
+        const filter_todos: Todo[] = [];
+        const today = moment(moment.now());
+
+        for (const todo of all_todos) {
+            const due_date_moment = moment(todo.due_date);
+
+            if (due_date_moment.diff(today, key) == value) {
+                filter_todos.push(todo);
+            }
+        }
+
+        return filter_todos;
+    };
+
+    const filter_todos = (key: string) => {
+        switch (key) {
+            case "all":
+                set_todos(all_todos);
+                break;
+
+            case "today":
+                set_todos(filter_with_difference("days", 0));
+                break;
+
+            case "tomorrow":
+                set_todos(filter_with_difference("days", 1));
+                break;
+
+            case "week":
+                set_todos(filter_with_difference("weeks", 0));
+                break;
+
+            case "month":
+                const filter_todos: Todo[] = [];
+                const today = moment(moment.now());
+
+                for (const todo of all_todos) {
+                    const due_date_moment = moment(todo.due_date);
+
+                    if (today.get("month") == due_date_moment.get("month")) {
+                        filter_todos.push(todo);
+                    }
+                }
+
+                set_todos(filter_todos);
+                break;
+
+            case "year":
+                const filter_todos2: Todo[] = [];
+                const today2 = moment(moment.now());
+
+                for (const todo of all_todos) {
+                    const due_date_moment = moment(todo.due_date);
+
+                    if (today2.get("year") == due_date_moment.get("year")) {
+                        filter_todos2.push(todo);
+                    }
+                }
+
+                set_todos(filter_todos2);
+                break;
+
+            default:
+        }
+    };
 
     return (
         <Flex>
@@ -76,7 +150,10 @@ const Todos = () => {
                         Create new task
                     </Button>
                 </Flex>
-                <Tabs marginTop={5}>
+                <Tabs
+                    marginTop={5}
+                    onChange={(index) => filter_todos(actions[index])}
+                >
                     <TabList gap={6}>
                         <Tab
                             _selected={{
@@ -84,6 +161,7 @@ const Todos = () => {
                                 borderBottomWidth: "2px",
                                 transition: "border-bottom 0.2s",
                             }}
+                            onSelect={() => filter_todos("today")}
                         >
                             All tasks
                         </Tab>
@@ -134,7 +212,7 @@ const Todos = () => {
                         </Tab>
                     </TabList>
                 </Tabs>
-                <TableContainer marginTop={5}>
+                <TableContainer marginTop={2}>
                     <Table
                         variant="simple"
                         style={{
@@ -145,7 +223,7 @@ const Todos = () => {
                         <Thead>
                             <Tr>
                                 <Th
-                                    padding={7}
+                                    padding={3}
                                     borderLeftRadius="xl"
                                     borderBottomColor={"transparent"}
                                     width={"50px"}
