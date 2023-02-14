@@ -31,7 +31,9 @@ const rise = keyframes`
 
 const DashBoard = () => {
     const date = new Date();
+    const [is_loading, set_is_loading] = useState<boolean>(true);
     const [projects, set_projects] = useState<Array<any>>([]);
+    const [show_newproject, set_newproject] = useState<boolean>(false);
 
     useEffect(() => {
         document.title = "Your projects - planetary";
@@ -56,6 +58,7 @@ const DashBoard = () => {
             }
 
             set_projects(memberships);
+            set_is_loading(false);
         };
 
         fetch_data();
@@ -80,6 +83,7 @@ const DashBoard = () => {
     return (
         <Flex width={"100vw"} height="100vh">
             <SideBar current="dashboard" />
+            {show_newproject ? <NewProject /> : <></>}
             <Flex
                 direction={"column"}
                 width={"calc(100vw - 350px)"}
@@ -113,20 +117,19 @@ const DashBoard = () => {
                         animation={`${rise} 500ms ease-in-out forwards`}
                         _placeholder={{ color: "gray.500" }}
                     />
-                    <Link href="/project/new">
-                        <Button
-                            bg="#2E3440"
-                            color="#d2d8f3"
-                            padding={6}
-                            opacity={0}
-                            style={{ animationDelay: "180ms" }}
-                            animation={`${rise} 500ms ease-in-out forwards`}
-                            width={"250px"}
-                            _hover={{ bg: "#2E3440" }}
-                        >
-                            Create new project
-                        </Button>
-                    </Link>
+                    <Button
+                        bg="#2E3440"
+                        color="#d2d8f3"
+                        padding={6}
+                        opacity={0}
+                        style={{ animationDelay: "180ms" }}
+                        animation={`${rise} 500ms ease-in-out forwards`}
+                        width={"250px"}
+                        onClick={() => set_newproject(true)}
+                        _hover={{ bg: "#2E3440" }}
+                    >
+                        Create new project
+                    </Button>
                 </Flex>
                 <Text
                     marginTop={6}
@@ -235,7 +238,7 @@ const DashBoard = () => {
                             );
                         })}
                     </Flex>
-                ) : (
+                ) : is_loading ? (
                     <Flex
                         alignItems={"center"}
                         width="full"
@@ -246,6 +249,23 @@ const DashBoard = () => {
                         height="full"
                     >
                         <Spinner color="#2E3440" />
+                    </Flex>
+                ) : (
+                    <Flex
+                        alignItems={"center"}
+                        justifyContent="center"
+                        h={"full"}
+                        direction="column"
+                    >
+                        <Image
+                            src="/images/empty.png"
+                            width={32}
+                            alt="Empty state"
+                        />
+                        <Text marginTop={5} width={96} align="center">
+                            When you thought you had a project due but it turns
+                            out it was just a nightmare.
+                        </Text>
                     </Flex>
                 )}
             </Flex>

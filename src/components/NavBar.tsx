@@ -73,7 +73,6 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
                         : ""
                 }
                 left={0}
-                zIndex={20}
                 color="#2E3440"
                 bg="rgb(231, 231 ,242)"
             >
