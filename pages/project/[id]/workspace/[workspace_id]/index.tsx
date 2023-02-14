@@ -64,10 +64,10 @@ const Todos = () => {
     const [all_todos, set_all_todos] = useState<Array<Todo>>([]);
     const router = useRouter();
     const actions = ["all", "today", "tomorrow", "week", "month", "year"];
+    const [popup_state, set_popup_state] = useState<boolean>(true);
 
     useEffect(() => {
         const fetch_todos = async () => {
-            console.log();
             const todos = (
                 await database.listDocuments<Todo>(
                     "63e89f329f780a476204",
@@ -156,7 +156,11 @@ const Todos = () => {
 
     return (
         <Flex>
-            <NewTask />
+            {popup_state ? (
+                <NewTask close={() => set_popup_state(false)} />
+            ) : (
+                <></>
+            )}
             <SideBarProject current="todos" />
             <Box paddingY={40} paddingX={10} width="calc(100% - 350px)">
                 <Text
@@ -181,6 +185,7 @@ const Todos = () => {
                         width="250px"
                         _hover={{ bg: "#2E3440" }}
                         bg="#2E3440"
+                        onClick={() => set_popup_state(true)}
                         color="#dde0f2"
                         style={{ animationDelay: "30ms" }}
                         opacity={0}

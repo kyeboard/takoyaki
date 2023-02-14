@@ -14,8 +14,8 @@ interface FormItemProps {
     set_value: any;
     check: (data: any) => boolean;
     error_message: string;
-    title: string,
-    placeholder: string,
+    title: string;
+    placeholder: string;
     type: string;
     helper_message: string;
 }
@@ -29,11 +29,12 @@ const FormItem: React.FC<FormItemProps> = ({
     type,
     error_message,
     helper_message,
+    ...props
 }) => {
     const validity = check(value);
 
     return (
-        <FormControl isInvalid={!validity}>
+        <FormControl isInvalid={!validity} {...props}>
             <FormLabel className={font.className}>{title}</FormLabel>
             <Input
                 bg="#dde0f2"

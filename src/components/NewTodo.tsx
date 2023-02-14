@@ -9,21 +9,48 @@ import {
     FormLabel,
     Image,
     Input,
+    keyframes,
     Text,
 } from "@pankod/refine-chakra-ui";
 import moment from "moment";
-import { useEffect, useState } from "react";
-import { storage, teams } from "src/utility";
+import { FormEvent, useEffect, useState } from "react";
+import { X } from "react-feather";
+import { database, storage, teams } from "src/utility";
 import FormItem from "./FormItem";
 
 const font = Nunito({ subsets: ["latin"], weight: "800" });
 const font_bold = Nunito({ subsets: ["latin"], weight: "700" });
 
-const NewTask = () => {
+interface NewTaskProps {
+    close: () => void;
+}
+
+const unfade = keyframes`
+    0% {
+        opacity: 0.5
+    }
+    100% {
+        opacity: 1
+    }
+`;
+
+const rise = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateY(55px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+`;
+
+const NewTask: React.FC<NewTaskProps> = ({ close }) => {
     const [members, set_members] = useState<Array<Models.Membership>>([]);
     const [title, set_title] = useState<string>("");
     const [date, set_date] = useState<string>("");
     const [priority, set_priority] = useState<number>(0);
+    const [has_sumbitted, set_has_sumbitted] = useState<boolean>(false);
 
     const [assignee, set_assignee] = useState<Array<string>>(["0xsapphir3"]);
 
@@ -48,6 +75,43 @@ const NewTask = () => {
         fetch_data();
     }, []);
 
+    const handle_sumbit = async (e: FormEvent<HTMLFormElement>) => {
+        // Prevent default behaviour
+        e.preventDefault();
+
+        // Set has sumbitted
+        set_has_sumbitted(true);
+
+        // Parse the input date
+        const parsed_date = moment(date);
+
+        if (
+            !(
+                title &&
+                parsed_date.isValid() &&
+                parsed_date.isSameOrAfter(moment.now()) &&
+                priority > 0
+            )
+        ) {
+            return; // The form is not correctly filled up
+        }
+
+        // Create a new todo
+        await database.createDocument(
+            "63e89f329f780a476204",
+            "todos",
+            "unique()",
+            {
+                title,
+                due_date: date,
+                priority,
+                status: false,
+                assignee,
+                category: "63e89f329f780a476204",
+            }
+        );
+    };
+
     return (
         <Flex
             width="100vw"
@@ -59,31 +123,51 @@ const NewTask = () => {
             zIndex={2000}
             backdropFilter="auto"
             backdropBlur="6px"
+            animation={`${unfade} 500ms ease-in-out forwards`}
         >
             <Box
                 width="100vw"
                 height="90vh"
                 bg="#e7e7f2"
                 marginTop="auto"
+                opacity="0"
+                style={{ animationDelay: "50ms" }}
+                animation={`${rise} 600ms ease-in-out forwards`}
                 padding={10}
+                position="relative"
                 borderTopRadius={"xl"}
             >
+                <Box
+                    onClick={close}
+                    position={"absolute"}
+                    right={8}
+                    top={8}
+                    cursor="pointer"
+                >
+                    <X />
+                </Box>
                 <Text
                     className={font.className}
                     textAlign="center"
                     fontSize={34}
+                    opacity="0"
+                    style={{ animationDelay: "80ms" }}
+                    animation={`${rise} 300ms ease-in-out forwards`}
                 >
                     Create a new todo
                 </Text>
                 <Flex marginTop={14} gap={20}>
                     <Box width="60%">
-                        <form>
+                        <form onSubmit={handle_sumbit}>
                             <Flex direction="column" gap={5}>
                                 <FormItem
                                     value={title}
                                     set_value={set_title}
-                                    check={(d) => d}
+                                    check={(d) => !(has_sumbitted && !d)}
                                     title="Title"
+                                    opacity="0"
+                                    style={{ animationDelay: "120ms" }}
+                                    animation={`${rise} 600ms ease-in-out forwards`}
                                     placeholder="Title for your new task..."
                                     helper_message="Task names so fly, they'll make Snoop
                                     Dogg nod in approval"
@@ -94,13 +178,19 @@ const NewTask = () => {
                                     value={date}
                                     set_value={set_date}
                                     title="Due Date"
+                                    opacity="0"
+                                    style={{ animationDelay: "150ms" }}
+                                    animation={`${rise} 600ms ease-in-out forwards`}
                                     placeholder=""
                                     check={(d) => {
                                         const parsed = moment(d);
 
                                         return (
-                                            parsed.isValid() &&
-                                            parsed.isSameOrAfter(moment.now())
+                                            !has_sumbitted ||
+                                            (parsed.isValid() &&
+                                                parsed.isSameOrAfter(
+                                                    moment.now()
+                                                ))
                                         );
                                     }}
                                     helper_message="Due date? Time's a-ticking!"
@@ -110,9 +200,12 @@ const NewTask = () => {
                                 <FormItem
                                     value={priority}
                                     title="Priority"
+                                    opacity="0"
+                                    style={{ animationDelay: "180ms" }}
+                                    animation={`${rise} 600ms ease-in-out forwards`}
                                     placeholder="Prioritize your tasks as number"
                                     set_value={set_priority}
-                                    check={(d) => d > 0}
+                                    check={(d) => !(has_sumbitted && !(d > 0))}
                                     helper_message="Prioritize your tasks"
                                     type="number"
                                     error_message="Weird priority, might wanna double check that"
@@ -124,6 +217,9 @@ const NewTask = () => {
                                 padding={6}
                                 marginTop={6}
                                 bg="#2E3440"
+                                opacity="0"
+                                style={{ animationDelay: "210ms" }}
+                                animation={`${rise} 600ms ease-in-out forwards`}
                                 color="#D8DEE9"
                                 _hover={{ bg: "#2E3440" }}
                             >
@@ -132,13 +228,23 @@ const NewTask = () => {
                         </form>
                     </Box>
                     <Box width="40%">
-                        <Text className={font_bold.className}>
+                        <Text
+                            className={font_bold.className}
+                            opacity="0"
+                            style={{ animationDelay: "240ms" }}
+                            animation={`${rise} 600ms ease-in-out forwards`}
+                        >
                             Assign members
                         </Text>
                         <Flex direction="column" gap={4} marginTop={2}>
-                            {members.map((m) => {
+                            {members.map((m, i) => {
                                 return (
                                     <Flex
+                                        opacity="0"
+                                        style={{
+                                            animationDelay: `${40 * i}ms`,
+                                        }}
+                                        animation={`${rise} 600ms ease-in-out forwards`}
                                         cursor={"pointer"}
                                         onClick={() =>
                                             toggle_assignee(m.userName)
