@@ -1,15 +1,10 @@
 import { Nunito } from "@next/font/google";
 import { Models } from "@pankod/refine-appwrite";
-import {
-    Box,
-    Button,
-    Flex,
-    Heading,
-    Image,
-    Text,
-} from "@pankod/refine-chakra-ui";
+import { Box, Button, Flex, Image, Text } from "@pankod/refine-chakra-ui";
+import { rise, rise_reverse } from "animations";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Menu } from "react-feather";
 import { account, storage } from "src/utility";
 
 interface NavBarProps {
@@ -19,6 +14,8 @@ interface NavBarProps {
 const nunito = Nunito({ subsets: ["latin"], weight: "800" });
 
 const NavBar: React.FC<NavBarProps> = ({ user }) => {
+    const [open_dropdown, set_open_dropdown] = useState<boolean>(false);
+
     const google_oauth = async () => {
         account.createOAuth2Session(
             "google",
@@ -29,11 +26,10 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
         useState<Models.Account<{}> | null>(null);
 
     useEffect(() => {
-        const fetch_user = async () => {
-            set_current_user(await account.get());
-        };
-
-        fetch_user();
+        // const fetch_user = async () => {
+        //     set_current_user(await account.get());
+        // };
+        // fetch_user();
     }, [set_current_user]);
 
     return (
@@ -43,18 +39,44 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
             backdropFilter={"auto"}
             backdropBlur="5px"
             bg="rgba(231, 231, 242, 0.5)"
-            paddingX={16}
+            paddingX={{ sm: 16, base: 6 }}
             alignItems={"center"}
             position="fixed"
             width={"100vw"}
         >
             <Link href="/" replace>
                 <Flex alignItems={"center"} gap={5}>
-                    <Image width={50} src="/images/logo.png" alt="logo" />
+                    <Image
+                        width={{ sm: 50, base: 42 }}
+                        src="/images/logo.png"
+                        alt="logo"
+                    />
                     <Text fontSize={18}>Planetary</Text>
                 </Flex>
             </Link>
-            <Flex marginX={"auto"} gap={10}>
+            <Flex
+                marginX={"auto"}
+                gap={{ sm: 10, base: 6 }}
+                position={{ sm: "relative", base: "absolute" }}
+                width={{ sm: "fit-content", base: "100vw" }}
+                height={{
+                    sm: "fit-content",
+                    base: open_dropdown ? "100vh" : "0vh",
+                }}
+                overflow="hidden"
+                direction={{ sm: "row", base: "column" }}
+                textAlign={{ sm: "start", base: "center" }}
+                top={{ sm: 0, base: 32 }}
+                animation={
+                    open_dropdown
+                        ? `${rise_reverse} 500ms ease-in-out forwards`
+                        : ""
+                }
+                left={0}
+                zIndex={20}
+                color="#2E3440"
+                bg="rgb(231, 231 ,242)"
+            >
                 <Link href="/" replace>
                     <Button bg={"transparent"} _hover={{ bg: "#dce0f3" }}>
                         Home
@@ -101,6 +123,7 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
             ) : (
                 <Button
                     bg="#dce0f3"
+                    display={{ sm: "inherit", base: "none" }}
                     padding={6}
                     onClick={google_oauth}
                     width={"150px"}
@@ -109,6 +132,9 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
                     Login
                 </Button>
             )}
+            <Flex marginLeft="auto" display={{ sm: "none", base: "flex" }}>
+                <Menu onClick={() => set_open_dropdown(true)} />
+            </Flex>
         </Flex>
     );
 };

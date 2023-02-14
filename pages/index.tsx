@@ -16,12 +16,16 @@ const Index = () => {
         <Flex
             width="100vw"
             height="100vh"
-            alignItems="center"
+            alignItems={{ sm: "center", base: "start" }}
+            direction={{ sm: "row", base: "column" }}
             overflow={"hidden"}
         >
-            <Box width="50%" paddingX={28}>
+            <Box
+                width={{ sm: "50%", base: "100%" }}
+                paddingX={{ sm: 28, base: 6 }}
+            >
                 <Box
-                    marginTop={16}
+                    marginTop={{ sm: 16, base: 32 }}
                     bg="#dce0f3"
                     padding={2}
                     width={36}
@@ -32,9 +36,9 @@ const Index = () => {
                     <Bold>PLANETARY</Bold>
                 </Box>
                 <ExtraBold
-                    fontSize={"3.4vw"}
+                    fontSize={{ sm: "3.4vw", base: "12vw" }}
                     marginTop={5}
-                    lineHeight={"3.8vw"}
+                    lineHeight={{ sm: "3.8vw", base: "12.8vw" }}
                     opacity={0}
                     style={{ animationDelay: "100ms" }}
                     animation={`${rise} 500ms ease-in-out forwards`}
@@ -53,8 +57,13 @@ const Index = () => {
                     Boomer&quot; to &quot;Ight, Imma head out&quot;, you&apos;ll
                     find a touch of humor in your task management.
                 </Text>
-                <Flex marginTop={10} width="60%" gap={5}>
-                    <Link href="/login" replace style={{ width: "100%" }}>
+                <Flex
+                    marginTop={{ sm: 10, base: 6 }}
+                    direction={{ sm: "row", base: "column" }}
+                    width={{ sm: "60%", base: "full" }}
+                    gap={5}
+                >
+                    <Link href="/login" style={{ width: "100%" }}>
                         <Button
                             padding={7}
                             bg="#2E3440"
@@ -68,7 +77,7 @@ const Index = () => {
                             Get started
                         </Button>
                     </Link>
-                    <Link href="/features" replace style={{ width: "100%" }}>
+                    <Link href="/features" style={{ width: "100%" }}>
                         <Button
                             bg="#dce0f3"
                             _hover={{ bg: "#dce0f3" }}
@@ -84,7 +93,7 @@ const Index = () => {
                     </Link>
                 </Flex>
                 <Flex
-                    marginTop={20}
+                    marginTop={{ sm: 20, base: 14 }}
                     gap={7}
                     color="#2E3440"
                     opacity={0}
@@ -106,7 +115,11 @@ const Index = () => {
                     </Link>
                 </Flex>
             </Box>
-            <Flex width="50%" justifyContent={"center"}>
+            <Flex
+                width="50%"
+                justifyContent={"center"}
+                display={{ sm: "flex", base: "none" }}
+            >
                 <Flex
                     width="fit-content"
                     direction={"column"}

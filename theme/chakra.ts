@@ -9,6 +9,9 @@ const theme = extendTheme({
             },
         },
     },
+    breakpoints: {
+        sm: "500px",
+    },
     components: {
         Button: {
             defaultProps: {
