@@ -1,40 +1,15 @@
-import { Nunito } from "@next/font/google";
-import {
-    Box,
-    Button,
-    chakra,
-    Flex,
-    keyframes,
-    Text,
-} from "@pankod/refine-chakra-ui";
+import { Box, Button, Flex, Text, Image } from "@pankod/refine-chakra-ui";
+import { rise } from "animations";
 import Link from "next/link";
-import Image from "next/image";
+import { Bold, ChakraNextImage, ExtraBold } from "@components";
 import { useEffect } from "react";
 import { GitHub, Heart, Mail, Twitter } from "react-feather";
-
-const font = Nunito({ subsets: ["latin"], weight: "800" });
-const font_700 = Nunito({ subsets: ["latin"], weight: "700" });
-
-const ChakraNextImage = chakra(Image, {
-    shouldForwardProp: (prop) =>
-        ["width", "height", "src", "alt"].includes(prop),
-});
-
-const rise = keyframes`
-    0% {
-        opacity: 0;
-        transform: translateY(55px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0px);
-    }
-`;
 
 const Index = () => {
     useEffect(() => {
         document.title = "Welcome to planetary - a professional todo app";
     });
+
     const riseAnimation = `${rise} 500ms ease-in-out forwards`;
 
     return (
@@ -45,30 +20,27 @@ const Index = () => {
             overflow={"hidden"}
         >
             <Box width="50%" paddingX={28}>
-                <Text
+                <Box
                     marginTop={16}
-                    textTransform="capitalize"
                     bg="#dce0f3"
                     padding={2}
                     width={36}
-                    align="center"
+                    textAlign="center"
                     animation={riseAnimation}
-                    className={font_700.className}
                     borderRadius={"lg"}
                 >
-                    PLANETARY
-                </Text>
-                <Text
-                    className={font.className}
-                    fontSize={58}
+                    <Bold>PLANETARY</Bold>
+                </Box>
+                <ExtraBold
+                    fontSize={"3.4vw"}
                     marginTop={5}
-                    lineHeight={"72px"}
+                    lineHeight={"3.8vw"}
                     opacity={0}
                     style={{ animationDelay: "100ms" }}
                     animation={`${rise} 500ms ease-in-out forwards`}
                 >
                     To-Do&apos;s Never <br /> Looked So Good
-                </Text>
+                </ExtraBold>
                 <Text
                     marginTop={5}
                     color="gray.600"
@@ -149,42 +121,36 @@ const Index = () => {
                         bg="#dce0f3"
                         borderRadius="xl"
                         padding={8}
-                        gap={28}
+                        gap={"5vw"}
                         opacity={0}
+                        width="fit-content"
                         style={{ animationDelay: "200ms" }}
                         animation={`${rise} 500ms ease-in-out forwards`}
                     >
                         <Flex height="full" direction="column">
-                            <Text className={font.className} fontSize={"xl"}>
-                                Effectiveness
-                            </Text>
+                            <ExtraBold fontSize={"xl"}>Effectiveness</ExtraBold>
                             <Text color="gray.600" marginTop={1}>
                                 1 Feb 2023 - 1 Mar 2023
                             </Text>
                             <Flex
                                 gap={2}
-                                className={font_700.className}
                                 marginTop={"auto"}
+                                height={12}
                                 opacity={0}
                                 style={{ animationDelay: "250ms" }}
                                 animation={`${rise} 500ms ease-in-out forwards`}
                                 alignItems="end"
                             >
-                                <Text
-                                    className={font.className}
-                                    fontSize={32}
-                                    lineHeight={"30px"}
-                                >
+                                <ExtraBold fontSize={32} lineHeight={"30px"}>
                                     132
-                                </Text>
-                                <Text>Projects completed</Text>
+                                </ExtraBold>
+                                <Bold>Projects completed</Bold>
                             </Flex>
                         </Flex>
-                        <Box marginLeft={"auto"}>
+                        <Box marginLeft={"auto"} marginTop="auto">
                             <Image
                                 src="/images/growth.svg"
-                                width={320}
-                                height={320}
+                                width={"15vw"}
                                 alt="Growth graph"
                             />
                         </Box>
@@ -201,14 +167,11 @@ const Index = () => {
                             height="fit-content"
                             width="50%"
                         >
-                            <Text className={font.className} fontSize={"xl"}>
-                                Team chat
-                            </Text>
+                            <ExtraBold fontSize={"xl"}>Team chat</ExtraBold>
                             <Flex direction={"column"} alignItems="start">
                                 <Flex
                                     marginTop={6}
                                     justifyContent={"center"}
-                                    // alignItems={"center"}
                                     style={{ animationDelay: "250ms" }}
                                     animation={`${rise} 500ms ease-in-out forwards`}
                                     borderRadius={"2xl"}
@@ -223,15 +186,22 @@ const Index = () => {
                                     />
                                     <Box
                                         bg="#d2d9f2"
+                                        width="full"
                                         padding={4}
                                         borderBottomRadius="2xl"
                                         borderTopRightRadius={"2xl"}
                                     >
-                                        Hey{" "}
-                                        <span style={{ color: "#000000" }}>
-                                            @kyeboard
-                                        </span>
-                                        , are you up to do this task?
+                                        <Text
+                                            overflow={"hidden"}
+                                            noOfLines={2}
+                                            textOverflow={"ellipsis"}
+                                        >
+                                            Hey{" "}
+                                            <span style={{ color: "#000000" }}>
+                                                @kyeboard
+                                            </span>
+                                            , are you up to do this task?
+                                        </Text>
                                     </Box>
                                 </Flex>
                                 <Flex
@@ -256,7 +226,13 @@ const Index = () => {
                                         borderBottomRadius="2xl"
                                         borderTopRightRadius={"2xl"}
                                     >
-                                        Sure! Consider it done :D
+                                        <Text
+                                            overflow={"hidden"}
+                                            noOfLines={2}
+                                            textOverflow={"ellipsis"}
+                                        >
+                                            Sure! Consider it done :D
+                                        </Text>
                                     </Box>
                                 </Flex>
                             </Flex>
@@ -268,9 +244,9 @@ const Index = () => {
                             borderRadius={"2xl"}
                             width="50%"
                         >
-                            <Text className={font.className} fontSize={"xl"}>
+                            <ExtraBold fontSize={"xl"}>
                                 Invite members
-                            </Text>
+                            </ExtraBold>
                             <Flex
                                 marginTop={5}
                                 direction="column"
@@ -284,17 +260,15 @@ const Index = () => {
                                     style={{ animationDelay: "300ms" }}
                                     animation={`${rise} 500ms ease-in-out forwards`}
                                 >
-                                    <ChakraNextImage
+                                    <Image
                                         src="https://avatars.githubusercontent.com/u/97718086?v=4"
-                                        width={10}
-                                        height={10}
+                                        maxWidth={10}
+                                        width={"3.5vw"}
                                         alt="User profile"
                                         borderRadius="full"
                                     />
                                     <Box width="full" marginLeft={5}>
-                                        <Text className={font_700.className}>
-                                            kraanzu
-                                        </Text>
+                                        <Bold>kraanzu</Bold>
                                         <Box
                                             marginTop={1}
                                             width="80%"
@@ -321,17 +295,15 @@ const Index = () => {
                                     style={{ animationDelay: "320ms" }}
                                     animation={`${rise} 500ms ease-in-out forwards`}
                                 >
-                                    <ChakraNextImage
-                                        width={10}
+                                    <Image
+                                        maxWidth={10}
+                                        width={"3.5vw"}
                                         src="https://avatars.githubusercontent.com/u/115910279?v=4"
-                                        height={10}
                                         alt="User profile"
                                         borderRadius="full"
                                     />
                                     <Box width="full" marginLeft={5}>
-                                        <Text className={font_700.className}>
-                                            kyeboard
-                                        </Text>
+                                        <Bold>kyeboard</Bold>
                                         <Box
                                             width="80%"
                                             marginTop={1}
@@ -358,17 +330,21 @@ const Index = () => {
                                     style={{ animationDelay: "340ms" }}
                                     animation={`${rise} 500ms ease-in-out forwards`}
                                 >
-                                    <ChakraNextImage
+                                    <Image
                                         src="https://avatars.githubusercontent.com/u/4458174?v=4"
-                                        width={10}
-                                        height={10}
+                                        maxWidth={10}
+                                        width={"3.5vw"}
                                         alt={"User profile"}
                                         borderRadius="full"
                                     />
                                     <Box width="full" marginLeft={5}>
-                                        <Text className={font_700.className}>
+                                        <Bold
+                                            textOverflow={"ellipsis"}
+                                            overflow="hidden"
+                                            noOfLines={1}
+                                        >
                                             ThePrimeagen
-                                        </Text>
+                                        </Bold>
                                         <Box
                                             width="80%"
                                             marginTop={1}
@@ -395,17 +371,15 @@ const Index = () => {
                                     style={{ animationDelay: "360ms" }}
                                     animation={`${rise} 500ms ease-in-out forwards`}
                                 >
-                                    <ChakraNextImage
+                                    <Image
                                         src="https://avatars.githubusercontent.com/u/176295?v=4"
-                                        width={10}
-                                        height={10}
+                                        maxWidth={10}
+                                        width={"3.5vw"}
                                         alt={"User profile"}
                                         borderRadius="full"
                                     />
                                     <Box width="full" marginLeft={5}>
-                                        <Text className={font_700.className}>
-                                            jonhoo
-                                        </Text>
+                                        <Bold>jonhoo</Bold>
                                         <Box
                                             width="80%"
                                             height={2}
