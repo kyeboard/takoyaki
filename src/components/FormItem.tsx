@@ -1,6 +1,7 @@
 import { Nunito } from "@next/font/google";
 import {
     FormControl,
+    FormControlProps,
     FormErrorMessage,
     FormHelperText,
     FormLabel,
@@ -9,7 +10,7 @@ import {
 
 const font = Nunito({ subsets: ["latin"], weight: "700" });
 
-interface FormItemProps {
+interface FormItemProps extends FormControlProps {
     value: string | number;
     set_value: any;
     check: (data: any) => boolean;
