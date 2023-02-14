@@ -1,9 +1,7 @@
 import {
     Box,
     Button,
-    Fade,
     Flex,
-    Image,
     Input,
     keyframes,
     Spinner,
@@ -66,8 +64,8 @@ const NewProject = () => {
 
         // Create an entry in database for databases
         await database.createDocument(
-            "63e5feb8ebc122bb5993",
-            "63e5febc7968e4a1e24d",
+            "teams",
+            "teams",
             team.$id,
             {
                 title: name,
@@ -130,7 +128,7 @@ const NewProject = () => {
             height="100vh"
             width="100vw"
             animation={`${unfade} 500ms ease-in-out forwards`}
-            bg="rgba(47, 53, 65, 0.5)"
+            bg="rgba(46, 52, 64, 0.6)"
             position="fixed"
             zIndex={2000}
             backdropFilter="auto"
@@ -325,7 +323,7 @@ const NewProject = () => {
                 {show_loader ? (
                     <Flex
                         position={"absolute"}
-                        height="100vh"
+                        height="87vh"
                         width="100vw"
                         zIndex={100000}
                         bg="rgba(46, 52, 64, 0.6)"
