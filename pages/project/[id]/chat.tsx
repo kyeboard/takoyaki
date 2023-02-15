@@ -64,7 +64,21 @@ const Chat = () => {
                 >
                     {incoming.map((f) => {
                         const render = (
-                            <Flex key={f.$id} gap={5} marginTop={4}>
+                            <Flex
+                                key={f.$id}
+                                gap={5}
+                                marginTop={f.author == prev_sender ? 3 : 8}
+                                flexDirection={
+                                    f.author == (user?.name as string)
+                                        ? "row-reverse"
+                                        : "row"
+                                }
+                                marginLeft={
+                                    f.author == (user?.name as string)
+                                        ? "auto"
+                                        : "0px"
+                                }
+                            >
                                 {prev_sender == f.author ? (
                                     <Box width={12}></Box>
                                 ) : (
@@ -83,7 +97,16 @@ const Chat = () => {
                                 )}
                                 <Text
                                     borderBottomRadius={"2xl"}
-                                    borderTopRightRadius={"2xl"}
+                                    borderTopRightRadius={
+                                        f.author == (user?.name as string)
+                                            ? "0px"
+                                            : "2xl"
+                                    }
+                                    borderTopLeftRadius={
+                                        f.author == (user?.name as string)
+                                            ? "2xl"
+                                            : "0px"
+                                    }
                                     bgColor={"#dde0f2"}
                                     padding={4}
                                     paddingX={6}
