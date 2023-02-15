@@ -5,10 +5,14 @@ import ChakraNextImage from "./ChakraNextImage";
 interface ChatMessageProps {
     animationDelay: number;
     imageSrc: string;
-    children: React.ReactNode
+    children: React.ReactNode;
 }
 
-const ChatMessage: React.FC<ChatMessageProps> = ({ animationDelay, imageSrc, children }) => {
+const ChatMessage: React.FC<ChatMessageProps> = ({
+    animationDelay,
+    imageSrc,
+    children,
+}) => {
     return (
         <Flex
             marginTop={6}

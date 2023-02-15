@@ -48,9 +48,9 @@ const NewWorkspace = () => {
                 name,
                 description: desc,
                 color,
-                icon
+                icon,
             }
-        )
+        );
     };
 
     return (

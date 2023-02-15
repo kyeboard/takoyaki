@@ -43,7 +43,7 @@ const Chat = () => {
             (payload) => {
                 set_incoming([...incoming, payload.payload]);
 
-                console.log("IREN")
+                console.log("IREN");
 
                 console.log(payload.payload);
             }

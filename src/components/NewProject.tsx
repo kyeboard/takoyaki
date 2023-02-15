@@ -11,7 +11,7 @@ import {
 import { Nunito } from "@next/font/google";
 import ColorSelection from "@components/ColorInput";
 import { useEffect, useState } from "react";
-import { rise, unfade } from "animations"
+import { rise, unfade } from "animations";
 import { Mail, Plus } from "react-feather";
 import { database, storage, teams } from "src/utility";
 import { useRouter } from "next/router";

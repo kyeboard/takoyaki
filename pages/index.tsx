@@ -36,9 +36,9 @@ const Index = () => {
                     <Bold>PLANETARY</Bold>
                 </Box>
                 <ExtraBold
-                    fontSize={{ sm: "3.4vw", base: "12vw" }}
+                    fontSize={{ sm: "3.2vw", base: "12vw" }}
                     marginTop={5}
-                    lineHeight={{ sm: "3.8vw", base: "12.8vw" }}
+                    lineHeight={{ sm: "3.6vw", base: "12.8vw" }}
                     opacity={0}
                     style={{ animationDelay: "100ms" }}
                     animation={`${rise} 500ms ease-in-out forwards`}
