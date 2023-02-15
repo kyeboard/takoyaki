@@ -27,7 +27,7 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
             set_user(await account.get());
         };
 
-        fetch_user();
+        // fetch_user();
     }, [set_user]);
 
     return (
@@ -84,7 +84,7 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
                 style={{ animationDelay: "140ms" }}
                 animation={`${rise} 500ms ease-in-out forwards`}
             >
-                <Image
+                {/* <Image
                     src={
                         storage.getFilePreview(
                             "63dfd4b2bf3364da5f0c",
@@ -94,7 +94,7 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
                     width="56px"
                     borderRadius={"full"}
                     alt="Test User"
-                />
+                /> */}
                 <Box>
                     <Text>{(user ?? { name: "" }).name}</Text>
                     <Text color="gray.500" fontSize={14}>

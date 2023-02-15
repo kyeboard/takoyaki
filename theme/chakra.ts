@@ -10,7 +10,13 @@ const theme = extendTheme({
         },
     },
     breakpoints: {
-        sm: "500px",
+        // Nav Bar breakpoints
+        nav_sm: "",
+
+        // SideBar breakpoints
+        sidebar_md: "1000px",
+        
+        sm: "100px",
     },
     components: {
         Button: {

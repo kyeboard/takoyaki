@@ -31,38 +31,9 @@ const rise = keyframes`
 
 const DashBoard = () => {
     const date = new Date();
-    const [is_loading, set_is_loading] = useState<boolean>(true);
+    const [is_loading, set_is_loading] = useState<boolean>(false);
     const [projects, set_projects] = useState<Array<any>>([]);
     const [show_newproject, set_newproject] = useState<boolean>(false);
-
-    useEffect(() => {
-        document.title = "Your projects - planetary";
-
-        const fetch_data = async () => {
-            const memberships = [];
-
-            for (const member of (await teams.list()).teams) {
-                const info = await database.getDocument(
-                    "teams",
-                    "teams",
-                    member.$id
-                );
-                const members = (await teams.listMemberships(member.$id))
-                    .memberships;
-
-                memberships.push({
-                    team: member,
-                    data: info,
-                    members,
-                });
-            }
-
-            set_projects(memberships);
-            set_is_loading(false);
-        };
-
-        fetch_data();
-    }, []);
 
     // Create an array full of month's name
     const month = [
