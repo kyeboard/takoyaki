@@ -15,8 +15,8 @@ const theme = extendTheme({
 
         // SideBar breakpoints
         sidebar_md: "1000px",
-        
-        sm: "100px",
+
+        sm: "500px",
     },
     components: {
         Button: {

@@ -37,9 +37,11 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
             position="fixed"
             height="100vh"
             color="#2E3440"
-            padding={6}
+            padding={3}
+            alignItems="center"
             paddingTop={36}
-            width={"350px"}
+            display={{ base: "none", sm: "flex" }}
+            width={{ base: "90px", sidebar_md: "350px" }}
         >
             <QuickLink
                 title="Projects"

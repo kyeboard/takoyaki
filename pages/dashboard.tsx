@@ -8,12 +8,14 @@ import {
     Image,
     Input,
     keyframes,
+    Show,
     Spinner,
     Text,
 } from "@pankod/refine-chakra-ui";
 import { useEffect, useState } from "react";
 import { account, database, storage, teams } from "src/utility";
 import Link from "next/link";
+import { Plus } from "react-feather";
 
 const nunito = Nunito({ subsets: ["latin"], weight: "800" });
 const nunito_700 = Nunito({ subsets: ["latin"], weight: "700" });
@@ -57,11 +59,16 @@ const DashBoard = () => {
             {show_newproject ? <NewProject /> : <></>}
             <Flex
                 direction={"column"}
-                width={"calc(100vw - 350px)"}
+                width={{
+                    sidebar_md: "calc(100vw - 350px)",
+                    sm: "calc(100vw - 100px)",
+                    base: "calc(100vw)",
+                }}
                 height="fit-content"
                 paddingTop={32}
-                paddingX={12}
-                marginLeft={"350px"}
+                paddingLeft={{ sidebar_md: 12, sm: 8, base: 4 }}
+                paddingRight={{ sidebar_md: 12, sm: 0, base: 4 }}
+                marginLeft={{ sidebar_md: "350px", sm: "80px", base: "0px" }}
             >
                 <Text
                     className={nunito.className}
@@ -73,6 +80,7 @@ const DashBoard = () => {
                     Today, {date.getDate()} {month[date.getMonth()]}
                 </Text>
                 <Flex
+                width="full"
                     marginTop={3}
                     gap={4}
                     opacity={0}
@@ -88,6 +96,7 @@ const DashBoard = () => {
                         animation={`${rise} 500ms ease-in-out forwards`}
                         _placeholder={{ color: "gray.500" }}
                     />
+                    {/* Create new project button */}
                     <Button
                         bg="#2E3440"
                         color="#d2d8f3"
@@ -95,11 +104,27 @@ const DashBoard = () => {
                         opacity={0}
                         style={{ animationDelay: "180ms" }}
                         animation={`${rise} 500ms ease-in-out forwards`}
-                        width={"250px"}
+                        width={"300px"}
+                        display={{ sm: "inherit", base: "none" }}
                         onClick={() => set_newproject(true)}
                         _hover={{ bg: "#2E3440" }}
                     >
                         Create new project
+                    </Button>
+                    {/* Plus sign on small screens */}
+                    <Button
+                        bg="#2E3440"
+                        color="#d2d8f3"
+                        display={{ base: "inherit", sm: "none" }}
+                        padding={6}
+                        opacity={0}
+                        style={{ animationDelay: "180ms" }}
+                        animation={`${rise} 500ms ease-in-out forwards`}
+                        width={"80px"}
+                        onClick={() => set_newproject(true)}
+                        _hover={{ bg: "#2E3440" }}
+                    >
+                        <Plus />
                     </Button>
                 </Flex>
                 <Text
@@ -233,7 +258,7 @@ const DashBoard = () => {
                             width={32}
                             alt="Empty state"
                         />
-                        <Text marginTop={5} width={96} align="center">
+                        <Text marginTop={5} maxWidth={96} align="center">
                             When you thought you had a project due but it turns
                             out it was just a nightmare.
                         </Text>

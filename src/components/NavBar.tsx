@@ -34,25 +34,18 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
 
     return (
         <Flex
-            height={28}
+            padding={8}
             zIndex={1000}
             backdropFilter={"auto"}
             backdropBlur="5px"
             bg="rgba(231, 231, 242, 0.5)"
-            paddingRight={{ sm: 16, base: 6 }}
+            paddingX={{ sm: 16, base: 6 }}
             alignItems={"center"}
             position="fixed"
             width={"100vw"}
         >
             <Link href="/">
-                <Flex
-                    bg="#dde0f2"
-                    paddingLeft={"20%"}
-                    width="350px"
-                    height={28}
-                    alignItems={"center"}
-                    gap={5}
-                >
+                <Flex alignItems={"center"} gap={5}>
                     <Image
                         width={{ sm: 50, base: 42 }}
                         src="/images/logo.png"

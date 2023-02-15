@@ -28,12 +28,13 @@ export const QuickLink: React.FC<QuickLinkProps> = ({
     delay,
 }) => {
     return (
-        <Link href={href} replace>
+        <Link href={href}>
             <Flex
                 marginTop={4}
                 bg={current ? "#d2d8f3" : "transparent"}
-                padding={4}
                 cursor="pointer"
+                width={{ sidebar_md: "300px", base: "fit-content" }}
+                padding={4}
                 paddingX={6}
                 borderRadius={10}
                 alignItems={"center"}
@@ -43,7 +44,9 @@ export const QuickLink: React.FC<QuickLinkProps> = ({
                 animation={`${rise} 500ms ease-in-out forwards`}
             >
                 {icon}
-                <Text>{title}</Text>
+                <Text display={{ sidebar_md: "block", base: "none" }}>
+                    {title}
+                </Text>
             </Flex>
         </Link>
     );
