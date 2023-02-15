@@ -18,7 +18,6 @@ const Index = () => {
             height="100vh"
             alignItems={{ sm: "center", base: "start" }}
             direction={{ sm: "row", base: "column" }}
-            overflow={"hidden"}
         >
             <Box
                 width={{ sm: "50%", base: "100%" }}

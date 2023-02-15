@@ -112,20 +112,23 @@ const NewProject = () => {
             bg="rgba(46, 52, 64, 0.6)"
             position="fixed"
             zIndex={2000}
+            overflow="scroll"
             backdropFilter="auto"
             backdropBlur={"6px"}
         >
             <Flex
                 zIndex={1}
-                marginTop={"auto"}
+                marginTop={"10vh"}
                 direction={"column"}
                 width={"100vw"}
-                height="87vh"
+                height="fit-content"
+                minHeight={"90vh"}
+                paddingBottom={12}
                 animation={`${rise} 500ms ease-in-out forwards`}
                 borderTopRadius={"2xl"}
                 paddingTop={12}
                 bg="#e7e7f2"
-                paddingX={24}
+                paddingX={"5vw"}
             >
                 <Text
                     className={nunito.className}
@@ -137,7 +140,13 @@ const NewProject = () => {
                 >
                     New Project
                 </Text>
-                <Flex gap={12} width={"full"} height="full" marginTop={10}>
+                <Flex
+                    gap={12}
+                    width={"full"}
+                    height="full"
+                    marginTop={10}
+                    direction={{ sm: "row", base: "column" }}
+                >
                     <Box width={"full"} height={"full"}>
                         <Box>
                             <Text
@@ -199,7 +208,11 @@ const NewProject = () => {
                                 />
                             </Box>
                         </Box>
-                        <Flex gap={5} marginTop={8}>
+                        <Flex
+                            gap={5}
+                            marginTop={8}
+                            display={{ base: "none", sm: "flex" }}
+                        >
                             <Button
                                 padding={6}
                                 width="full"
@@ -230,6 +243,7 @@ const NewProject = () => {
                     <Box
                         borderRight={"solid"}
                         borderWidth={1}
+                        display={{ base: "none", sm: "flex" }}
                         opacity={0}
                         style={{ animationDelay: `200ms` }}
                         animation={`${rise} 500ms ease-in-out forwards`}
@@ -299,6 +313,33 @@ const NewProject = () => {
                                 );
                             })}
                         </Box>
+                        <Flex gap={5} marginTop={8} display={{ sm: "none", base: "flex" }}>
+                            <Button
+                                padding={6}
+                                width="full"
+                                bg="transparent"
+                                opacity={0}
+                                style={{ animationDelay: `200ms` }}
+                                animation={`${rise} 500ms ease-in-out forwards`}
+                                _hover={{ bg: "transparent" }}
+                                color="#f38ba8"
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                width="full"
+                                padding={6}
+                                opacity={0}
+                                style={{ animationDelay: `230ms` }}
+                                animation={`${rise} 500ms ease-in-out forwards`}
+                                _hover={{ bg: "#2E3440" }}
+                                bg="#2E3440"
+                                onClick={create_project}
+                                color="#D8DEE9"
+                            >
+                                Create
+                            </Button>
+                        </Flex>
                     </Flex>
                 </Flex>
                 {show_loader ? (
