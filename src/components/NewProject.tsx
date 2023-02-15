@@ -253,7 +253,7 @@ const NewProject: React.FC<{
                                     </Button>
                                     <Button
                                         width="full"
-                                        type="sumbit"
+                                        type="submit"
                                         padding={6}
                                         opacity={0}
                                         style={{ animationDelay: `230ms` }}

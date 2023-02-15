@@ -8,25 +8,31 @@ import { Nunito } from "@next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import NewWorkspace from "@components/NewWorkspace";
+import { GetStaticProps } from "next";
 
 const font = Nunito({ subsets: ["latin"], weight: "800" });
 
-const DashBoard = () => {
+interface DashBoardProps {
+    team_id: string;
+}
+
+const DashBoard: React.FC<{}> = () => {
     const [user, set_user] = useState<Models.Account<{}> | null>(null);
-    const router = useRouter();
     const [workspaces, set_workspaces] = useState<Array<any>>([]);
+    const [loading, set_loading] = useState<boolean>(true);
     const [show_newproject, set_newproject] = useState<boolean>(false);
+    const router = useRouter();
 
     useEffect(() => {
+        if (!router.isReady) return;
+
         const fetch_user = async () => {
-            // console.log(router.query)
             set_user(await account.get());
 
             set_workspaces(
                 (
                     await database.listDocuments(
-                        // router.query.id as string,
-                        "63ec33962d17e2ab9e3a",
+                        router.query.id as string,
                         "categories"
                     )
                 ).documents
@@ -34,7 +40,7 @@ const DashBoard = () => {
         };
 
         fetch_user();
-    }, []);
+    }, [router]);
 
     return (
         <Flex>
@@ -67,12 +73,14 @@ const DashBoard = () => {
                         Create new workspace
                     </Button>
                 </Flex>
+                <Flex>
+                </Flex>
                 <Flex marginTop={8}>
                     {workspaces.map((w) => {
                         return (
                             <Link
                                 key={w.$id}
-                                href={`/project/${router.query.id}/workspace/${w.$id}`}
+                                href={`/project/${""}/workspace/${w.$id}`}
                             >
                                 <Flex
                                     gap={2}
