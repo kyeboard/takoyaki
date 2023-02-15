@@ -43,8 +43,8 @@ const DashBoard = () => {
 
             for (const member of (await teams.list()).teams) {
                 const info = await database.getDocument(
-                    "63e5feb8ebc122bb5993",
-                    "63e5febc7968e4a1e24d",
+                    "teams",
+                    "teams",
                     member.$id
                 );
                 const members = (await teams.listMemberships(member.$id))
@@ -87,7 +87,7 @@ const DashBoard = () => {
             <Flex
                 direction={"column"}
                 width={"calc(100vw - 350px)"}
-                height="full"
+                height="fit-content"
                 paddingTop={32}
                 paddingX={12}
                 marginLeft={"350px"}
@@ -246,7 +246,7 @@ const DashBoard = () => {
                         style={{ animationDelay: "250ms" }}
                         animation={`${rise} 500ms ease-in-out forwards`}
                         justifyContent={"center"}
-                        height="full"
+                        height="50vh"
                     >
                         <Spinner color="#2E3440" />
                     </Flex>
@@ -254,7 +254,7 @@ const DashBoard = () => {
                     <Flex
                         alignItems={"center"}
                         justifyContent="center"
-                        h={"full"}
+                        h={"65vh"}
                         direction="column"
                     >
                         <Image
