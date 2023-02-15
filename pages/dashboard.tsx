@@ -37,6 +37,35 @@ const DashBoard = () => {
     const [projects, set_projects] = useState<Array<any>>([]);
     const [show_newproject, set_newproject] = useState<boolean>(false);
 
+    useEffect(() => {
+        document.title = "Your projects - planetary";
+
+        const fetch_data = async () => {
+            const memberships = [];
+
+            for (const member of (await teams.list()).teams) {
+                const info = await database.getDocument(
+                    "teams",
+                    "teams",
+                    member.$id
+                );
+                const members = (await teams.listMemberships(member.$id))
+                    .memberships;
+
+                memberships.push({
+                    team: member,
+                    data: info,
+                    members,
+                });
+            }
+
+            set_projects(memberships);
+            set_is_loading(false);
+        };
+
+        fetch_data();
+    }, []);
+
     // Create an array full of month's name
     const month = [
         "January",
@@ -80,7 +109,7 @@ const DashBoard = () => {
                     Today, {date.getDate()} {month[date.getMonth()]}
                 </Text>
                 <Flex
-                width="full"
+                    width="full"
                     marginTop={3}
                     gap={4}
                     opacity={0}
@@ -173,7 +202,7 @@ const DashBoard = () => {
                                                     return (
                                                         <Image
                                                             key={m.userName}
-                                                            borderColor="#e7e7f2"
+                                                            borderColor="#2E3440"
                                                             transform={`translateX(-${
                                                                 8 * i
                                                             }px)`}
@@ -255,10 +284,16 @@ const DashBoard = () => {
                     >
                         <Image
                             src="/images/empty.png"
-                            width={32}
+                            width={{ base: 24, sm: 32 }}
+                            height={{ base: 24, sm: 32 }}
                             alt="Empty state"
                         />
-                        <Text marginTop={5} maxWidth={96} align="center">
+                        <Text
+                            marginTop={5}
+                            maxWidth={96}
+                            paddingX={5}
+                            align="center"
+                        >
                             When you thought you had a project due but it turns
                             out it was just a nightmare.
                         </Text>

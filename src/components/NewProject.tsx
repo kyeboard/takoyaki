@@ -133,7 +133,7 @@ const NewProject = () => {
                 <Text
                     className={nunito.className}
                     align="center"
-                    fontSize={36}
+                    fontSize={{ sm: 32, base: 24 }}
                     opacity={0}
                     style={{ animationDelay: `0ms` }}
                     animation={`${rise} 500ms ease-in-out forwards`}
@@ -157,6 +157,7 @@ const NewProject = () => {
                                 Project Name
                             </Text>
                             <Input
+                                _placeholder={{ color: "gray.500" }}
                                 opacity={0}
                                 style={{ animationDelay: `60ms` }}
                                 animation={`${rise} 500ms ease-in-out forwards`}
@@ -176,6 +177,7 @@ const NewProject = () => {
                                 Project Description
                             </Text>
                             <Textarea
+                                _placeholder={{ color: "gray.500" }}
                                 bg="#dde1f3"
                                 opacity={0}
                                 style={{ animationDelay: `120ms` }}
@@ -263,6 +265,7 @@ const NewProject = () => {
                         </Text>
                         <Flex marginTop={2} gap={5}>
                             <Input
+                                _placeholder={{ color: "gray.500" }}
                                 bg="#dde1f3"
                                 padding={6}
                                 value={email}
@@ -313,7 +316,11 @@ const NewProject = () => {
                                 );
                             })}
                         </Box>
-                        <Flex gap={5} marginTop={8} display={{ sm: "none", base: "flex" }}>
+                        <Flex
+                            gap={5}
+                            marginTop={8}
+                            display={{ sm: "none", base: "flex" }}
+                        >
                             <Button
                                 padding={6}
                                 width="full"

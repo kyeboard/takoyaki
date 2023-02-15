@@ -27,7 +27,7 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
             set_user(await account.get());
         };
 
-        // fetch_user();
+        fetch_user();
     }, [set_user]);
 
     return (
@@ -81,26 +81,28 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
             <Flex
                 marginTop="auto"
                 gap={5}
+                width="full"
+                paddingX={3}
+                paddingBottom={3}
                 alignItems="center"
                 opacity={0}
                 style={{ animationDelay: "140ms" }}
                 animation={`${rise} 500ms ease-in-out forwards`}
             >
-                {/* <Image
-                    src={
-                        storage.getFilePreview(
-                            "63dfd4b2bf3364da5f0c",
-                            (user ?? { name: "" }).name
-                        ).href
-                    }
-                    width="56px"
+                <Image
+                    src={"https://www.kyeboard.me/profile.png"}
+                    width={14}
                     borderRadius={"full"}
                     alt="Test User"
-                /> */}
-                <Box>
-                    <Text>{(user ?? { name: "" }).name}</Text>
-                    <Text color="gray.500" fontSize={14}>
+                />
+                <Box marginRight="auto">
+                    {/* <Text>{(user ?? { name: "" }).name}</Text> */}
+                    <Text>{"kyeboard"}</Text>
+                    {/* <Text color="gray.500" fontSize={14}>
                         {(user ?? { email: "" }).email}
+                    </Text> */}
+                    <Text color="gray.500" fontSize={14}>
+                        me@kyeboard.me
                     </Text>
                 </Box>
                 <Text marginLeft="auto" fontSize={20} color="gray.500">
