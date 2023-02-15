@@ -35,9 +35,9 @@ const Index = () => {
                     <Bold>PLANETARY</Bold>
                 </Box>
                 <ExtraBold
-                    fontSize={{ sm: "3.2vw", base: "12vw" }}
+                    fontSize={{ sm: "3.4rem", base: "3rem" }}
                     marginTop={5}
-                    lineHeight={{ sm: "3.6vw", base: "12.8vw" }}
+                    lineHeight={{ sm: "3.8rem", base: "3.4rem" }}
                     opacity={0}
                     style={{ animationDelay: "100ms" }}
                     animation={`${rise} 500ms ease-in-out forwards`}
@@ -189,10 +189,12 @@ const Index = () => {
                                     borderRadius={"2xl"}
                                     gap={3}
                                 >
-                                    <ChakraNextImage
-                                        width={10}
+                                    <Image
+                                        maxWidth={10}
+                                        width={"3.5vw"}
+                                        height={"3.5vw"}
                                         borderRadius="full"
-                                        height={10}
+                                        maxHeight={10}
                                         alt="User profile"
                                         src="https://avatars.githubusercontent.com/u/97718086?v=4"
                                     />
@@ -225,11 +227,13 @@ const Index = () => {
                                     borderRadius={"2xl"}
                                     gap={3}
                                 >
-                                    <ChakraNextImage
-                                        width={10}
-                                        src="https://avatars.githubusercontent.com/u/115910279?v=4"
+                                    <Image
+                                        maxWidth={10}
+                                        width={"3.5vw"}
+                                        height={"3.5vw"}
                                         borderRadius="full"
-                                        height={10}
+                                        maxHeight={10}
+                                        src="https://avatars.githubusercontent.com/u/115910279?v=4"
                                         alt="User profile"
                                     />
                                     <Box

@@ -8,14 +8,14 @@ import {
     Image,
     Input,
     keyframes,
-    Show,
     Spinner,
     Text,
 } from "@pankod/refine-chakra-ui";
 import { useEffect, useState } from "react";
-import { account, database, storage, teams } from "src/utility";
+import { database, storage, teams } from "src/utility";
 import Link from "next/link";
 import { Plus } from "react-feather";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
 
 const nunito = Nunito({ subsets: ["latin"], weight: "800" });
 const nunito_700 = Nunito({ subsets: ["latin"], weight: "700" });
@@ -33,9 +33,10 @@ const rise = keyframes`
 
 const DashBoard = () => {
     const date = new Date();
-    const [is_loading, set_is_loading] = useState<boolean>(false);
+    const [is_loading, set_is_loading] = useState<boolean>(true);
     const [projects, set_projects] = useState<Array<any>>([]);
     const [show_newproject, set_newproject] = useState<boolean>(false);
+    const animation = useAnimation();
 
     useEffect(() => {
         document.title = "Your projects - planetary";
@@ -82,10 +83,22 @@ const DashBoard = () => {
         "December",
     ];
 
+    const Container = motion(Flex);
+    const AnimatedElement = motion(Flex);
+
     return (
         <Flex width={"100vw"} height="100vh">
             <SideBar current="dashboard" />
-            {show_newproject ? <NewProject /> : <></>}
+            <AnimatePresence initial={true}>
+                {show_newproject && (
+                    <NewProject
+                        container={Container}
+                        animatedelement={AnimatedElement}
+                        variant={animation}
+                        destroy_self={() => set_newproject(false)}
+                    />
+                )}
+            </AnimatePresence>
             <Flex
                 direction={"column"}
                 width={{

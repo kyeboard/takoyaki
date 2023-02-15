@@ -95,17 +95,21 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
                     borderRadius={"full"}
                     alt="Test User"
                 />
-                <Box marginRight="auto">
-                    {/* <Text>{(user ?? { name: "" }).name}</Text> */}
-                    <Text>{"kyeboard"}</Text>
-                    {/* <Text color="gray.500" fontSize={14}>
-                        {(user ?? { email: "" }).email}
-                    </Text> */}
+                <Box
+                    marginRight="auto"
+                    display={{ sidebar_md: "initial", base: "none" }}
+                >
+                    <Text>{(user ?? { name: "" }).name}</Text>
                     <Text color="gray.500" fontSize={14}>
-                        me@kyeboard.me
+                        {(user ?? { email: "" }).email}
                     </Text>
                 </Box>
-                <Text marginLeft="auto" fontSize={20} color="gray.500">
+                <Text
+                    marginLeft="auto"
+                    fontSize={20}
+                    color="gray.500"
+                    display={{ sidebar_md: "initial", base: "none" }}
+                >
                     ...
                 </Text>
             </Flex>
