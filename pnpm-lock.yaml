@@ -13,6 +13,7 @@ specifiers:
   '@pankod/refine-react-table': ^4.7.2
   '@tabler/icons': ^1.39.1
   '@types/feather-icons': ^4.29.1
+  '@types/lodash': ^4.14.191
   '@types/needle': ^3.2.0
   '@types/node': ^14.14.13
   '@types/react': ^18.0.15
@@ -27,6 +28,7 @@ specifiers:
   feather-icons: ^4.29.0
   framer-motion: ^9.0.2
   googleapis: ^110.0.0
+  lodash: ^4.17.21
   moment: ^2.29.4
   needle: ^3.2.0
   next: ^13.0.6
@@ -55,6 +57,7 @@ dependencies:
   feather-icons: 4.29.0
   framer-motion: 9.0.2_biqbaboplfbrettd7655fr4n2y
   googleapis: 110.0.0
+  lodash: 4.17.21
   moment: 2.29.4
   needle: 3.2.0
   next: 13.1.6_5mhhrw5dq6gnbuirj2awdzvyuu
@@ -69,6 +72,7 @@ dependencies:
 
 devDependencies:
   '@types/feather-icons': 4.29.1
+  '@types/lodash': 4.14.191
   '@types/needle': 3.2.0
   '@types/node': 14.18.36
   '@types/react': 18.0.27
@@ -2429,7 +2433,6 @@ packages:
 
   /@types/lodash/4.14.191:
     resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
-    dev: false
 
   /@types/mdast/3.0.10:
     resolution: {integrity: sha512-W864tg/Osz1+9f4lrGTZpCSO5/z4608eUp19tbozkq2HJK6i3z1kT0H9tlADXuYIb1YYOBByU4Jsqkk75q48qA==}
