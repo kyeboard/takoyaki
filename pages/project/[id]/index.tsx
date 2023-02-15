@@ -1,5 +1,13 @@
 import SideBarProject from "@components/SideBarProject";
-import { Box, Button, Flex, Input, Text } from "@pankod/refine-chakra-ui";
+import {
+    Box,
+    Button,
+    Flex,
+    Image,
+    Input,
+    Spinner,
+    Text,
+} from "@pankod/refine-chakra-ui";
 import { account, database } from "src/utility";
 import { Models } from "@pankod/refine-appwrite";
 import { useEffect, useState } from "react";
@@ -8,7 +16,7 @@ import { Nunito } from "@next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import NewWorkspace from "@components/NewWorkspace";
-import { GetStaticProps } from "next";
+import { AnimatePresence, motion } from "framer-motion";
 
 const font = Nunito({ subsets: ["latin"], weight: "800" });
 
@@ -20,7 +28,7 @@ const DashBoard: React.FC<{}> = () => {
     const [user, set_user] = useState<Models.Account<{}> | null>(null);
     const [workspaces, set_workspaces] = useState<Array<any>>([]);
     const [loading, set_loading] = useState<boolean>(true);
-    const [show_newproject, set_newproject] = useState<boolean>(false);
+    const [show_newproject, set_newproject] = useState<boolean>(true);
     const router = useRouter();
 
     useEffect(() => {
@@ -37,14 +45,26 @@ const DashBoard: React.FC<{}> = () => {
                     )
                 ).documents
             );
+            set_loading(false);
         };
 
         fetch_user();
     }, [router]);
 
+    const Container = motion(Flex);
+    const AnimatedElement = motion(Flex);
+
     return (
         <Flex>
-            {show_newproject ? <NewWorkspace /> : <></>}
+            <AnimatePresence>
+                {show_newproject && (
+                    <NewWorkspace
+                        container={Container}
+                        animatedelement={AnimatedElement}
+                        destroy_self={() => set_newproject(false)}
+                    />
+                )}
+            </AnimatePresence>
             <SideBarProject current={"todos"} />
             <Flex
                 width={"calc(100% - 350px)"}
@@ -73,48 +93,73 @@ const DashBoard: React.FC<{}> = () => {
                         Create new workspace
                     </Button>
                 </Flex>
-                <Flex>
-                </Flex>
-                <Flex marginTop={8}>
-                    {workspaces.map((w) => {
-                        return (
-                            <Link
-                                key={w.$id}
-                                href={`/project/${""}/workspace/${w.$id}`}
-                            >
-                                <Flex
-                                    gap={2}
-                                    direction="column"
-                                    bg={w.color}
-                                    borderRadius={"2xl"}
-                                    width={"400px"}
-                                    padding={8}
+                {loading ? (
+                    <Flex
+                        width="full"
+                        height="full"
+                        justifyContent={"center"}
+                        alignItems="center"
+                    >
+                        <Spinner color="#2E3440" />
+                    </Flex>
+                ) : workspaces.length == 0 ? (
+                    <Flex
+                        alignItems={"center"}
+                        justifyContent="center"
+                        width="full"
+                        direction="column"
+                        height={"full"}
+                        gap={6}
+                    >
+                        <Image src="/images/empty.png" width={24} />
+                        <Text maxWidth={96} align="center">
+                            Your to-dos are going to be more scrambled than an
+                            egg on a trampoline if you don&apos;t arrange them
+                            in workspaces.
+                        </Text>
+                    </Flex>
+                ) : (
+                    <Flex marginTop={8}>
+                        {workspaces.map((w) => {
+                            return (
+                                <Link
+                                    key={w.$id}
+                                    href={`/project/${""}/workspace/${w.$id}`}
                                 >
-                                    <Box
-                                        bg="rgba(46, 52, 64, 0.2)"
-                                        width="fit-content"
-                                        color="#2E3440"
-                                        padding={3}
-                                        borderRadius="xl"
-                                        dangerouslySetInnerHTML={{
-                                            __html: feather.icons.github.toSvg(),
-                                        }}
-                                    />
-                                    <Text
-                                        marginTop={2}
-                                        fontSize={24}
-                                        className={font.className}
+                                    <Flex
+                                        gap={2}
+                                        direction="column"
+                                        bg={w.color}
+                                        borderRadius={"2xl"}
+                                        width={"400px"}
+                                        padding={8}
                                     >
-                                        {w.title}
-                                    </Text>
-                                    <Text color="gray.600">
-                                        {w.description}
-                                    </Text>
-                                </Flex>
-                            </Link>
-                        );
-                    })}
-                </Flex>
+                                        <Box
+                                            bg="rgba(46, 52, 64, 0.2)"
+                                            width="fit-content"
+                                            color="#2E3440"
+                                            padding={3}
+                                            borderRadius="xl"
+                                            dangerouslySetInnerHTML={{
+                                                __html: feather.icons.github.toSvg(),
+                                            }}
+                                        />
+                                        <Text
+                                            marginTop={2}
+                                            fontSize={24}
+                                            className={font.className}
+                                        >
+                                            {w.title}
+                                        </Text>
+                                        <Text color="gray.600">
+                                            {w.description}
+                                        </Text>
+                                    </Flex>
+                                </Link>
+                            );
+                        })}
+                    </Flex>
+                )}
             </Flex>
         </Flex>
     );
