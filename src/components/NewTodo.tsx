@@ -67,7 +67,7 @@ const NewTask: React.FC<NewTaskProps> = ({ close }) => {
     useEffect(() => {
         const fetch_data = async () => {
             set_members(
-                (await teams.listMemberships("63e89f329f780a476204"))
+                (await teams.listMemberships("63ec33962d17e2ab9e3a"))
                     .memberships
             );
         };
@@ -98,16 +98,15 @@ const NewTask: React.FC<NewTaskProps> = ({ close }) => {
 
         // Create a new todo
         await database.createDocument(
-            "63e89f329f780a476204",
+            "63ec33962d17e2ab9e3a",
             "todos",
             "unique()",
             {
                 title,
                 due_date: date,
                 priority,
-                status: false,
                 assignee,
-                category: "63e89f329f780a476204",
+                category: "63ec33962d17e2ab9e3a",
             }
         );
     };

@@ -64,13 +64,13 @@ const Todos = () => {
     const [all_todos, set_all_todos] = useState<Array<Todo>>([]);
     const router = useRouter();
     const actions = ["all", "today", "tomorrow", "week", "month", "year"];
-    const [popup_state, set_popup_state] = useState<boolean>(true);
+    const [popup_state, set_popup_state] = useState<boolean>(false);
 
     useEffect(() => {
         const fetch_todos = async () => {
             const todos = (
                 await database.listDocuments<Todo>(
-                    "63e89f329f780a476204",
+                    "63ec33962d17e2ab9e3a",
                     // router.query.id as string,
                     "todos"
                 )

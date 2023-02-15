@@ -7,6 +7,7 @@ import feather from "feather-icons";
 import { Nunito } from "@next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import NewWorkspace from "@components/NewWorkspace";
 
 const font = Nunito({ subsets: ["latin"], weight: "800" });
 
@@ -14,6 +15,7 @@ const DashBoard = () => {
     const [user, set_user] = useState<Models.Account<{}> | null>(null);
     const router = useRouter();
     const [workspaces, set_workspaces] = useState<Array<any>>([]);
+    const [show_newproject, set_newproject] = useState<boolean>(false);
 
     useEffect(() => {
         const fetch_user = async () => {
@@ -24,8 +26,8 @@ const DashBoard = () => {
                 (
                     await database.listDocuments(
                         // router.query.id as string,
-                        "63e89f329f780a476204",
-                        "63e993ffd9b4c6d37712"
+                        "63ec33962d17e2ab9e3a",
+                        "categories"
                     )
                 ).documents
             );
@@ -36,6 +38,7 @@ const DashBoard = () => {
 
     return (
         <Flex>
+            {show_newproject ? <NewWorkspace /> : <></>}
             <SideBarProject current={"todos"} />
             <Flex
                 width={"calc(100% - 350px)"}
@@ -53,17 +56,16 @@ const DashBoard = () => {
                         padding={6}
                         placeholder="Search for your workspaces..."
                     />
-                    <Link href={`/project/${router.query.id}/workspace/new`}>
-                        <Button
-                            width="300px"
-                            padding={6}
-                            bg="#2E3440"
-                            color="#D8DEE9"
-                            _hover={{ bg: "#2E3440" }}
-                        >
-                            Create new workspace
-                        </Button>
-                    </Link>
+                    <Button
+                        width="300px"
+                        padding={6}
+                        bg="#2E3440"
+                        color="#D8DEE9"
+                        onClick={() => set_newproject(true)}
+                        _hover={{ bg: "#2E3440" }}
+                    >
+                        Create new workspace
+                    </Button>
                 </Flex>
                 <Flex marginTop={8}>
                     {workspaces.map((w) => {

@@ -11,16 +11,14 @@ import {
 import { Nunito } from "@next/font/google";
 import ColorSelection from "@components/ColorInput";
 import { useEffect, useState } from "react";
-import { rise, unfade } from "animations"
-import { Mail, Plus } from "react-feather";
+import feathericons, { FeatherIcon } from "feather-icons";
 import { database, storage, teams } from "src/utility";
+import { rise, unfade } from "animations";
 import { useRouter } from "next/router";
-import { Permission, Role } from "@pankod/refine-appwrite";
-import Validator from "validatorjs";
 
 const nunito = Nunito({ subsets: ["latin"], weight: "800" });
 
-const NewProject = () => {
+const NewWorkspace = () => {
     const [color, set_color] = useState<string>("pink");
     const [name, set_name] = useState<string>("");
     const [desc, set_desc] = useState<string>("");
@@ -29,102 +27,54 @@ const NewProject = () => {
     );
     const [show_loader, set_show_loader] = useState<boolean>(false);
     const [email, set_email] = useState<string>("");
-    const [users, set_users] = useState<Array<string>>([]);
     const router = useRouter();
     const [invalid, set_invalid] = useState<boolean>(false);
+    const [icon, set_icon] = useState<string>("");
+
+    const icons: { [key: string]: any } = new Object(feathericons.icons);
 
     useEffect(() => {
-        document.title = "Create a new project - kyeboard";
+        document.title = "Create a new workspace - kyeboard";
     });
 
-    const create_project = async () => {
+    const create_workspace = async () => {
         set_show_loader(true);
 
-        // Create team
-        const team = await teams.create("unique()", name);
-
-        // Create an entry in database for databases
         await database.createDocument(
-            "teams",
-            "teams",
-            team.$id,
+            "63ec33962d17e2ab9e3a",
+            "categories",
+            "unique()",
             {
-                title: name,
+                name,
                 description: desc,
                 color,
-            },
-            [
-                Permission.update(Role.team(team.$id)),
-                Permission.read(Role.team(team.$id)),
-                Permission.delete(Role.team(team.$id)),
-            ]
-        );
-
-        // Wait for a seconds for the cloud function to complete
-        await new Promise((r) => setTimeout(r, 500));
-
-        // Invite members
-        for (const member of users) {
-            set_status("Sending an invite link to " + member);
-
-            await teams.createMembership(
-                team.$id,
-                member,
-                [],
-                window.location.origin + "/accept_invite"
-            );
-        }
-
-        set_status("Done!");
-
-        router.push(`/project/${team.$id}`);
-    };
-
-    const add_user = () => {
-        const validator = new Validator(
-            {
-                email,
-            },
-            {
-                email: "required|email",
+                icon
             }
-        );
-
-        if (validator.passes()) {
-            // Add to array
-            users.push(email);
-
-            // Set the input box to input
-            set_email("");
-
-            // Just to not hit the edge case, lets keep the invalid to false
-            set_invalid(false);
-        } else {
-            set_invalid(true);
-        }
+        )
     };
 
     return (
         <Flex
-            height="100vh"
-            width="100vw"
-            animation={`${unfade} 500ms ease-in-out forwards`}
-            bg="rgba(46, 52, 64, 0.6)"
-            position="fixed"
-            zIndex={2000}
+            position={"absolute"}
+            height={"100vh"}
+            bg="rgba(47, 53, 65, 0.5)"
+            top={0}
+            left={0}
+            zIndex={20000}
             backdropFilter="auto"
             backdropBlur={"6px"}
+            animation={`${unfade} 500ms ease-in-out forwards`}
         >
             <Flex
-                zIndex={1}
                 marginTop={"auto"}
+                zIndex={1}
+                bg="#e7e7f2"
+                animation={`${rise} 500ms ease-in-out forwards`}
                 direction={"column"}
                 width={"100vw"}
+                borderTopRadius={"xl"}
                 height="87vh"
-                animation={`${rise} 500ms ease-in-out forwards`}
-                borderTopRadius={"2xl"}
-                paddingTop={12}
-                bg="#e7e7f2"
+                paddingTop={10}
                 paddingX={24}
             >
                 <Text
@@ -135,7 +85,7 @@ const NewProject = () => {
                     style={{ animationDelay: `0ms` }}
                     animation={`${rise} 500ms ease-in-out forwards`}
                 >
-                    New Project
+                    New Workspace
                 </Text>
                 <Flex gap={12} width={"full"} height="full" marginTop={10}>
                     <Box width={"full"} height={"full"}>
@@ -145,7 +95,7 @@ const NewProject = () => {
                                 style={{ animationDelay: `40ms` }}
                                 animation={`${rise} 500ms ease-in-out forwards`}
                             >
-                                Project Name
+                                Workspace Name
                             </Text>
                             <Input
                                 opacity={0}
@@ -155,7 +105,7 @@ const NewProject = () => {
                                 padding={6}
                                 marginTop={2}
                                 onChange={(e) => set_name(e.target.value)}
-                                placeholder="A unique name for your project..."
+                                placeholder="A unique name for your workspace..."
                             />
                         </Box>
                         <Box marginTop={5}>
@@ -164,7 +114,7 @@ const NewProject = () => {
                                 style={{ animationDelay: `100ms` }}
                                 animation={`${rise} 500ms ease-in-out forwards`}
                             >
-                                Project Description
+                                Workspace Description
                             </Text>
                             <Textarea
                                 bg="#dde1f3"
@@ -177,7 +127,7 @@ const NewProject = () => {
                                 height={44}
                                 resize="none"
                                 marginTop={2}
-                                placeholder="A legendary description about your project..."
+                                placeholder="A legendary description about your workspace..."
                             />
                         </Box>
                         <Box marginTop={5}>
@@ -186,7 +136,7 @@ const NewProject = () => {
                                 style={{ animationDelay: `140ms` }}
                                 animation={`${rise} 500ms ease-in-out forwards`}
                             >
-                                Project Color
+                                Workspace Color
                             </Text>
                             <Box
                                 opacity={0}
@@ -220,7 +170,7 @@ const NewProject = () => {
                                 animation={`${rise} 500ms ease-in-out forwards`}
                                 _hover={{ bg: "#2E3440" }}
                                 bg="#2E3440"
-                                onClick={create_project}
+                                onClick={create_workspace}
                                 color="#D8DEE9"
                             >
                                 Create
@@ -245,7 +195,7 @@ const NewProject = () => {
                             style={{ animationDelay: `240ms` }}
                             animation={`${rise} 500ms ease-in-out forwards`}
                         >
-                            Invite members
+                            Choose an icon
                         </Text>
                         <Flex marginTop={2} gap={5}>
                             <Input
@@ -256,55 +206,63 @@ const NewProject = () => {
                                 style={{ animationDelay: `260ms` }}
                                 animation={`${rise} 500ms ease-in-out forwards`}
                                 onChange={(e) => set_email(e.target.value)}
-                                placeholder="Enter member's email address..."
+                                placeholder="Coffee cup icon = productivity fuel!"
                             />
-                            <Button
-                                padding={6}
-                                _hover={{ bg: "#2E3440" }}
-                                opacity={0}
-                                style={{ animationDelay: `280ms` }}
-                                animation={`${rise} 500ms ease-in-out forwards`}
-                                bg="#2E3440"
-                                color="#D8DEE9"
-                                onClick={add_user}
-                            >
-                                <Plus />
-                            </Button>
                         </Flex>
-                        {invalid ? (
-                            <Text marginY={2} paddingX={4} color="#BF616A">
-                                Whoops! Email not recognized. Time to double
-                                check those typos.
-                            </Text>
-                        ) : (
-                            <></>
-                        )}
-                        <Box height={"full"} width="full">
-                            {users.map((email) => {
-                                return (
-                                    <Flex
-                                        key={email}
-                                        bg="#dde1f3"
-                                        marginTop={5}
-                                        padding={4}
-                                        borderRadius={10}
-                                        opacity={0}
-                                        animation={`${rise} 500ms ease-in-out forwards`}
-                                        gap={4}
-                                        paddingX={6}
-                                    >
-                                        <Mail />
-                                        {email}
-                                    </Flex>
-                                );
-                            })}
-                        </Box>
+                        <Flex
+                            height={"35em"}
+                            width="100%"
+                            wrap="wrap"
+                            gap={3}
+                            justifyContent="center"
+                            overflow={"scroll"}
+                            marginY={6}
+                        >
+                            {Object.entries(feathericons.icons).map(
+                                (key, value) => {
+                                    if (key[0].includes(email)) {
+                                        return (
+                                            <Flex
+                                                padding={4}
+                                                rounded="lg"
+                                                bg={
+                                                    key[0] == icon
+                                                        ? "#d3d8f2"
+                                                        : "#dde1f3"
+                                                }
+                                                onClick={() => set_icon(key[0])}
+                                                borderWidth={2}
+                                                cursor="pointer"
+                                                height={14}
+                                                boxSizing="border-box"
+                                                key={key[0]}
+                                                borderColor={
+                                                    key[0] == icon
+                                                        ? "#2E3440"
+                                                        : "transparent"
+                                                }
+                                                dangerouslySetInnerHTML={{
+                                                    __html: icons[key[0]].toSvg(
+                                                        {
+                                                            width: 20,
+                                                            height: 20,
+                                                        }
+                                                    ),
+                                                }}
+                                            ></Flex>
+                                        );
+                                    } else {
+                                        return <></>;
+                                    }
+                                }
+                            )}
+                        </Flex>
                     </Flex>
                 </Flex>
                 {show_loader ? (
                     <Flex
                         position={"absolute"}
-                        height="87vh"
+                        height="100vh"
                         width="100vw"
                         zIndex={100000}
                         bg="rgba(46, 52, 64, 0.6)"
@@ -334,4 +292,4 @@ const NewProject = () => {
     );
 };
 
-export default NewProject;
+export default NewWorkspace;
