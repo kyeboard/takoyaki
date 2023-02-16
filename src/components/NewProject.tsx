@@ -31,12 +31,10 @@ const nunito = Nunito({ subsets: ["latin"], weight: "800" });
 
 const NewProject: React.FC<{
     destroy_self: () => void;
-    variant: AnimationControls;
     container: ComponentType<any>;
     animatedelement: ComponentType<any>;
 }> = ({
     destroy_self,
-    variant,
     container: Container,
     animatedelement: AnimatedElement,
 }) => {
