@@ -80,14 +80,15 @@ const database_structure = {
                     array: false,
                 },
                 {
+                    key: "due_date",
                     key: "description",
                     required: true,
                     array: false,
                 },
                 {
-                    key: "completed",
+                    key: "assignee",
                     required: true,
-                    array: false,
+                    array: true,
                 },
             ],
         },

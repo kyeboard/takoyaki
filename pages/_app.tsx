@@ -38,10 +38,10 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                 <Refine
                     routerProvider={routerProvider}
                     dataProvider={dataProvider(appwriteClient, {
-                        databaseId: "default",
+                        databaseId: "teams",
                     })}
                     liveProvider={liveProvider(appwriteClient, {
-                        databaseId: "default",
+                        databaseId: "63df174eb4161f4803ca",
                     })}
                     liveMode="auto"
                     authProvider={authProvider}

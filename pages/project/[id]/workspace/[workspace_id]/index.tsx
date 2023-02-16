@@ -67,11 +67,12 @@ const Todos = () => {
     const [popup_state, set_popup_state] = useState<boolean>(false);
 
     useEffect(() => {
+        if (!router.isReady) return;
+
         const fetch_todos = async () => {
             const todos = (
                 await database.listDocuments<Todo>(
-                    "63ec33962d17e2ab9e3a",
-                    // router.query.id as string,
+                    router.query.id as string,
                     "todos"
                 )
             ).documents;
@@ -82,7 +83,7 @@ const Todos = () => {
         };
 
         fetch_todos();
-    }, []);
+    }, [router]);
 
     const filter_with_difference = (
         key: moment.unitOfTime.Diff,
