@@ -1,5 +1,5 @@
 // Import modules
-import { Client, Databases, Teams } from "node-appwrite";
+import { Client, Databases, Permission, Role, Teams } from "node-appwrite";
 
 // Request type
 interface Request {
@@ -30,29 +30,62 @@ interface EventData {
 const database_structure = {
     collections: [
         {
-            name: "todos",
+            name: "categories",
+            roles: [
+                "category_read",
+                "category_write",
+                "category_update",
+                "category_delete",
+            ],
             rules: [
                 {
-                    label: "Title",
                     key: "title",
-                    type: "text",
-                    default: "",
                     required: true,
                     array: false,
                 },
                 {
-                    label: "Description",
                     key: "description",
-                    type: "text",
-                    default: "",
                     required: true,
                     array: false,
                 },
                 {
-                    label: "Completed",
                     key: "completed",
-                    type: "boolean",
-                    default: false,
+                    required: true,
+                    array: false,
+                },
+                {
+                    key: "icon",
+                    required: true,
+                    array: false,
+                },
+                {
+                    key: "color",
+                    required: true,
+                    array: false,
+                },
+            ],
+        },
+        {
+            name: "todos",
+            roles: [
+                "todos_read",
+                "todos_write",
+                "todos_update",
+                "todos_delete",
+            ],
+            rules: [
+                {
+                    key: "title",
+                    required: true,
+                    array: false,
+                },
+                {
+                    key: "description",
+                    required: true,
+                    array: false,
+                },
+                {
+                    key: "completed",
                     required: true,
                     array: false,
                 },
@@ -60,28 +93,20 @@ const database_structure = {
         },
         {
             name: "chat",
+            roles: ["chat_read", "chat_write", "chat_update", "chat_delete"],
             rules: [
                 {
-                    label: "Message",
                     key: "message",
-                    type: "text",
-                    default: "",
                     required: true,
                     array: false,
                 },
                 {
-                    label: "Timestamp",
                     key: "timestamp",
-                    type: "numeric",
-                    default: 0,
                     required: true,
                     array: false,
                 },
                 {
-                    label: "author",
                     key: "author",
-                    type: "string",
-                    default: 0,
                     required: true,
                     array: false,
                 },
@@ -89,52 +114,40 @@ const database_structure = {
         },
         {
             name: "events",
+            roles: [
+                "events_read",
+                "events_write",
+                "events_update",
+                "events_delete",
+            ],
             rules: [
                 {
-                    label: "Title",
                     key: "title",
-                    type: "text",
-                    default: "",
                     required: true,
                     array: false,
                 },
                 {
-                    label: "Description",
                     key: "description",
-                    type: "text",
-                    default: "",
                     required: true,
                     array: false,
                 },
                 {
-                    label: "Location",
                     key: "location",
-                    type: "text",
-                    default: "",
                     required: true,
                     array: false,
                 },
                 {
-                    label: "Start",
                     key: "start",
-                    type: "numeric",
-                    default: 0,
                     required: true,
                     array: false,
                 },
                 {
-                    label: "End",
                     key: "end",
-                    type: "numeric",
-                    default: 0,
                     required: true,
                     array: false,
                 },
                 {
-                    label: "Attendees",
                     key: "attendees",
-                    type: "text",
-                    default: "",
                     required: false,
                     array: true,
                 },
@@ -175,7 +188,21 @@ const setup_workspace = async function (req: Request, res: Response) {
             await database.createCollection(
                 event_data.$id,
                 collection.name,
-                collection.name
+                collection.name,
+                [
+                    Permission.read(
+                        Role.team(event_data.$id, collection.roles[0])
+                    ),
+                    Permission.write(
+                        Role.team(event_data.$id, collection.roles[1])
+                    ),
+                    Permission.update(
+                        Role.team(event_data.$id, collection.roles[2])
+                    ),
+                    Permission.delete(
+                        Role.team(event_data.$id, collection.roles[3])
+                    ),
+                ]
             );
 
             for (const rules of collection.rules) {
