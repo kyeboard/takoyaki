@@ -34,9 +34,7 @@ const EditTask: React.FC<{
 }) => {
     const [title, set_title] = useState<string>("");
     const [due_date, set_due_date] = useState<string>("");
-    const [status, set_status] = useState<string>(
-        "Updating your todo..."
-    );
+    const [status, set_status] = useState<string>("Updating your todo...");
     const [show_loader, set_show_loader] = useState<boolean>(false);
     const [priority, set_priority] = useState<number>(0);
     const router = useRouter();
@@ -55,7 +53,6 @@ const EditTask: React.FC<{
                 "todos",
                 todo_id
             );
-
 
             // Set the values
             set_title(todo.title);

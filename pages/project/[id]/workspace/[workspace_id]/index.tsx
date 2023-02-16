@@ -368,7 +368,15 @@ const Todos = () => {
                                     return (
                                         <AnimatePresence key={t.$id}>
                                             <Tr
-                                                bg="#dde0f2"
+                                                bg={
+                                                    moment(
+                                                        moment.now()
+                                                    ).isAfter(
+                                                        moment(t.due_date)
+                                                    )
+                                                        ? "rgba(243, 139, 168, 0.1)	"
+                                                        : "#dde0f2"
+                                                }
                                                 style={{
                                                     animationDelay: `${
                                                         10 * i
