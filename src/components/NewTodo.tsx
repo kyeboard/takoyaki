@@ -14,7 +14,7 @@ import {
 } from "@pankod/refine-chakra-ui";
 import moment from "moment";
 import { useRouter } from "next/router";
-import { FormEvent, useEffect, useState } from "react";
+import { ComponentType, FormEvent, useEffect, useState } from "react";
 import { X } from "react-feather";
 import { database, storage, teams } from "src/utility";
 import FormItem from "./FormItem";
@@ -24,6 +24,8 @@ const font_bold = Nunito({ subsets: ["latin"], weight: "700" });
 
 interface NewTaskProps {
     close: () => void;
+    container: ComponentType<any>;
+    animatedelement: ComponentType<any>;
 }
 
 const unfade = keyframes`
@@ -46,10 +48,15 @@ const rise = keyframes`
     }
 `;
 
-const NewTask: React.FC<NewTaskProps> = ({ close }) => {
+const NewTask: React.FC<NewTaskProps> = ({
+    close,
+    container: Container,
+    animatedelement: AnimatedElement,
+}) => {
     const [members, set_members] = useState<Array<Models.Membership>>([]);
     const [title, set_title] = useState<string>("");
     const [date, set_date] = useState<string>("");
+    const [loading, set_loading] = useState<boolean>(false);
     const [priority, set_priority] = useState<number>(0);
     const [has_sumbitted, set_has_sumbitted] = useState<boolean>(false);
     const router = useRouter();
@@ -114,7 +121,7 @@ const NewTask: React.FC<NewTaskProps> = ({ close }) => {
     };
 
     return (
-        <Flex
+        <Container
             width="100vw"
             height="100vh"
             position={"fixed"}
@@ -124,29 +131,24 @@ const NewTask: React.FC<NewTaskProps> = ({ close }) => {
             zIndex={2000}
             backdropFilter="auto"
             backdropBlur="6px"
-            animation={`${unfade} 500ms ease-in-out forwards`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
         >
-            <Box
+            <AnimatedElement
                 width="100vw"
                 height="90vh"
                 bg="#e7e7f2"
                 marginTop="auto"
                 opacity="0"
-                style={{ animationDelay: "50ms" }}
-                animation={`${rise} 600ms ease-in-out forwards`}
+                direction="column"
+                initial={{ opacity: 0, transform: "translateY(30px)" }}
+                animate={{ opacity: 1, transform: "translateY(0px)" }}
+                exit={{ opacity: 0, transform: "translateY(30px)" }}
                 padding={10}
                 position="relative"
                 borderTopRadius={"xl"}
             >
-                <Box
-                    onClick={close}
-                    position={"absolute"}
-                    right={8}
-                    top={8}
-                    cursor="pointer"
-                >
-                    <X />
-                </Box>
                 <Text
                     className={font.className}
                     textAlign="center"
@@ -189,9 +191,7 @@ const NewTask: React.FC<NewTaskProps> = ({ close }) => {
                                         return (
                                             !has_sumbitted ||
                                             (parsed.isValid() &&
-                                                parsed.isSameOrAfter(
-                                                    moment.now()
-                                                ))
+                                                parsed.isAfter(moment.now()))
                                         );
                                     }}
                                     helper_message="Due date? Time's a-ticking!"
@@ -212,20 +212,37 @@ const NewTask: React.FC<NewTaskProps> = ({ close }) => {
                                     error_message="Weird priority, might wanna double check that"
                                 />
                             </Flex>
-                            <Button
-                                type="submit"
-                                width="full"
-                                padding={6}
-                                marginTop={6}
-                                bg="#2E3440"
-                                opacity="0"
-                                style={{ animationDelay: "210ms" }}
-                                animation={`${rise} 600ms ease-in-out forwards`}
-                                color="#D8DEE9"
-                                _hover={{ bg: "#2E3440" }}
-                            >
-                                Create new task
-                            </Button>
+                            <Flex>
+                                <Button
+                                    type="submit"
+                                    width="full"
+                                    padding={6}
+                                    marginTop={6}
+                                    color="#BF616A"
+                                    opacity="0"
+                                    onClick={close}
+                                    bg="transparent"
+                                    style={{ animationDelay: "210ms" }}
+                                    animation={`${rise} 600ms ease-in-out forwards`}
+                                    _hover={{ bg: "transparent" }}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    type="submit"
+                                    width="full"
+                                    padding={6}
+                                    marginTop={6}
+                                    bg="#2E3440"
+                                    opacity="0"
+                                    style={{ animationDelay: "210ms" }}
+                                    animation={`${rise} 600ms ease-in-out forwards`}
+                                    color="#D8DEE9"
+                                    _hover={{ bg: "#2E3440" }}
+                                >
+                                    Create
+                                </Button>
+                            </Flex>
                         </form>
                     </Box>
                     <Box width="40%">
@@ -288,8 +305,8 @@ const NewTask: React.FC<NewTaskProps> = ({ close }) => {
                         </Flex>
                     </Box>
                 </Flex>
-            </Box>
-        </Flex>
+            </AnimatedElement>
+        </Container>
     );
 };
 

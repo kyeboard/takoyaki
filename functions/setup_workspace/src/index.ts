@@ -81,7 +81,11 @@ const database_structure = {
                 },
                 {
                     key: "due_date",
-                    key: "description",
+                    required: true,
+                    array: false,
+                },
+                {
+                    key: "priority",
                     required: true,
                     array: false,
                 },

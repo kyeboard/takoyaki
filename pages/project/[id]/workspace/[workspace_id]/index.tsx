@@ -112,8 +112,7 @@ const Todos = () => {
     }, [router]);
 
     const filter_with_difference = (
-        key: moment.unitOfTime.Diff,
-        value: number
+        key: moment.unitOfTime.Diff
     ): Array<Todo> => {
         const filter_todos: Todo[] = [];
         const today = moment(moment.now());
@@ -121,7 +120,7 @@ const Todos = () => {
         for (const todo of all_todos) {
             const due_date_moment = moment(todo.due_date);
 
-            if (due_date_moment.diff(today, key) == value) {
+            if (due_date_moment.isSame(today, key)) {
                 filter_todos.push(todo);
             }
         }
@@ -136,45 +135,23 @@ const Todos = () => {
                 break;
 
             case "today":
-                set_todos(filter_with_difference("days", 0));
+                set_todos(filter_with_difference("days"));
                 break;
 
             case "tomorrow":
-                set_todos(filter_with_difference("days", 1));
+                set_todos(filter_with_difference("days"));
                 break;
 
             case "week":
-                set_todos(filter_with_difference("weeks", 0));
+                set_todos(filter_with_difference("weeks"));
                 break;
 
             case "month":
-                const filter_todos: Todo[] = [];
-                const today = moment(moment.now());
-
-                for (const todo of all_todos) {
-                    const due_date_moment = moment(todo.due_date);
-
-                    if (today.get("month") == due_date_moment.get("month")) {
-                        filter_todos.push(todo);
-                    }
-                }
-
-                set_todos(filter_todos);
+                set_todos(filter_with_difference("month"));
                 break;
 
             case "year":
-                const filter_todos2: Todo[] = [];
-                const today2 = moment(moment.now());
-
-                for (const todo of all_todos) {
-                    const due_date_moment = moment(todo.due_date);
-
-                    if (today2.get("year") == due_date_moment.get("year")) {
-                        filter_todos2.push(todo);
-                    }
-                }
-
-                set_todos(filter_todos2);
+                set_todos(filter_with_difference("year"));
                 break;
 
             default:
@@ -186,12 +163,16 @@ const Todos = () => {
     const AnimatedElement = motion(Flex);
 
     return (
-        <Flex>
-            {popup_state ? (
-                <NewTask close={() => set_popup_state(false)} />
-            ) : (
-                <></>
-            )}
+        <Flex marginLeft={"350px"} width="full">
+            <AnimatePresence>
+                {popup_state && (
+                    <NewTask
+                        container={Container}
+                        animatedelement={AnimatedElement}
+                        close={() => set_popup_state(false)}
+                    />
+                )}
+            </AnimatePresence>
             <AnimatePresence>
                 {edit_state !== "-" && (
                     <EditTask

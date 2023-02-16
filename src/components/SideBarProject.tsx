@@ -1,11 +1,7 @@
 import { Flex, Image, Text, Box } from "@pankod/refine-chakra-ui";
 import { useRouter } from "next/router";
 import {
-    BarChart2,
-    Bell,
     Settings,
-    Calendar,
-    Inbox,
     Folder,
     MessageSquare,
     Users,
@@ -29,6 +25,9 @@ const SideBarProject: React.FC<SideBarProps> = ({ current }) => {
             height="100vh"
             color="#2E3440"
             padding={6}
+            position={"fixed"}
+            top={0}
+            left={0}
             paddingTop={36}
             width={"350px"}
         >
