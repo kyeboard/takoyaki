@@ -3,31 +3,21 @@ import {
     Button,
     Flex,
     Input,
-    keyframes,
     Spinner,
-    Stack,
     Text,
-    Textarea,
     VStack,
 } from "@pankod/refine-chakra-ui";
-import { Nunito } from "@next/font/google";
 import ColorSelection from "@components/ColorInput";
 import FormItem from "@components/FormItem";
 import { ComponentType, useEffect, useRef, useState } from "react";
 import { rise, unfade } from "animations";
 import { Mail, Plus, X } from "react-feather";
-import { database, storage, teams } from "src/utility";
+import { database, teams } from "src/utility";
 import { useRouter } from "next/router";
 import { Permission, Role } from "@pankod/refine-appwrite";
 import Validator from "validatorjs";
-import {
-    AnimatePresence,
-    AnimationControls,
-    motion,
-    useAnimation,
-} from "framer-motion";
-
-const nunito = Nunito({ subsets: ["latin"], weight: "800" });
+import { AnimatePresence } from "framer-motion";
+import ExtraBold from "./ExtraBold";
 
 const NewProject: React.FC<{
     destroy_self: () => void;
@@ -38,7 +28,7 @@ const NewProject: React.FC<{
     container: Container,
     animatedelement: AnimatedElement,
 }) => {
-    const [color, set_color] = useState<string>("pink");
+    const [color, set_color] = useState<string>("rgba(243, 139, 168, 0.3)");
     const [name, set_name] = useState<string>("");
     const [desc, set_desc] = useState<string>("");
     const [status, set_status] = useState<string>(
@@ -87,12 +77,14 @@ const NewProject: React.FC<{
         for (const member of users) {
             set_status("Sending an invite link to " + member);
 
-            await teams.createMembership(
-                team.$id,
-                member,
-                [],
-                window.location.origin + "/accept_invite"
-            );
+            try {
+                await teams.createMembership(
+                    team.$id,
+                    member,
+                    [],
+                    window.location.origin + "/accept_invite"
+                );
+            } catch (err) {}
         }
 
         set_status("Done!");
@@ -161,8 +153,7 @@ const NewProject: React.FC<{
                     bg="#e7e7f2"
                     paddingX={"5vw"}
                 >
-                    <Text
-                        className={nunito.className}
+                    <ExtraBold
                         align="center"
                         fontSize={{ sm: 32, base: 24 }}
                         opacity={0}
@@ -170,7 +161,7 @@ const NewProject: React.FC<{
                         animation={`${rise} 500ms ease-in-out forwards`}
                     >
                         New Project
-                    </Text>
+                    </ExtraBold>
                     <Flex
                         gap={12}
                         width={"full"}
@@ -258,7 +249,6 @@ const NewProject: React.FC<{
                                         animation={`${rise} 500ms ease-in-out forwards`}
                                         _hover={{ bg: "#2E3440" }}
                                         bg="#2E3440"
-                                        onClick={create_project}
                                         color="#D8DEE9"
                                     >
                                         Create
@@ -389,7 +379,7 @@ const NewProject: React.FC<{
                                     animation={`${rise} 500ms ease-in-out forwards`}
                                     _hover={{ bg: "#2E3440" }}
                                     bg="#2E3440"
-                                    onClick={create_project}
+                                    type="submit"
                                     color="#D8DEE9"
                                 >
                                     Create
@@ -413,7 +403,6 @@ const NewProject: React.FC<{
                         style={{ animationDelay: `120ms` }}
                         animation={`${unfade} 500ms ease-in-out forwards`}
                         direction={"column"}
-                        className={nunito.className}
                         fontSize={18}
                         gap={5}
                         color="#D8DEE9"
@@ -421,7 +410,7 @@ const NewProject: React.FC<{
                         justifyContent="center"
                     >
                         <Spinner color="#D8DEE9" />
-                        <Text>{status}</Text>
+                        <ExtraBold>{status}</ExtraBold>
                     </Flex>
                 ) : (
                     <></>

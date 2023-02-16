@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from "@pankod/refine-chakra-ui";
 import { useOne } from "@pankod/refine-core";
 import { rise } from "animations";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import Project from "types/Project";
 import ExtraBold from "./ExtraBold";
 
@@ -12,13 +12,15 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ id, name }) => {
     const { data, isLoading } = useOne<Project>({ resource: "teams", id });
+    const router = useRouter();
 
     if (!isLoading) {
         return (
-            <Flex width="full">
+            <Flex width="full" cursor="pointer">
                 <Flex
                     direction={"column"}
                     padding={8}
+                    onClick={() => router.push(`/project/${id}`)}
                     borderRadius="3xl"
                     bg={data?.data.color}
                     maxWidth="450px"

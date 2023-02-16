@@ -5,10 +5,9 @@ import { rise } from "animations";
 import { useEffect, useState } from "react";
 import { account, teams } from "src/utility";
 import { Plus } from "react-feather";
-import { AnimatePresence, motion, useAnimation } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import ExtraBold from "@components/ExtraBold";
 import Bold from "@components/Bold";
-import ProjectList from "@components/ProjectsCard";
 import { Models } from "@pankod/refine-appwrite";
 import ProjectCard from "@components/ProjectsCard";
 
