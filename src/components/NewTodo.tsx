@@ -10,6 +10,7 @@ import {
     Image,
     Input,
     keyframes,
+    Spinner,
     Text,
 } from "@pankod/refine-chakra-ui";
 import moment from "moment";
@@ -90,6 +91,7 @@ const NewTask: React.FC<NewTaskProps> = ({
 
         // Set has sumbitted
         set_has_sumbitted(true);
+        set_loading(true)
 
         // Parse the input date
         const parsed_date = moment(date);
@@ -118,35 +120,38 @@ const NewTask: React.FC<NewTaskProps> = ({
                 category: router.query.workspace_id as string,
             }
         );
+
+        set_loading(false);
+
+        close();
     };
 
     return (
         <Container
             width="100vw"
             height="100vh"
-            position={"fixed"}
-            top="0"
-            left="0"
-            bg="rgba(47, 53, 65, 0.5)"
-            zIndex={2000}
-            backdropFilter="auto"
-            backdropBlur="6px"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            bg="rgba(47, 53, 65, 0.5)"
+            position={"fixed"}
+            top="0"
+            left="0"
+            zIndex={2000}
+            backdropFilter="auto"
+            backdropBlur="6px"
         >
             <AnimatedElement
                 width="100vw"
-                height="90vh"
+                minHeight="90vh"
                 bg="#e7e7f2"
-                marginTop="auto"
+                marginTop="10vh"
                 opacity="0"
                 direction="column"
                 initial={{ opacity: 0, transform: "translateY(30px)" }}
                 animate={{ opacity: 1, transform: "translateY(0px)" }}
                 exit={{ opacity: 0, transform: "translateY(30px)" }}
                 padding={10}
-                position="relative"
                 borderTopRadius={"xl"}
             >
                 <Text
@@ -305,6 +310,32 @@ const NewTask: React.FC<NewTaskProps> = ({
                         </Flex>
                     </Box>
                 </Flex>
+                {loading ? (
+                    <Flex
+                        position={"fixed"}
+                        height="100vh"
+                        width="100vw"
+                        zIndex={100000}
+                        bg="rgba(46, 52, 64, 0.6)"
+                        backdropFilter="auto"
+                        backdropBlur="6px"
+                        left="0"
+                        top={0}
+                        opacity={0}
+                        style={{ animationDelay: `120ms` }}
+                        animation={`${unfade} 500ms ease-in-out forwards`}
+                        direction={"column"}
+                        fontSize={18}
+                        gap={5}
+                        color="#D8DEE9"
+                        alignItems={"center"}
+                        justifyContent="center"
+                    >
+                        <Spinner color="#D8DEE9" />
+                    </Flex>
+                ) : (
+                    <></>
+                )}
             </AnimatedElement>
         </Container>
     );

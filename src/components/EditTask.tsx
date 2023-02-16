@@ -138,6 +138,8 @@ const EditTask: React.FC<{
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 bg="rgba(46, 52, 64, 0.6)"
+                top={0}
+                left={0}
                 position="fixed"
                 key="main-component"
                 zIndex={2000}

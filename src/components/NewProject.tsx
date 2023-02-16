@@ -127,11 +127,8 @@ const NewProject: React.FC<{
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                onExitComplete={() => alert("Component has been unmounted")}
                 bg="rgba(46, 52, 64, 0.6)"
                 position="fixed"
-                key="main-component"
-                zIndex={2000}
                 overflow="scroll"
                 backdropFilter="auto"
                 backdropBlur={"6px"}

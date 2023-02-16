@@ -129,29 +129,63 @@ const Todos = () => {
     };
 
     const filter_todos = (key: string) => {
+        const today = moment(moment.now());
+        const tomorrow = moment(moment.now()).add(1, "day");
+        const end_week = moment(moment.now()).endOf("week");
+        const end_month = moment(moment.now()).endOf("month");
+        const end_year = moment(moment.now()).endOf("month");
+
+        console.log(tomorrow.format("MMMM Do YYYY, h:mm:ss a"));
+
         switch (key) {
             case "all":
                 set_todos(all_todos);
                 break;
 
             case "today":
-                set_todos(filter_with_difference("days"));
+                set_todos(
+                    all_todos.filter((t) =>
+                        moment(t.due_date).isSame(today, "day")
+                    )
+                );
                 break;
 
             case "tomorrow":
-                set_todos(filter_with_difference("days"));
+                set_todos(
+                    all_todos.filter((t) =>
+                        moment(t.due_date).isSame(tomorrow, "day")
+                    )
+                );
                 break;
 
             case "week":
-                set_todos(filter_with_difference("weeks"));
+                set_todos(
+                    all_todos.filter(
+                        (t) =>
+                            moment(t.due_date).isSameOrAfter(today) &&
+                            moment(t.due_date).isSameOrBefore(end_week)
+                    )
+                );
                 break;
 
             case "month":
-                set_todos(filter_with_difference("month"));
+                set_todos(
+                    all_todos.filter(
+                        (t) =>
+                            moment(t.due_date).isSameOrAfter(today) &&
+                            moment(t.due_date).isSameOrBefore(end_month)
+                    )
+                );
                 break;
 
             case "year":
-                set_todos(filter_with_difference("year"));
+                set_todos(
+                    all_todos.filter(
+                        (t) =>
+                            moment(t.due_date).isSameOrAfter(today) &&
+                            moment(t.due_date).isSameOrBefore(end_year)
+                    )
+                );
                 break;
 
             default:
