@@ -12,7 +12,7 @@ import {
     Text,
 } from "@pankod/refine-chakra-ui";
 import { useEffect, useState } from "react";
-import { database, storage, teams } from "src/utility";
+import { account, database, storage, teams } from "src/utility";
 import Link from "next/link";
 import { Plus } from "react-feather";
 import { AnimatePresence, motion, useAnimation } from "framer-motion";
@@ -43,6 +43,7 @@ const DashBoard = () => {
 
         const fetch_data = async () => {
             const memberships = [];
+            console.log(await account.getSession("current"))
 
             for (const member of (await teams.list()).teams) {
                 const info = await database.getDocument(
