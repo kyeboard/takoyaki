@@ -13,6 +13,7 @@ import {
     Text,
 } from "@pankod/refine-chakra-ui";
 import moment from "moment";
+import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
 import { X } from "react-feather";
 import { database, storage, teams } from "src/utility";
@@ -51,8 +52,9 @@ const NewTask: React.FC<NewTaskProps> = ({ close }) => {
     const [date, set_date] = useState<string>("");
     const [priority, set_priority] = useState<number>(0);
     const [has_sumbitted, set_has_sumbitted] = useState<boolean>(false);
+    const router = useRouter();
 
-    const [assignee, set_assignee] = useState<Array<string>>(["0xsapphir3"]);
+    const [assignee, set_assignee] = useState<Array<string>>([]);
 
     const toggle_assignee = (user: string) => {
         const index = assignee.indexOf(user);
@@ -67,7 +69,7 @@ const NewTask: React.FC<NewTaskProps> = ({ close }) => {
     useEffect(() => {
         const fetch_data = async () => {
             set_members(
-                (await teams.listMemberships("63ec33962d17e2ab9e3a"))
+                (await teams.listMemberships(router.query.id as string))
                     .memberships
             );
         };
@@ -98,7 +100,7 @@ const NewTask: React.FC<NewTaskProps> = ({ close }) => {
 
         // Create a new todo
         await database.createDocument(
-            "63ec33962d17e2ab9e3a",
+            router.query.id as string,
             "todos",
             "unique()",
             {
@@ -106,7 +108,7 @@ const NewTask: React.FC<NewTaskProps> = ({ close }) => {
                 due_date: date,
                 priority,
                 assignee,
-                category: "63ec33962d17e2ab9e3a",
+                category: router.query.workspace_id as string,
             }
         );
     };

@@ -13,6 +13,7 @@ import { ComponentType, useEffect, useState } from "react";
 import { rise, unfade } from "animations";
 import feathericons from "feather-icons";
 import { useRouter } from "next/router";
+import { database } from "src/utility";
 const nunito = Nunito({ subsets: ["latin"], weight: "800" });
 
 const NewWorkspace: React.FC<{
@@ -24,7 +25,7 @@ const NewWorkspace: React.FC<{
     container: Container,
     animatedelement: AnimatedElement,
 }) => {
-    const [color, set_color] = useState<string>("pink");
+    const [color, set_color] = useState<string>("rgba(243, 139, 168, 0.3)");
     const [name, set_name] = useState<string>("");
     const [desc, set_desc] = useState<string>("");
     const [status, set_status] = useState<string>(
@@ -32,7 +33,7 @@ const NewWorkspace: React.FC<{
     );
     const [show_loader, set_show_loader] = useState<boolean>(false);
     const [email, set_email] = useState<string>("");
-    const [icon, set_icon] = useState<string>("");
+    const [icon, set_icon] = useState<string>("bookmark");
     const router = useRouter();
     const [has_sumbitted, set_has_sumbitted] = useState<boolean>(false);
     const [invalid, set_invalid] = useState<boolean>(false);
@@ -40,17 +41,40 @@ const NewWorkspace: React.FC<{
 
     useEffect(() => {
         document.title = "Create a new workspace - kyeboard";
-    });
+    }, []);
 
     const create_workspace = async (e: any) => {
+        // Prevent form redirection
         e.preventDefault();
+
+        // Set has sumbitted
         set_has_sumbitted(true);
 
+        // Check if they are valid
         if (!name || !desc) return;
 
+        // Set to show the loader since the process has started
         set_show_loader(true);
 
+        // Create a new category
+        await database.createDocument(
+            router.query.id as string,
+            "categories",
+            "unique()",
+            {
+                title: name,
+                description: desc,
+                completed: "0",
+                icon,
+                color,
+            }
+        );
+
+        // Set done
         set_status("Done!");
+
+        // Destroy self (no more need)
+        destroy_self();
 
         // router.push(`/project/${team.$id}`);
     };
@@ -222,7 +246,13 @@ const NewWorkspace: React.FC<{
                                     placeholder="search for the coffee icon..."
                                 />
                             </Flex>
-                            <Flex height={"65vh"} overflow="scroll" wrap={"wrap"} gap={6} marginTop={5}>
+                            <Flex
+                                height={"65vh"}
+                                overflow="scroll"
+                                wrap={"wrap"}
+                                gap={6}
+                                marginTop={5}
+                            >
                                 {Object.keys(feathericons.icons).map(
                                     (key, value) => {
                                         return (
@@ -240,6 +270,13 @@ const NewWorkspace: React.FC<{
                                                 height={14}
                                                 boxSizing="border-box"
                                                 key={key}
+                                                opacity={0}
+                                                style={{
+                                                    animationDelay: `${
+                                                        value * 2 + 300
+                                                    }ms`,
+                                                }}
+                                                animation={`${rise} 300ms ease-in-out forwards`}
                                                 color={
                                                     key == icon
                                                         ? "#D8DEE9"

@@ -20,16 +20,13 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const font = Nunito({ subsets: ["latin"], weight: "800" });
 
-interface DashBoardProps {
-    team_id: string;
-}
-
 const DashBoard: React.FC<{}> = () => {
     const [user, set_user] = useState<Models.Account<{}> | null>(null);
     const [workspaces, set_workspaces] = useState<Array<any>>([]);
     const [loading, set_loading] = useState<boolean>(true);
-    const [show_newproject, set_newproject] = useState<boolean>(true);
+    const [show_newproject, set_newproject] = useState<boolean>(false);
     const router = useRouter();
+    const icons: { [key: string]: any } = new Object(feather.icons);
 
     useEffect(() => {
         if (!router.isReady) return;
@@ -119,7 +116,7 @@ const DashBoard: React.FC<{}> = () => {
                         </Text>
                     </Flex>
                 ) : (
-                    <Flex marginTop={8}>
+                    <Flex marginTop={8} gap={6}>
                         {workspaces.map((w) => {
                             return (
                                 <Link
@@ -141,7 +138,9 @@ const DashBoard: React.FC<{}> = () => {
                                             padding={3}
                                             borderRadius="xl"
                                             dangerouslySetInnerHTML={{
-                                                __html: feather.icons.github.toSvg(),
+                                                __html: icons[
+                                                    w.icon as string
+                                                ].toSvg(),
                                             }}
                                         />
                                         <Text
