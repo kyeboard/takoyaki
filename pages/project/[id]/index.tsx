@@ -121,7 +121,7 @@ const DashBoard: React.FC<{}> = () => {
                             return (
                                 <Link
                                     key={w.$id}
-                                    href={`/project/${""}/workspace/${w.$id}`}
+                                    href={`/project/${router.query.id}/workspace/${w.$id}`}
                                 >
                                     <Flex
                                         gap={2}

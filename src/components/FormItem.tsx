@@ -46,6 +46,7 @@ const FormItem: React.FC<FormItemProps> = ({
                     onChange={(e) => set_value(e.target.value)}
                     paddingX={6}
                     paddingY={4}
+                    value={value}
                     resize={"none"}
                     height={36}
                     placeholder={placeholder}
@@ -55,6 +56,7 @@ const FormItem: React.FC<FormItemProps> = ({
                     bg="#dde0f2"
                     onChange={(e) => set_value(e.target.value)}
                     padding={6}
+                    value={value}
                     placeholder={placeholder}
                     type={type}
                 />
@@ -69,7 +71,7 @@ const FormItem: React.FC<FormItemProps> = ({
 };
 
 FormItem.defaultProps = {
-    is_textarea: false
-}
+    is_textarea: false,
+};
 
 export default FormItem;
