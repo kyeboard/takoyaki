@@ -21,7 +21,6 @@ const DashBoard = () => {
 
     //     const fetch_data = async () => {
     //         const memberships = [];
-
     //         for (const member of (await teams.list()).teams) {
     //             const info = await database.getDocument(
     //                 "teams",
