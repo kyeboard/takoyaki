@@ -61,6 +61,21 @@
             "events": [],
             "schedule": "",
             "timeout": 15
+        },
+        {
+            "$id": "63eef40e7c0cb5283968",
+            "name": "push_notifications",
+            "runtime": "node-16.0",
+            "path": "functions/push_notifications",
+            "entrypoint": "src/index.js",
+            "ignore": [
+                "node_modules",
+                ".npm"
+            ],
+            "execute": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15
         }
     ]
 }
