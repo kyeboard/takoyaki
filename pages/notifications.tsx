@@ -2,11 +2,18 @@ import Bold from "@components/Bold";
 import ExtraBold from "@components/ExtraBold";
 import SideBar from "@components/SideBar";
 import { Models } from "@pankod/refine-appwrite";
-import { Box, Flex, Input, Text } from "@pankod/refine-chakra-ui";
+import {
+    Box,
+    Flex,
+    Image,
+    Input,
+    Spinner,
+    Text,
+} from "@pankod/refine-chakra-ui";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { AlertTriangle, Check } from "react-feather";
-import { database } from "src/utility";
+import { account, database } from "src/utility";
 import feathericons from "feather-icons";
 
 interface Notifications extends Models.Document {
@@ -19,17 +26,22 @@ const Notifications = () => {
         []
     );
     const icons: { [key: string]: any } = new Object(feathericons.icons);
+    const [loading, set_loading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetch_data = async () => {
+            const current_user = await account.get();
+
             set_notifications(
                 (
                     await database.listDocuments<Notifications>(
-                        "0xsapphir3",
+                        current_user.$id,
                         "notifications"
                     )
                 ).documents
             );
+
+            set_loading(false);
         };
 
         fetch_data();
@@ -54,8 +66,6 @@ const Notifications = () => {
                 />
                 <Flex direction="column" gap={5} marginTop={8}>
                     {notifications.map((n) => {
-                        console.log(icons[n.icon].toSvg());
-
                         return (
                             <Flex
                                 key={n.$id}
@@ -97,6 +107,31 @@ const Notifications = () => {
                         );
                     })}
                 </Flex>
+                {loading ? (
+                    <Flex
+                        width="full"
+                        height="50vh"
+                        alignItems={"center"}
+                        justifyContent="center"
+                    >
+                        <Spinner color="#2E3440" />
+                    </Flex>
+                ) : notifications.length == 0 ? (
+                    <Flex
+                        width="full"
+                        height="50vh"
+                        alignItems={"center"}
+                        direction="column"
+                        justifyContent="center"
+                    >
+                        <Image src="/images/nonotifications.png" width={20} />
+                        <Text marginTop={4}>
+                            Is this what inner peace feels like?
+                        </Text>
+                    </Flex>
+                ) : (
+                    <></>
+                )}
             </Box>
         </Flex>
     );
