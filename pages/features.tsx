@@ -1,14 +1,8 @@
-import Bold from "@components/Bold";
 import ExtraBold from "@components/ExtraBold";
 import { Box, Flex, Text } from "@pankod/refine-chakra-ui";
-import {
-    Coffee,
-    Eye,
-    MessageSquare,
-    Package,
-    Users,
-    Video,
-} from "react-feather";
+import { rise } from "animations";
+import Head from "next/head";
+import { Eye, MessageSquare, Package, Users, Video } from "react-feather";
 
 const Features = () => {
     return (
@@ -19,13 +13,25 @@ const Features = () => {
             w="100vw"
             h="calc(100vh - 300px)"
         >
-            <ExtraBold fontSize={48} align="center" w="full">
+            <Head>
+                <title>Awesome features - planetary</title>
+            </Head>
+            <ExtraBold
+                fontSize={48}
+                align="center"
+                w="full"
+                opacity={0}
+                animation={`${rise} 500ms ease-in-out forwards`}
+            >
                 Features
             </ExtraBold>
             <Text
                 fontSize={16}
                 marginTop={1}
                 color="gray.600"
+                opacity={0}
+                animation={`${rise} 500ms ease-in-out forwards`}
+                style={{ animationDelay: "50ms" }}
                 align={"center"}
                 maxW="450px"
             >
@@ -40,6 +46,9 @@ const Features = () => {
                     marginTop={2}
                     borderRadius="xl"
                     direction="column"
+                    opacity={0}
+                    animation={`${rise} 500ms ease-in-out forwards`}
+                    style={{ animationDelay: "100ms" }}
                     maxW={"400px"}
                 >
                     <Box
@@ -65,6 +74,9 @@ const Features = () => {
                     marginTop={2}
                     borderRadius="xl"
                     direction="column"
+                    opacity={0}
+                    animation={`${rise} 500ms ease-in-out forwards`}
+                    style={{ animationDelay: "150ms" }}
                     maxW={"400px"}
                 >
                     <Box
@@ -89,6 +101,9 @@ const Features = () => {
                     marginTop={2}
                     borderRadius="xl"
                     direction="column"
+                    opacity={0}
+                    animation={`${rise} 500ms ease-in-out forwards`}
+                    style={{ animationDelay: "200ms" }}
                     maxW={"400px"}
                 >
                     <Box
@@ -112,6 +127,9 @@ const Features = () => {
                     bg="#dce0f3"
                     padding={7}
                     marginTop={2}
+                    opacity={0}
+                    animation={`${rise} 500ms ease-in-out forwards`}
+                    style={{ animationDelay: "250ms" }}
                     borderRadius="xl"
                     direction="column"
                     maxW={"400px"}
@@ -138,6 +156,9 @@ const Features = () => {
                     marginTop={2}
                     borderRadius="xl"
                     direction="column"
+                    opacity={0}
+                    animation={`${rise} 500ms ease-in-out forwards`}
+                    style={{ animationDelay: "300ms" }}
                     maxW={"400px"}
                 >
                     <Box
