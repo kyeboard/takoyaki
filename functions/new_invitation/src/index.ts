@@ -42,7 +42,7 @@ const new_invitation = async function (req: Request, res: Response) {
         req.variables["APPWRITE_FUNCTION_EVENT_DATA"]
     );
 
-    await databases.createDocument(data.userName, "invitations", "unique()", {
+    await databases.createDocument(data.userName, "invitations", data.teamId, {
         name: data.teamName,
         accept_url: `https://planetary.kyeboard.me/accept_invitation?teamId=${data.teamId}`,
     });
