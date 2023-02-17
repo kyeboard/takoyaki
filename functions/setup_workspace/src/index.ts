@@ -31,12 +31,6 @@ const database_structure = {
     collections: [
         {
             name: "categories",
-            roles: [
-                "category_read",
-                "category_write",
-                "category_update",
-                "category_delete",
-            ],
             rules: [
                 {
                     key: "title",
@@ -67,12 +61,6 @@ const database_structure = {
         },
         {
             name: "todos",
-            roles: [
-                "todos_read",
-                "todos_write",
-                "todos_update",
-                "todos_delete",
-            ],
             rules: [
                 {
                     key: "title",
@@ -98,7 +86,6 @@ const database_structure = {
         },
         {
             name: "chat",
-            roles: ["chat_read", "chat_write", "chat_update", "chat_delete"],
             rules: [
                 {
                     key: "message",
@@ -119,12 +106,6 @@ const database_structure = {
         },
         {
             name: "events",
-            roles: [
-                "events_read",
-                "events_write",
-                "events_update",
-                "events_delete",
-            ],
             rules: [
                 {
                     key: "title",
@@ -195,18 +176,10 @@ const setup_workspace = async function (req: Request, res: Response) {
                 collection.name,
                 collection.name,
                 [
-                    Permission.read(
-                        Role.team(event_data.$id, collection.roles[0])
-                    ),
-                    Permission.write(
-                        Role.team(event_data.$id, collection.roles[1])
-                    ),
-                    Permission.update(
-                        Role.team(event_data.$id, collection.roles[2])
-                    ),
-                    Permission.delete(
-                        Role.team(event_data.$id, collection.roles[3])
-                    ),
+                    Permission.read(Role.team(event_data.$id)),
+                    Permission.write(Role.team(event_data.$id)),
+                    Permission.update(Role.team(event_data.$id)),
+                    Permission.delete(Role.team(event_data.$id)),
                 ]
             );
 

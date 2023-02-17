@@ -111,6 +111,7 @@ const NewProject: React.FC<{
 
             // Just to not hit the edge case, lets keep the invalid to false
             set_invalid(false);
+            set_email("")
         } else {
             set_invalid(true);
         }
@@ -282,6 +283,7 @@ const NewProject: React.FC<{
                                     bg="#dde1f3"
                                     padding={6}
                                     opacity={0}
+                                    value={email}
                                     onChange={(e) => set_email(e.target.value)}
                                     style={{ animationDelay: `260ms` }}
                                     animation={`${rise} 500ms ease-in-out forwards`}

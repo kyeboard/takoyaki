@@ -64,20 +64,6 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
                 icon={<Inbox size={22} />}
                 current={current === "invitations"}
             />
-            <QuickLink
-                title="Calendar"
-                delay={90}
-                href="/calendar"
-                icon={<Calendar size={22} />}
-                current={current === "calendar"}
-            />
-            <QuickLink
-                title="Settings"
-                delay={120}
-                href="/settings"
-                icon={<Settings size={22} />}
-                current={current === "settings"}
-            />
             <Flex
                 marginTop="auto"
                 gap={5}

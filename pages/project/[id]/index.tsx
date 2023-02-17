@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import NewWorkspace from "@components/NewWorkspace";
 import { AnimatePresence, motion } from "framer-motion";
+import { rise } from "animations";
 
 const font = Nunito({ subsets: ["latin"], weight: "800" });
 
@@ -25,6 +26,7 @@ const DashBoard: React.FC<{}> = () => {
     const [workspaces, set_workspaces] = useState<Array<any>>([]);
     const [loading, set_loading] = useState<boolean>(true);
     const [show_newproject, set_newproject] = useState<boolean>(false);
+    const [reload, set_reload] = useState<boolean>(false);
     const router = useRouter();
     const icons: { [key: string]: any } = new Object(feather.icons);
 
@@ -43,10 +45,11 @@ const DashBoard: React.FC<{}> = () => {
                 ).documents
             );
             set_loading(false);
+            set_reload(false);
         };
 
         fetch_user();
-    }, [router]);
+    }, [router, reload]);
 
     const Container = motion(Flex);
     const AnimatedElement = motion(Flex);
@@ -58,7 +61,10 @@ const DashBoard: React.FC<{}> = () => {
                     <NewWorkspace
                         container={Container}
                         animatedelement={AnimatedElement}
-                        destroy_self={() => set_newproject(false)}
+                        destroy_self={() => {
+                            set_newproject(false);
+                            set_reload(true);
+                        }}
                     />
                 )}
             </AnimatePresence>
@@ -67,15 +73,24 @@ const DashBoard: React.FC<{}> = () => {
                 width={"calc(100% - 350px)"}
                 direction="column"
                 paddingX={14}
+                marginLeft="350px"
                 paddingTop={40}
             >
-                <Text fontSize={24} className={font.className}>
+                <Text
+                    fontSize={24}
+                    className={font.className}
+                    animation={`${rise} 300ms ease-in-out forwards`}
+                    opacity={0}
+                >
                     Hello, {user?.name}!
                 </Text>
                 <Flex gap={5} marginTop={4} width="full">
                     <Input
                         width="full"
                         bg="#dde0f2"
+                        animation={`${rise} 300ms ease-in-out forwards`}
+                        opacity={0}
+                        style={{ animationDelay: "50ms" }}
                         padding={6}
                         placeholder="Search for your workspaces..."
                     />
@@ -84,6 +99,9 @@ const DashBoard: React.FC<{}> = () => {
                         padding={6}
                         bg="#2E3440"
                         color="#D8DEE9"
+                        animation={`${rise} 300ms ease-in-out forwards`}
+                        opacity={0}
+                        style={{ animationDelay: "80ms" }}
                         onClick={() => set_newproject(true)}
                         _hover={{ bg: "#2E3440" }}
                     >
@@ -105,7 +123,7 @@ const DashBoard: React.FC<{}> = () => {
                         justifyContent="center"
                         width="full"
                         direction="column"
-                        height={"full"}
+                        height={"50vh"}
                         gap={6}
                     >
                         <Image src="/images/empty.png" width={24} />
