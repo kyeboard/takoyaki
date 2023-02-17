@@ -1,24 +1,12 @@
 import SideBar from "@components/SideBar";
 import NewProject from "@components/NewProject";
-import {
-    Box,
-    Button,
-    Flex,
-    Image,
-    Input,
-    Spinner,
-    Text,
-} from "@pankod/refine-chakra-ui";
+import { Box, Flex } from "@pankod/refine-chakra-ui";
 import { rise } from "animations";
-import { Suspense, useEffect, useState } from "react";
-import { teams } from "src/utility";
-import { Plus } from "react-feather";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ExtraBold from "@components/ExtraBold";
-import Bold from "@components/Bold";
-import { Models } from "@pankod/refine-appwrite";
-import ProjectCard from "@components/ProjectsCard";
 import ProjectsList from "@components/ProjectsList";
+import Head from "next/head";
 
 const DashBoard = () => {
     const date = new Date();
@@ -47,9 +35,13 @@ const DashBoard = () => {
 
     return (
         <Flex width={"100vw"} height="100vh">
+            <Head>
+                <title>Your dashboard - planetary</title>
+            </Head>
             <SideBar current="dashboard" />
             <Flex
                 direction="column"
+                marginTop={5}
                 paddingLeft={{ sidebar_md: 12, sm: 8, base: 4 }}
                 paddingRight={{ sidebar_md: 12, sm: 0, base: 4 }}
                 width={{

@@ -45,7 +45,7 @@ const ProjectsList: React.FC<ProjectsListProps> = ({
         fetchTeams();
 
         set_refresh(false);
-    }, [refresh]);
+    }, [refresh, set_refresh]);
 
     return (
         <Box width="full">
@@ -68,7 +68,6 @@ const ProjectsList: React.FC<ProjectsListProps> = ({
                     animation={`${rise} 500ms ease-in-out forwards`}
                     _placeholder={{ color: "gray.500" }}
                 />
-                {/* Create new project button */}
                 <Button
                     bg="#2E3440"
                     color="#d2d8f3"
@@ -83,7 +82,6 @@ const ProjectsList: React.FC<ProjectsListProps> = ({
                 >
                     Create new project
                 </Button>
-                {/* Plus sign on small screens */}
                 <Button
                     bg="#2E3440"
                     color="#d2d8f3"
@@ -109,7 +107,7 @@ const ProjectsList: React.FC<ProjectsListProps> = ({
                 Recent Projects
             </Bold>
 
-            <Flex marginTop={4} gap={6} wrap="wrap">
+            <Flex marginTop={4} gap={6} wrap="wrap" paddingBottom={10}>
                 <AnimatePresence>
                     {user_teams ? (
                         user_teams.map((team) => {

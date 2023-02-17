@@ -111,7 +111,7 @@ const DashBoard: React.FC<{}> = () => {
                 {loading ? (
                     <Flex
                         width="full"
-                        height="full"
+                        height="50vh"
                         justifyContent={"center"}
                         alignItems="center"
                     >

@@ -44,31 +44,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     exit={{ opacity: 0, transform: "translateY(30px)" }}
                     transition={{ duration: "0.3" }}
                 >
-                    {/* <Flex>
-                            {p.members.map((m: any, i: number) => {
-                                return (
-                                    <Image
-                                        key={m.userName}
-                                        borderColor="#2E3440"
-                                        transform={`translateX(-${8 * i}px)`}
-                                        borderWidth={2}
-                                        borderStyle="solid"
-                                        src={
-                                            storage.getFilePreview(
-                                                "63dfd4b2bf3364da5f0c",
-                                                m.userName
-                                            ).href
-                                        }
-                                        width={10}
-                                        borderRadius="full"
-                                        alt="User profile"
-                                    />
-                                );
-                            })}
-                        </Flex> */}
-                    <ExtraBold marginTop={5} fontSize={24}>
-                        {name}
-                    </ExtraBold>
+                    <ExtraBold fontSize={24}>{name}</ExtraBold>
                     <Text color="gray.600" marginTop={2} marginBottom={4}>
                         {data?.data.description}
                     </Text>
