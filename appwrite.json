@@ -76,6 +76,21 @@
             "events": [],
             "schedule": "",
             "timeout": 15
+        },
+        {
+            "$id": "63ef0749140ad5e4d6aa",
+            "name": "new_invitation",
+            "runtime": "node-16.0",
+            "path": "functions/new_invitation",
+            "entrypoint": "src/index.js",
+            "ignore": [
+                "node_modules",
+                ".npm"
+            ],
+            "execute": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15
         }
     ]
 }
