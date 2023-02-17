@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import NewWorkspace from "@components/NewWorkspace";
 import { AnimatePresence, motion } from "framer-motion";
 import { rise } from "animations";
+import { Plus } from "react-feather";
 
 const font = Nunito({ subsets: ["latin"], weight: "800" });
 
@@ -55,7 +56,7 @@ const DashBoard: React.FC<{}> = () => {
     const AnimatedElement = motion(Flex);
 
     return (
-        <Flex>
+        <Flex paddingBottom={1}>
             <AnimatePresence>
                 {show_newproject && (
                     <NewWorkspace
@@ -70,11 +71,15 @@ const DashBoard: React.FC<{}> = () => {
             </AnimatePresence>
             <SideBarProject current={"todos"} />
             <Flex
-                width={"calc(100% - 350px)"}
+                width={{
+                    sm: "calc(100% - 150px)",
+                    base: "100%",
+                    sidebar_md: "calc(100% - 350px)",
+                }}
                 direction="column"
-                paddingX={14}
-                marginLeft="350px"
-                paddingTop={40}
+                paddingX={{ sm: 14, base: 5 }}
+                marginLeft={{ base: 0, sm: "80px", sidebar_md: "350px" }}
+                paddingTop={{ base: 28, sm: 40 }}
             >
                 <Text
                     fontSize={24}
@@ -95,7 +100,7 @@ const DashBoard: React.FC<{}> = () => {
                         placeholder="Search for your workspaces..."
                     />
                     <Button
-                        width="300px"
+                        width={{ sm: "350px" }}
                         padding={6}
                         bg="#2E3440"
                         color="#D8DEE9"
@@ -105,7 +110,12 @@ const DashBoard: React.FC<{}> = () => {
                         onClick={() => set_newproject(true)}
                         _hover={{ bg: "#2E3440" }}
                     >
-                        Create new workspace
+                        <Text display={{ sm: "inherit", base: "none" }}>
+                            Create new workspace
+                        </Text>
+                        <Box display={{ sm: "none", base: "inherit" }}>
+                            <Plus />
+                        </Box>
                     </Button>
                 </Flex>
                 {loading ? (
@@ -134,47 +144,51 @@ const DashBoard: React.FC<{}> = () => {
                         </Text>
                     </Flex>
                 ) : (
-                    <Flex marginTop={8} gap={6}>
-                        {workspaces.map((w) => {
-                            return (
-                                <Link
-                                    key={w.$id}
-                                    href={`/project/${router.query.id}/workspace/${w.$id}`}
-                                >
-                                    <Flex
-                                        gap={2}
-                                        direction="column"
-                                        bg={w.color}
-                                        borderRadius={"2xl"}
-                                        width={"400px"}
-                                        padding={8}
-                                    >
-                                        <Box
-                                            bg="rgba(46, 52, 64, 0.2)"
-                                            width="fit-content"
-                                            color="#2E3440"
-                                            padding={3}
-                                            borderRadius="xl"
-                                            dangerouslySetInnerHTML={{
-                                                __html: icons[
-                                                    w.icon as string
-                                                ].toSvg(),
-                                            }}
-                                        />
-                                        <Text
-                                            marginTop={2}
-                                            fontSize={24}
-                                            className={font.className}
+                    <Flex marginTop={8} width="full" height="full">
+                        <Flex width="full" wrap="wrap" gap={5}>
+                            {workspaces.map((w) => {
+                                return (
+                                    <Box key={w.$id} maxW="400px" w="full">
+                                        <Link
+                                            href={`/project/${router.query.id}/workspace/${w.$id}`}
                                         >
-                                            {w.title}
-                                        </Text>
-                                        <Text color="gray.600">
-                                            {w.description}
-                                        </Text>
-                                    </Flex>
-                                </Link>
-                            );
-                        })}
+                                            <Flex
+                                                gap={2}
+                                                direction="column"
+                                                bg={w.color}
+                                                borderRadius={"2xl"}
+                                                maxW={"400px"}
+                                                width="full"
+                                                padding={8}
+                                            >
+                                                <Box
+                                                    bg="rgba(46, 52, 64, 0.2)"
+                                                    width="fit-content"
+                                                    color="#2E3440"
+                                                    padding={3}
+                                                    borderRadius="xl"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: icons[
+                                                            w.icon as string
+                                                        ].toSvg(),
+                                                    }}
+                                                />
+                                                <Text
+                                                    marginTop={2}
+                                                    fontSize={24}
+                                                    className={font.className}
+                                                >
+                                                    {w.title}
+                                                </Text>
+                                                <Text color="gray.600">
+                                                    {w.description}
+                                                </Text>
+                                            </Flex>
+                                        </Link>
+                                    </Box>
+                                );
+                            })}
+                        </Flex>
                     </Flex>
                 )}
             </Flex>

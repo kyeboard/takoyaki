@@ -42,8 +42,8 @@ const DashBoard = () => {
             <Flex
                 direction="column"
                 marginTop={5}
-                paddingLeft={{ sidebar_md: 12, sm: 8, base: 4 }}
-                paddingRight={{ sidebar_md: 12, sm: 0, base: 4 }}
+                paddingLeft={{ sidebar_md: 12, sm: 8, base: 6 }}
+                paddingRight={{ sidebar_md: 12, sm: 0, base: 6 }}
                 width={{
                     sidebar_md: "calc(100vw - 350px)",
                     sm: "calc(100vw - 100px)",

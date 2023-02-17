@@ -380,11 +380,11 @@ const NewProject: React.FC<{
                                     width="full"
                                     padding={6}
                                     opacity={0}
+                                    onClick={create_project}
                                     style={{ animationDelay: `230ms` }}
                                     animation={`${rise} 500ms ease-in-out forwards`}
                                     _hover={{ bg: "#2E3440" }}
                                     bg="#2E3440"
-                                    type="submit"
                                     color="#D8DEE9"
                                 >
                                     Create

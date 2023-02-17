@@ -22,14 +22,15 @@ const SideBarProject: React.FC<SideBarProps> = ({ current }) => {
         <Flex
             flexDirection={"column"}
             bg="#dde0f2"
+            position={"fixed"}
             height="100vh"
             color="#2E3440"
-            padding={6}
-            position={"fixed"}
+            padding={3}
+            paddingTop={40}
             top={0}
             left={0}
-            paddingTop={36}
-            width={"350px"}
+            display={{ base: "none", sm: "flex" }}
+            width={{ base: "90px", sidebar_md: "350px" }}
         >
             <QuickLink
                 title="To-Dos"

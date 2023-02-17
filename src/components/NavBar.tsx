@@ -79,7 +79,6 @@ const NavBar: React.FC<NavBarProps> = ({
                 animate={{ base: { opacity: 1, transform: "translateY(0px)" } }}
                 exit={{ base: { opacity: 0, transform: "translateY(30px)" } }}
                 left={0}
-                transition={{ duration: "0.5s" }}
                 color="#2E3440"
                 bg="rgb(231, 231 , 242)"
             >
