@@ -93,6 +93,7 @@ const setup_user_workspace = async function (req: Request, res: Response) {
         [
             Permission.read(Role.user(user.$id)),
             Permission.delete(Role.user(user.$id)),
+            Permission.update(Role.user(user.$id)),
         ]
     );
 

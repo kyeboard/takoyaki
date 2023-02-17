@@ -5,6 +5,7 @@ import { ComponentType, useEffect, useState } from "react";
 import { Models } from "@pankod/refine-appwrite";
 import { Mail } from "react-feather";
 import { account, database } from "src/utility";
+import { rise } from "animations";
 
 interface Invitation extends Models.Document {
     name: string;
@@ -15,9 +16,12 @@ interface InvitationsListProps {
     animatedelement: ComponentType<any>;
 }
 
-const InvitationsList: React.FC<InvitationsListProps> = ({ animatedelement: AnimatedElement }) => {
+const InvitationsList: React.FC<InvitationsListProps> = ({
+    animatedelement: AnimatedElement,
+}) => {
     const [invitations, set_invitations] = useState<Array<Invitation>>([]);
     const [loading, set_loading] = useState<boolean>(true);
+    const [removing, set_removing] = useState<string>("-");
 
     useEffect(() => {
         const fetch_data = async () => {
@@ -39,11 +43,15 @@ const InvitationsList: React.FC<InvitationsListProps> = ({ animatedelement: Anim
     }, []);
 
     const remove_invitation = async (id: string) => {
+        set_removing(id);
+
         const current_user = await account.get();
 
         await database.deleteDocument(current_user.name, "invitations", id);
 
         set_invitations(invitations.filter((f) => f.$id !== id));
+
+        set_removing("-");
     };
 
     return (
@@ -54,6 +62,9 @@ const InvitationsList: React.FC<InvitationsListProps> = ({ animatedelement: Anim
                         key={n.$id}
                         bg="#dde0f2"
                         alignItems="center"
+                        initial={{ opacity: 0, transform: "translateY(30px)" }}
+                        animate={{ opacity: 1, transform: "translateY(0px)" }}
+                        exit={{ opacity: 0, transform: "translateY(30px)" }}
                         padding={3}
                         borderRadius="lg"
                     >
@@ -68,11 +79,11 @@ const InvitationsList: React.FC<InvitationsListProps> = ({ animatedelement: Anim
                         </Flex>
                         <Text marginLeft={6}>{n.name}</Text>
                         <Text
-                            marginLeft={"4"}
-                            marginRight={10}
+                            marginLeft={"7"}
+                            marginRight={13}
                             color="gray.600"
                         >
-                            {moment(n.$createdAt).format("MMMM Do YYYY")}
+                            {moment(n.$createdAt).fromNow()}
                         </Text>
                         <Flex gap={4} marginLeft={"auto"} borderRadius="lg">
                             <Button
@@ -83,7 +94,11 @@ const InvitationsList: React.FC<InvitationsListProps> = ({ animatedelement: Anim
                                 _hover={{ bg: "#d2d8f3" }}
                                 borderRadius="lg"
                             >
-                                Ignore
+                                {removing == n.$id ? (
+                                    <Spinner size="sm" />
+                                ) : (
+                                    <Text>Ignore</Text>
+                                )}
                             </Button>
                             <Link href={n.accept_url}>
                                 <Button
@@ -105,6 +120,7 @@ const InvitationsList: React.FC<InvitationsListProps> = ({ animatedelement: Anim
                     width="full"
                     height="50vh"
                     alignItems={"center"}
+                    animation={`${rise} 300ms ease-in-out forwards`}
                     justifyContent="center"
                 >
                     <Spinner color="#2e3440" />

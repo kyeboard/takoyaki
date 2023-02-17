@@ -18,6 +18,8 @@ import { account, database } from "src/utility";
 import feathericons from "feather-icons";
 import Link from "next/link";
 import { rise } from "animations";
+import InvitationsList from "@components/InvitationsList";
+import { motion } from "framer-motion";
 
 interface Invitation extends Models.Document {
     name: string;
@@ -25,35 +27,7 @@ interface Invitation extends Models.Document {
 }
 
 const Invitations = () => {
-    const [invitations, set_invitations] = useState<Array<Invitation>>([]);
-    const [loading, set_loading] = useState<boolean>(true);
-
-    useEffect(() => {
-        const fetch_data = async () => {
-            const current_user = await account.get();
-
-            set_invitations(
-                (
-                    await database.listDocuments<Invitation>(
-                        current_user.name,
-                        "invitations"
-                    )
-                ).documents
-            );
-
-            set_loading(false);
-        };
-
-        fetch_data();
-    }, []);
-
-    const remove_invitation = async (id: string) => {
-        const current_user = await account.get();
-
-        await database.deleteDocument(current_user.name, "invitations", id);
-
-        set_invitations(invitations.filter((f) => f.$id !== id));
-    };
+    const animatedelement = motion(Flex);
 
     return (
         <Flex>
@@ -81,6 +55,7 @@ const Invitations = () => {
                     width="full"
                     padding={6}
                 />
+                <InvitationsList animatedelement={animatedelement} />
             </Box>
         </Flex>
     );
