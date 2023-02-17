@@ -52,7 +52,7 @@ const setup_user_workspace = async function (req: Request, res: Response) {
 
     // Create the database
     try {
-        await database.create(user.$id, user.name);
+        await database.create(user.name, user.name);
     } catch (err) {
         // Already database with that id is there, threfore meaning the user is already ready to go
         return res.json({
@@ -64,6 +64,7 @@ const setup_user_workspace = async function (req: Request, res: Response) {
     // Create collection for invitations
     await database.createCollection(user.$id, "invitations", "Invitations", [
         Permission.read(Role.user(user.$id)),
+        Permission.delete(Role.user(user.$id)),
     ]);
 
     // Create attributes for the invitation collection (name)
@@ -89,7 +90,10 @@ const setup_user_workspace = async function (req: Request, res: Response) {
         user.$id,
         "notifications",
         "Notifications",
-        [Permission.read(Role.user(user.$id))]
+        [
+            Permission.read(Role.user(user.$id)),
+            Permission.delete(Role.user(user.$id)),
+        ]
     );
 
     // Create attributes for the invitation collection (name)
