@@ -20,15 +20,16 @@ interface ProjectsListProps {
     refresh: boolean;
     set_refresh: (status: boolean) => void;
     animatedelement: ComponentType<any>;
+    set_show_new: (show: boolean) => void;
 }
 
 const ProjectsList: React.FC<ProjectsListProps> = ({
     refresh,
     set_refresh,
     animatedelement: AnimatedElement,
+    set_show_new,
 }) => {
     const [user_teams, set_user_teams] = useState<Array<Models.Team>>();
-    const [show_new, set_show_new] = useState<boolean>(false);
     const [loading, set_loading] = useState<boolean>(false);
     const [filter, set_filter] = useState<string>("");
 
@@ -107,6 +108,7 @@ const ProjectsList: React.FC<ProjectsListProps> = ({
             >
                 Recent Projects
             </Bold>
+            
             <Flex marginTop={4} gap={6} wrap="wrap">
                 <AnimatePresence>
                     {user_teams ? (

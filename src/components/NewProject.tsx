@@ -133,6 +133,8 @@ const NewProject: React.FC<{
                 exit={{ opacity: 0 }}
                 bg="rgba(46, 52, 64, 0.6)"
                 position="fixed"
+                top={0}
+                left={0}
                 overflow="scroll"
                 backdropFilter="auto"
                 backdropBlur={"6px"}

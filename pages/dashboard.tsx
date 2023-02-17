@@ -22,10 +22,7 @@ import ProjectsList from "@components/ProjectsList";
 
 const DashBoard = () => {
     const date = new Date();
-    const [user_teams, set_user_teams] = useState<Array<Models.Team>>();
     const [show_new, set_show_new] = useState<boolean>(false);
-    const [loading, set_loading] = useState<boolean>(false);
-    const [filter, set_filter] = useState<string>("");
     const [refresh, set_refresh] = useState<boolean>(true);
 
     // Create an array full of month's name
@@ -90,6 +87,7 @@ const DashBoard = () => {
                     <ProjectsList
                         refresh={refresh}
                         set_refresh={set_refresh}
+                        set_show_new={set_show_new}
                         animatedelement={ProjectCardAnimated}
                     />
                 </Box>
