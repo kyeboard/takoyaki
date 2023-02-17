@@ -40,7 +40,7 @@ const NewMember: React.FC<NewMemberProps> = ({
             `${window.location.origin}/accept_invite`
         );
 
-        destroy_self()
+        destroy_self();
     };
 
     return (

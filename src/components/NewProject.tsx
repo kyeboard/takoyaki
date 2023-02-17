@@ -111,7 +111,7 @@ const NewProject: React.FC<{
 
             // Just to not hit the edge case, lets keep the invalid to false
             set_invalid(false);
-            set_email("")
+            set_email("");
         } else {
             set_invalid(true);
         }

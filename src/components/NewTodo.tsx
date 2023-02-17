@@ -91,7 +91,7 @@ const NewTask: React.FC<NewTaskProps> = ({
 
         // Set has sumbitted
         set_has_sumbitted(true);
-        set_loading(true)
+        set_loading(true);
 
         // Parse the input date
         const parsed_date = moment(date);

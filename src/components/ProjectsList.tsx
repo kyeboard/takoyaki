@@ -108,7 +108,7 @@ const ProjectsList: React.FC<ProjectsListProps> = ({
             >
                 Recent Projects
             </Bold>
-            
+
             <Flex marginTop={4} gap={6} wrap="wrap">
                 <AnimatePresence>
                     {user_teams ? (
