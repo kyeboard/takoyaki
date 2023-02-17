@@ -1,9 +1,16 @@
 import SideBar from "@components/SideBar";
 import NewProject from "@components/NewProject";
-import { Button, Flex, Input, Spinner, Text } from "@pankod/refine-chakra-ui";
+import {
+    Button,
+    Flex,
+    Image,
+    Input,
+    Spinner,
+    Text,
+} from "@pankod/refine-chakra-ui";
 import { rise } from "animations";
-import { useEffect, useState } from "react";
-import { account, teams } from "src/utility";
+import { Suspense, useEffect, useState } from "react";
+import { teams } from "src/utility";
 import { Plus } from "react-feather";
 import { AnimatePresence, motion } from "framer-motion";
 import ExtraBold from "@components/ExtraBold";
@@ -15,41 +22,22 @@ const DashBoard = () => {
     const date = new Date();
     const [user_teams, set_user_teams] = useState<Array<Models.Team>>();
     const [show_new, set_show_new] = useState<boolean>(false);
+    const [loading, set_loading] = useState<boolean>(false);
+    const [refresh, set_refresh] = useState<boolean>(true);
 
-    // useEffect(() => {
-    //     document.title = "Your projects - planetary";
-
-    //     const fetch_data = async () => {
-    //         const memberships = [];
-    //         for (const member of (await teams.list()).teams) {
-    //             const info = await database.getDocument(
-    //                 "teams",
-    //                 "teams",
-    //                 member.$id
-    //             );
-    //             const members = (await teams.listMemberships(member.$id))
-    //                 .memberships;
-
-    //             memberships.push({
-    //                 team: member,
-    //                 data: info,
-    //                 members,
-    //             });
-    //         }
-
-    //         set_projects(memberships);
-    //         set_is_loading(false);
-    //     };
-
-    //     fetch_data();
-    // }, []);
     useEffect(() => {
+        if (!refresh) return;
+
         const fetchTeams = async () => {
+            set_loading(true);
             set_user_teams((await teams.list()).teams);
+            set_loading(false);
         };
 
         fetchTeams();
-    }, []);
+
+        set_refresh(false);
+    }, [refresh]);
 
     // Create an array full of month's name
     const month = [
@@ -77,6 +65,7 @@ const DashBoard = () => {
                 {show_new && (
                     <NewProject
                         container={Container}
+                        afterAll={() => set_refresh(true)}
                         animatedelement={AnimatedElement}
                         destroy_self={() => set_show_new(false)}
                     />
@@ -160,7 +149,7 @@ const DashBoard = () => {
                 >
                     Recent Projects
                 </Bold>
-                <Flex marginTop={4}>
+                <Flex marginTop={4} gap={6} wrap="wrap">
                     {user_teams ? (
                         user_teams.map((team) => {
                             return (
@@ -171,6 +160,37 @@ const DashBoard = () => {
                                 />
                             );
                         })
+                    ) : !loading && !refresh ? (
+                        <Flex
+                            height="50vh"
+                            width="full"
+                            direction="column"
+                            alignItems={"center"}
+                            justifyContent="center"
+                        >
+                            <Image
+                                src="/images/empty.png"
+                                width={24}
+                                height={24}
+                                alt="Empty state"
+                            />
+                            <Text marginTop={4}>
+                                When you realize there are no projects to work
+                                on and it&apos;s only Monday.
+                            </Text>
+                        </Flex>
+                    ) : (
+                        <></>
+                    )}
+                    {loading ? (
+                        <Flex
+                            width="full"
+                            height="50vh"
+                            alignItems="center"
+                            justifyContent={"center"}
+                        >
+                            <Spinner color="#2E3440" />
+                        </Flex>
                     ) : (
                         <></>
                     )}

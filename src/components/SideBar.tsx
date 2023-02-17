@@ -90,7 +90,12 @@ const SideBar: React.FC<SideBarProps> = ({ current }) => {
                 animation={`${rise} 500ms ease-in-out forwards`}
             >
                 <Image
-                    src={"https://www.kyeboard.me/profile.png"}
+                    src={
+                        storage.getFilePreview(
+                            "63dfd4b2bf3364da5f0c",
+                            (user ?? { name: "" }).name as string
+                        ).href
+                    }
                     width={14}
                     borderRadius={"full"}
                     alt="Test User"

@@ -22,10 +22,12 @@ import ExtraBold from "./ExtraBold";
 const NewProject: React.FC<{
     destroy_self: () => void;
     container: ComponentType<any>;
+    afterAll: () => void;
     animatedelement: ComponentType<any>;
 }> = ({
     destroy_self,
     container: Container,
+    afterAll,
     animatedelement: AnimatedElement,
 }) => {
     const [color, set_color] = useState<string>("rgba(243, 139, 168, 0.3)");
@@ -37,7 +39,6 @@ const NewProject: React.FC<{
     const [show_loader, set_show_loader] = useState<boolean>(false);
     const [email, set_email] = useState<string>("");
     const [users, set_users] = useState<Array<string>>([]);
-    const router = useRouter();
     const [has_sumbitted, set_has_sumbitted] = useState<boolean>(false);
     const [invalid, set_invalid] = useState<boolean>(false);
 
@@ -89,7 +90,9 @@ const NewProject: React.FC<{
 
         set_status("Done!");
 
-        router.push(`/project/${team.$id}`);
+        afterAll();
+
+        destroy_self();
     };
 
     const add_user = () => {
@@ -123,6 +126,7 @@ const NewProject: React.FC<{
         <Box>
             <Container
                 height="100vh"
+                zIndex={20000}
                 width="100vw"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

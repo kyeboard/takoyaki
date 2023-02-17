@@ -2,6 +2,7 @@ import { Box, Flex, Text } from "@pankod/refine-chakra-ui";
 import { useOne } from "@pankod/refine-core";
 import { rise } from "animations";
 import { useRouter } from "next/router";
+import { Suspense } from "react";
 import Project from "types/Project";
 import ExtraBold from "./ExtraBold";
 
@@ -16,20 +17,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ id, name }) => {
 
     if (!isLoading) {
         return (
-            <Flex width="full" cursor="pointer">
-                <Flex
-                    direction={"column"}
-                    padding={8}
-                    onClick={() => router.push(`/project/${id}`)}
-                    borderRadius="3xl"
-                    bg={data?.data.color}
-                    maxWidth="450px"
-                    width="full"
-                    opacity={0}
-                    height="full"
-                    animation={`${rise} 500ms ease-in-out forwards`}
-                >
-                    {/* <Flex>
+            <Suspense fallback={<Text>Loading...</Text>}>
+                <Flex maxW="450px" cursor="pointer" width="full">
+                    <Flex
+                        direction={"column"}
+                        padding={8}
+                        onClick={() => router.push(`/project/${id}`)}
+                        borderRadius="3xl"
+                        bg={data?.data.color}
+                        maxWidth="450px"
+                        width="full"
+                        opacity={0}
+                        height="full"
+                        animation={`${rise} 500ms ease-in-out forwards`}
+                    >
+                        {/* <Flex>
                             {p.members.map((m: any, i: number) => {
                                 return (
                                     <Image
@@ -51,33 +53,34 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ id, name }) => {
                                 );
                             })}
                         </Flex> */}
-                    <ExtraBold marginTop={5} fontSize={24}>
-                        {name}
-                    </ExtraBold>
-                    <Text color="gray.600" marginTop={2} marginBottom={4}>
-                        {data?.data.description}
-                    </Text>
-                    <ExtraBold marginTop={"auto"}>
-                        {data?.data.completed + "%"}
-                    </ExtraBold>
-                    <Box marginTop={2} position="relative">
-                        <Box
-                            width="full"
-                            height="2"
-                            borderRadius="3xl"
-                            bg="rgba(46, 52, 64, 0.4)"
-                        ></Box>
-                        <Box
-                            position={"absolute"}
-                            top={0}
-                            width={data?.data.completed + "%"}
-                            height="2"
-                            borderRadius="3xl"
-                            bg="#2E3440"
-                        ></Box>
-                    </Box>
+                        <ExtraBold marginTop={5} fontSize={24}>
+                            {name}
+                        </ExtraBold>
+                        <Text color="gray.600" marginTop={2} marginBottom={4}>
+                            {data?.data.description}
+                        </Text>
+                        <ExtraBold marginTop={"auto"}>
+                            {data?.data.completed + "%"}
+                        </ExtraBold>
+                        <Box marginTop={2} position="relative">
+                            <Box
+                                width="full"
+                                height="2"
+                                borderRadius="3xl"
+                                bg="rgba(46, 52, 64, 0.4)"
+                            ></Box>
+                            <Box
+                                position={"absolute"}
+                                top={0}
+                                width={data?.data.completed + "%"}
+                                height="2"
+                                borderRadius="3xl"
+                                bg="#2E3440"
+                            ></Box>
+                        </Box>
+                    </Flex>
                 </Flex>
-            </Flex>
+            </Suspense>
         );
     }
 
