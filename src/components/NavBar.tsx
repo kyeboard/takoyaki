@@ -35,6 +35,7 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
     return (
         <Flex
             padding={8}
+            top={0}
             zIndex={1000}
             backdropFilter={"auto"}
             backdropBlur="5px"
