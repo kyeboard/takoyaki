@@ -1,13 +1,5 @@
 import SideBarProject from "@components/SideBarProject";
-import {
-    Box,
-    Button,
-    Flex,
-    Image,
-    Input,
-    Spinner,
-    Text,
-} from "@pankod/refine-chakra-ui";
+import { Box, Button, Flex, Input, Text } from "@pankod/refine-chakra-ui";
 import { account, database } from "src/utility";
 import { Models } from "@pankod/refine-appwrite";
 import { useEffect, useState } from "react";
@@ -20,37 +12,14 @@ import { rise } from "animations";
 import { Menu, Plus } from "react-feather";
 import ExtraBold from "@components/ExtraBold";
 import Head from "next/head";
+import WorkspacesList from "@components/WorkspacesList";
 
 const DashBoard: React.FC<{}> = () => {
-    const [user, set_user] = useState<Models.Account<{}> | null>(null);
-    const [workspaces, set_workspaces] = useState<Array<any>>([]);
-    const [loading, set_loading] = useState<boolean>(true);
     const [show_newproject, set_newproject] = useState<boolean>(false);
+    const [filter, set_filter] = useState<string>("");
     const [reload, set_reload] = useState<boolean>(false);
     const router = useRouter();
     const [expand, set_expand] = useState<boolean>(false);
-    const icons: { [key: string]: any } = new Object(feather.icons);
-
-    useEffect(() => {
-        if (!router.isReady) return;
-
-        const fetch_user = async () => {
-            set_user(await account.get());
-
-            set_workspaces(
-                (
-                    await database.listDocuments(
-                        router.query.id as string,
-                        "categories"
-                    )
-                ).documents
-            );
-            set_loading(false);
-            set_reload(false);
-        };
-
-        fetch_user();
-    }, [router, reload]);
 
     const Container = motion(Flex);
     const AnimatedElement = motion(Flex);
@@ -101,13 +70,14 @@ const DashBoard: React.FC<{}> = () => {
                         <Menu />
                     </Box>
                     <ExtraBold fontSize={{ sm: 28, base: 20 }}>
-                        Invitations
+                        Workspaces
                     </ExtraBold>
                 </Flex>
                 <Flex gap={5} marginTop={4} width="full">
                     <Input
                         width="full"
                         bg="#dde0f2"
+                        onChange={(e) => set_filter(e.target.value)}
                         animation={`${rise} 300ms ease-in-out forwards`}
                         opacity={0}
                         style={{ animationDelay: "50ms" }}
@@ -133,78 +103,7 @@ const DashBoard: React.FC<{}> = () => {
                         </Box>
                     </Button>
                 </Flex>
-                {loading ? (
-                    <Flex
-                        width="full"
-                        height="50vh"
-                        justifyContent={"center"}
-                        alignItems="center"
-                    >
-                        <Spinner color="#2E3440" />
-                    </Flex>
-                ) : workspaces.length == 0 ? (
-                    <Flex
-                        alignItems={"center"}
-                        justifyContent="center"
-                        width="full"
-                        direction="column"
-                        height={"50vh"}
-                        gap={6}
-                    >
-                        <Image src="/images/empty.png" width={24} />
-                        <Text maxWidth={96} align="center">
-                            Your to-dos are going to be more scrambled than an
-                            egg on a trampoline if you don&apos;t arrange them
-                            in workspaces.
-                        </Text>
-                    </Flex>
-                ) : (
-                    <Flex marginTop={8} width="full" height="full">
-                        <Flex width="full" wrap="wrap" gap={5}>
-                            {workspaces.map((w) => {
-                                return (
-                                    <Box key={w.$id} maxW="400px" w="full">
-                                        <Link
-                                            href={`/project/${router.query.id}/workspace/${w.$id}`}
-                                        >
-                                            <Flex
-                                                gap={2}
-                                                direction="column"
-                                                bg={w.color}
-                                                borderRadius={"2xl"}
-                                                maxW={"400px"}
-                                                width="full"
-                                                padding={8}
-                                            >
-                                                <Box
-                                                    bg="rgba(46, 52, 64, 0.2)"
-                                                    width="fit-content"
-                                                    color="#2E3440"
-                                                    padding={3}
-                                                    borderRadius="xl"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: icons[
-                                                            w.icon as string
-                                                        ].toSvg(),
-                                                    }}
-                                                />
-                                                <ExtraBold
-                                                    marginTop={2}
-                                                    fontSize={24}
-                                                >
-                                                    {w.title}
-                                                </ExtraBold>
-                                                <Text color="gray.600">
-                                                    {w.description}
-                                                </Text>
-                                            </Flex>
-                                        </Link>
-                                    </Box>
-                                );
-                            })}
-                        </Flex>
-                    </Flex>
-                )}
+                <WorkspacesList filter={filter} />
             </Flex>
         </Flex>
     );
