@@ -1,10 +1,6 @@
 import SideBarProject from "@components/SideBarProject";
 import { Box, Button, Flex, Input, Text } from "@pankod/refine-chakra-ui";
-import { account, database } from "src/utility";
-import { Models } from "@pankod/refine-appwrite";
-import { useEffect, useState } from "react";
-import feather from "feather-icons";
-import Link from "next/link";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import NewWorkspace from "@components/NewWorkspace";
 import { AnimatePresence, motion } from "framer-motion";
@@ -103,7 +99,11 @@ const DashBoard: React.FC<{}> = () => {
                         </Box>
                     </Button>
                 </Flex>
-                <WorkspacesList filter={filter} />
+                <WorkspacesList
+                    filter={filter}
+                    reload={reload}
+                    revert={() => set_reload(false)}
+                />
             </Flex>
         </Flex>
     );

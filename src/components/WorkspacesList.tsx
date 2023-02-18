@@ -5,14 +5,24 @@ import feather from "feather-icons";
 import { useRouter } from "next/router";
 import ExtraBold from "./ExtraBold";
 
-const WorkspacesList: React.FC<{ filter: string }> = ({ filter }) => {
+const WorkspacesList: React.FC<{
+    filter: string;
+    reload: boolean;
+    revert: () => void;
+}> = ({ filter, reload, revert }) => {
     // Get the router
     const router = useRouter();
 
     // Get all the workspaces
-    const { data, isLoading } = useList({
+    const { data, isLoading, refetch } = useList({
         resource: `categories-${router.query.id}`,
     });
+
+    if (reload) {
+        refetch();
+        revert(); // Set refres to false
+    }
+
     // icon list
     const icons: { [key: string]: any } = new Object(feather.icons);
 
