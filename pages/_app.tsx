@@ -50,7 +50,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                         }),
                     }}
                     liveProvider={liveProvider(appwriteClient, {
-                        databaseId: "63df174eb4161f4803ca",
+                        databaseId: "",
                     })}
                     liveMode="auto"
                     authProvider={authProvider}

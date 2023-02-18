@@ -87,7 +87,7 @@ const SideBarProject: React.FC<SideBarProps> = ({
                         borderRadius={"full"}
                         alt="Test User"
                     />
-                    <Box>
+                    <Box display={{ sidebar_md: "initial", base: "none" }}>
                         <Text>Purple Light</Text>
                         <Text color="gray.500" fontSize={13}>
                             me@kyeboard.me

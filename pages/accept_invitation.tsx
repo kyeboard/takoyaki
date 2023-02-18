@@ -18,7 +18,7 @@ const AcceptInvitation = () => {
 
             // Check if it exists
             try {
-                await database.updateDocument(
+                const res = await database.updateDocument(
                     current_user.name,
                     "invitations",
                     router.query.teamId as string,
@@ -29,6 +29,7 @@ const AcceptInvitation = () => {
 
                 router.push("/dashboard");
             } catch (err) {
+                console.log(err)
                 set_error("Invalid invitation!");
             }
         };
