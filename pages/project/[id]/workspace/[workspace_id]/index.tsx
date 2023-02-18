@@ -135,8 +135,6 @@ const Todos = () => {
         const end_month = moment(moment.now()).endOf("month");
         const end_year = moment(moment.now()).endOf("month");
 
-        console.log(tomorrow.format("MMMM Do YYYY, h:mm:ss a"));
-
         switch (key) {
             case "all":
                 set_todos(all_todos);
