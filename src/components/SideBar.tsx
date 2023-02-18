@@ -49,6 +49,7 @@ const SideBar: React.FC<SideBarProps> = ({ current, expand, destroy_self }) => {
             left={0}
             top={0}
             bg="#dde0f2"
+            display={{ sm: "flex", base: expand ? "flex" : "none" }}
             zIndex={{ sm: 100, base: expand ? 20000 : 0 }}
             alignItems="center"
             paddingTop={{ sm: 36 }}

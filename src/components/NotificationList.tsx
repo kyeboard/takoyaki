@@ -93,8 +93,13 @@ const NotificationList: React.FC<NotificationListProps> = ({
                         </Flex>
                         <Bold marginLeft={6}>{n.message}</Bold>
                         <Text
+                            maxW={20}
+                            w="full"
+                            noOfLines={1}
+                            textOverflow="ellipsis"
+                            overflow="hidden"
                             marginLeft={"auto"}
-                            marginRight={10}
+                            marginRight={{ sm: 10, base: 4 }}
                             color="gray.600"
                         >
                             {moment(n.$createdAt).fromNow()}

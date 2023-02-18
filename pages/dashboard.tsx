@@ -83,7 +83,10 @@ const DashBoard = () => {
                         style={{ animationDelay: "140ms" }}
                         animation={`${rise} 500ms ease-in-out forwards`}
                     >
-                        <Box onClick={() => set_expand(true)}>
+                        <Box
+                            display={{ sm: "none", base: "inherit" }}
+                            onClick={() => set_expand(true)}
+                        >
                             <Menu />
                         </Box>
                         <ExtraBold fontSize={{ sm: 28, base: 20 }}>
