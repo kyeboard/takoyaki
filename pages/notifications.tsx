@@ -1,6 +1,5 @@
 import ExtraBold from "@components/ExtraBold";
 import SideBar from "@components/SideBar";
-import { Models } from "@pankod/refine-appwrite";
 import { Box, Flex } from "@pankod/refine-chakra-ui";
 import { useState } from "react";
 import { Menu } from "react-feather";

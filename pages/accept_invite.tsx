@@ -44,7 +44,7 @@ const AcceptInvite = () => {
                     />
                 )}
             </AnimatePresence>
-            <SideBar current="dashboard" />
+            <SideBar current="dashboard" destroy_self={() => {}} />
             <Flex
                 width="full"
                 height="full"
@@ -53,7 +53,11 @@ const AcceptInvite = () => {
                 justifyContent="center"
                 direction="column"
             >
-                <Image width={24} src="/images/accept_invite.png" />
+                <Image
+                    width={24}
+                    src="/images/accept_invite.png"
+                    alt="Accept invite logo"
+                />
                 <Flex gap={4} marginTop={4}>
                     <Spinner color="#2E3440" />
                     <Bold>Accepting the invitation...</Bold>

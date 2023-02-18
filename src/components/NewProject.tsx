@@ -30,6 +30,7 @@ const NewProject: React.FC<{
     afterAll,
     animatedelement: AnimatedElement,
 }) => {
+    // Uh, the states
     const [color, set_color] = useState<string>("rgba(243, 139, 168, 0.3)");
     const [name, set_name] = useState<string>("");
     const [desc, set_desc] = useState<string>("");
@@ -42,16 +43,17 @@ const NewProject: React.FC<{
     const [has_sumbitted, set_has_sumbitted] = useState<boolean>(false);
     const [invalid, set_invalid] = useState<boolean>(false);
 
-    useEffect(() => {
-        document.title = "Create a new project - kyeboard";
-    });
-
     const create_project = async (e: any) => {
+        // Prevent form's default behaviour
         e.preventDefault();
+
+        // Set has sumbitted
         set_has_sumbitted(true);
 
+        // Check if the details are correct
         if (!name || !desc) return;
 
+        // Show the loading icon
         set_show_loader(true);
 
         // Create team

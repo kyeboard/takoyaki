@@ -1,4 +1,3 @@
-import Bold from "@components/Bold";
 import ExtraBold from "@components/ExtraBold";
 import SideBar from "@components/SideBar";
 import { Models } from "@pankod/refine-appwrite";

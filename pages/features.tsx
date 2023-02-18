@@ -106,34 +106,6 @@ const Features = () => {
                     bg="#dce0f3"
                     padding={7}
                     marginTop={2}
-                    borderRadius="xl"
-                    direction="column"
-                    opacity={0}
-                    animation={`${rise} 500ms ease-in-out forwards`}
-                    style={{ animationDelay: "200ms" }}
-                    maxW={"400px"}
-                >
-                    <Box
-                        borderRadius={"xl"}
-                        padding={4}
-                        bg="rgba(46, 52, 64, 0.1)"
-                        w="fit-content"
-                    >
-                        <Video />
-                    </Box>
-                    <ExtraBold marginTop={4} fontSize={24}>
-                        Events
-                    </ExtraBold>
-                    <Text marginTop={2}>
-                        Get notified about upcoming events that will feel like
-                        you have a sixth sense for deadlines and meetings - but
-                        without the weird psychic visions!
-                    </Text>
-                </Flex>
-                <Flex
-                    bg="#dce0f3"
-                    padding={7}
-                    marginTop={2}
                     opacity={0}
                     animation={`${rise} 500ms ease-in-out forwards`}
                     style={{ animationDelay: "250ms" }}

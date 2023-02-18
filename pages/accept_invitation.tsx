@@ -41,7 +41,7 @@ const AcceptInvitation = () => {
 
     return (
         <Flex>
-            <SideBar current="dashboard" />
+            <SideBar current="dashboard" destroy_self={() => {}} />
             <AnimatePresence>
                 {error && (
                     <InvitationError
@@ -59,7 +59,11 @@ const AcceptInvitation = () => {
                 marginLeft={"400px"}
                 direction="column"
             >
-                <Image src="/images/accept_invite.png" width={20} />
+                <Image
+                    src="/images/accept_invite.png"
+                    width={20}
+                    alt="Accept invite icon"
+                />
                 <Flex gap={6} marginTop={4}>
                     <Spinner />
                     <Text>Accepting the invite...</Text>

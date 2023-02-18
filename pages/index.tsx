@@ -4,12 +4,9 @@ import Link from "next/link";
 import { Bold, ChakraNextImage, ExtraBold } from "@components";
 import { useEffect } from "react";
 import { GitHub, Heart, Mail, Twitter } from "react-feather";
+import Head from "next/head";
 
 const Index = () => {
-    useEffect(() => {
-        document.title = "Welcome to planetary - a professional todo app";
-    });
-
     const riseAnimation = `${rise} 500ms ease-in-out forwards`;
 
     return (
@@ -19,6 +16,9 @@ const Index = () => {
             alignItems={{ sm: "center", base: "start" }}
             direction={{ sm: "row", base: "column" }}
         >
+            <Head>
+                <title>Welcome to planetary - a professional todo app</title>
+            </Head>
             <Box
                 width={{ sm: "50%", base: "100%" }}
                 paddingX={{ sm: 28, base: 6 }}
