@@ -1,52 +1,50 @@
-# planetary
+![conver](https://user-images.githubusercontent.com/115910279/219828995-7f24dd9a-55a2-4a8a-a53a-fa0d54810847.jpg)
 
-<div align="center" style="margin: 30px;">
-    <a href="https://refine.dev">
-    <img src="https://refine.ams3.cdn.digitaloceanspaces.com/refine_logo.png"  align="center" />
-    </a>
-</div>
-<br/>
+# [Planetary](https://planetary.kyeboard.me)
 
-This [refine](https://github.com/pankod/refine) project was generated with [superplate](https://github.com/pankod/refine).
+Get ready to slay your to-do list like a dragon-slaying knight with this app. It's like a personal assistant without the coffee addiction and annoying small talk. Say 'goodbye' to procrastination and 'hello' to getting sh*t done. Don't be a potato on the couch, be a productive potato with this app.
 
-## Getting Started
+## Participants
+I worked solo on this project and killed it, but I'm pretty sure I also killed a few brain cells in the process.
 
-**refine** is a React-based framework for building data-intensive applications in no time ✨
+- GitHub: https://www.github.com/kyeboard
+- Twitter: [https://www.twitter.com/kyeboard_](https://www.twitter.com/kyeboard_)
 
-Refine offers lots of out-of-the box functionality for rapid development, without compromising extreme customizability. Use-cases include, but are not limited to admin panels, B2B applications and dashboards.
+# Prerequisites
+In order to setup and run this project locally, you must have:
 
-## Available Scripts
+- [Docker](https://www.docker.com/)
+- [Appwrite](https://www.appwrite.io/)
+- Brain (IYKYK)
 
-### Running the development server.
+# Install project
+To run this awesome website locally, first:
 
-```bash
-    pnpm dev
+- Clone the github repo
+```
+git clone https://www.github.com/kyeboard/planetary.git
 ```
 
-### Building for production.
-
-```bash
-    pnpm build
+- Change the directory to the folder
+```
+cd planetary
 ```
 
-### Running the production server.
-
-```bash
-    pnpm start
+- Setup your Appwrite instance with the required project, collections etc.
+```
+bash setup.sh
 ```
 
-## Learn More
+- Install required dependencies
+```
+pnpm install
+```
 
-To learn more about **refine**, please check out the [Documentation](https://refine.dev/docs)
+- Start the website
+```
+pnpm start
+```
 
-- **Appwrite Data Provider** [Docs](https://refine.dev/docs/core/providers/data-provider/#overview)
-- **Chakra UI** [Docs](https://refine.dev/docs/)
-- **Chakra UI Light/Dark Mode** [Docs](#)
-- **Custom Layout** [Docs](https://refine.dev/docs/ui-frameworks/chakra-ui/customization/chakra-ui-custom-layout/)
-- **i18n** [Docs](https://refine.dev/docs/core/providers/i18n-provider/)
-- **KBar Command Palette** [Docs](https://github.com/pankod/refine/tree/next/examples/commandPalette/kbar)
+<hr />
 
-
-## License
-
-MIT
+Built with ♥, [RefineJS](https://refine.dev/) and [Appwrite](https://www.appwrite.io)
