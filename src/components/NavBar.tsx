@@ -83,27 +83,47 @@ const NavBar: React.FC<NavBarProps> = ({
                 bg="rgb(231, 231 , 242)"
             >
                 <Link href="/">
-                    <Button bg={"transparent"} _hover={{ bg: "#dce0f3" }}>
+                    <Button
+                        onClick={() => set_open_dropdown(false)}
+                        bg={"transparent"}
+                        _hover={{ bg: "#dce0f3" }}
+                    >
                         Home
                     </Button>
                 </Link>
                 <Link href="/dashboard">
-                    <Button bg={"transparent"} _hover={{ bg: "#dce0f3" }}>
+                    <Button
+                        onClick={() => set_open_dropdown(false)}
+                        bg={"transparent"}
+                        _hover={{ bg: "#dce0f3" }}
+                    >
                         Dashboard
                     </Button>
                 </Link>
                 <Link href="/features">
-                    <Button bg={"transparent"} _hover={{ bg: "#dce0f3" }}>
+                    <Button
+                        onClick={() => set_open_dropdown(false)}
+                        bg={"transparent"}
+                        _hover={{ bg: "#dce0f3" }}
+                    >
                         Features
                     </Button>
                 </Link>
                 <Link href="https://www.github.com/kyeboard/planetary/releases">
-                    <Button bg={"transparent"} _hover={{ bg: "#dce0f3" }}>
+                    <Button
+                        onClick={() => set_open_dropdown(false)}
+                        bg={"transparent"}
+                        _hover={{ bg: "#dce0f3" }}
+                    >
                         Changelog
                     </Button>
                 </Link>
                 <Link href="mailto:me@kyeboard.me">
-                    <Button bg={"transparent"} _hover={{ bg: "#dce0f3" }}>
+                    <Button
+                        onClick={() => set_open_dropdown(false)}
+                        bg={"transparent"}
+                        _hover={{ bg: "#dce0f3" }}
+                    >
                         Contact
                     </Button>
                 </Link>

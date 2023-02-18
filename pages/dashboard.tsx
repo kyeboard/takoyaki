@@ -7,11 +7,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import ExtraBold from "@components/ExtraBold";
 import ProjectsList from "@components/ProjectsList";
 import Head from "next/head";
+import { Menu } from "react-feather";
 
 const DashBoard = () => {
     const date = new Date();
     const [show_new, set_show_new] = useState<boolean>(false);
     const [refresh, set_refresh] = useState<boolean>(true);
+    const [expand, set_expand] = useState<boolean>(false);
 
     // Create an array full of month's name
     const month = [
@@ -34,11 +36,19 @@ const DashBoard = () => {
     const ProjectCardAnimated = motion(Flex);
 
     return (
-        <Flex width={"100vw"} height="100vh">
+        <Flex
+            width={"100vw"}
+            height="100vh"
+            direction={{ sm: "row", base: "column" }}
+        >
             <Head>
                 <title>Your dashboard - planetary</title>
             </Head>
-            <SideBar current="dashboard" />
+            <SideBar
+                current="dashboard"
+                expand={expand}
+                destroy_self={() => set_expand(false)}
+            />
             <Flex
                 direction="column"
                 marginTop={5}
@@ -66,14 +76,20 @@ const DashBoard = () => {
                     )}
                 </AnimatePresence>
                 <Flex direction={"column"} height="fit-content" paddingTop={32}>
-                    <ExtraBold
-                        fontSize={28}
+                    <Flex
+                        alignItems={"center"}
+                        gap={5}
                         opacity={0}
                         style={{ animationDelay: "140ms" }}
                         animation={`${rise} 500ms ease-in-out forwards`}
                     >
-                        Today, {date.getDate()} {month[date.getMonth()]}
-                    </ExtraBold>
+                        <Box onClick={() => set_expand(true)}>
+                            <Menu />
+                        </Box>
+                        <ExtraBold fontSize={{ sm: 28, base: 20 }}>
+                            Today, {date.getDate()} {month[date.getMonth()]}
+                        </ExtraBold>
+                    </Flex>
                 </Flex>
                 <Box width="full">
                     <ProjectsList
