@@ -9,6 +9,7 @@ import {
     Spinner,
     Text,
 } from "@pankod/refine-chakra-ui";
+import { useList } from "@pankod/refine-core";
 import { rise } from "animations";
 import { AnimatePresence } from "framer-motion";
 import { ComponentType, useEffect, useState } from "react";
@@ -17,7 +18,7 @@ import { teams } from "src/utility";
 import Bold from "./Bold";
 import ProjectCard from "./ProjectsCard";
 
-// Props 
+// Props
 interface ProjectsListProps {
     refresh: boolean;
     set_refresh: (status: boolean) => void;
@@ -33,23 +34,13 @@ const ProjectsList: React.FC<ProjectsListProps> = ({
     set_show_new,
 }) => {
     // States
-    const [user_teams, set_user_teams] = useState<Array<Models.Team>>();
-    const [loading, set_loading] = useState<boolean>(false);
+    const { data, isLoading } = useList<Models.Team>({
+        dataProviderName: "team",
+        resource: "",
+    });
     const [filter, set_filter] = useState<string>("");
 
-    useEffect(() => {
-        if (!refresh) return;
-
-        const fetchTeams = async () => {
-            set_loading(true);
-            set_user_teams((await teams.list()).teams);
-            set_loading(false);
-        };
-
-        fetchTeams();
-
-        set_refresh(false);
-    }, [refresh, set_refresh]);
+    console.log(data);
 
     return (
         <Box width="full">
@@ -113,20 +104,22 @@ const ProjectsList: React.FC<ProjectsListProps> = ({
 
             <Flex marginTop={4} gap={6} wrap="wrap" paddingBottom={10}>
                 <AnimatePresence>
-                    {user_teams ? (
-                        user_teams.map((team) => {
+                    {data?.data ? (
+                        data?.data.map((team) => {
                             if (!team.name.includes(filter)) return;
 
                             return (
-                                <ProjectCard
-                                    animatedelement={AnimatedElement}
-                                    id={team.$id}
-                                    key={team.$id}
-                                    name={team.name}
-                                />
+                                <>
+                                    <ProjectCard
+                                        animatedelement={AnimatedElement}
+                                        id={(team as any).id as string}
+                                        key={(team as any).id}
+                                        name={team.name}
+                                    />
+                                </>
                             );
                         })
-                    ) : !loading && !refresh ? (
+                    ) : !isLoading && !refresh ? (
                         <Flex
                             height="50vh"
                             width="full"
@@ -149,7 +142,7 @@ const ProjectsList: React.FC<ProjectsListProps> = ({
                         <></>
                     )}
                 </AnimatePresence>
-                {loading ? (
+                {isLoading ? (
                     <Flex
                         width="full"
                         height="50vh"

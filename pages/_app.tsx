@@ -20,8 +20,10 @@ import { appwriteClient } from "src/utility";
 import { Title, Sider, Layout, Header } from "@components/layout";
 import { OffLayoutArea } from "@components/offLayoutArea";
 import theme from "theme/chakra";
+import { customDataProvider } from "providers/appwrite";
 import { Nunito } from "@next/font/google";
 import { motion } from "framer-motion";
+import { appwriteTeamProvider } from "providers/appwriteTeam";
 
 const nunito = Nunito({ subsets: ["latin"], weight: "600" });
 
@@ -40,9 +42,13 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
             <RefineKbarProvider>
                 <Refine
                     routerProvider={routerProvider}
-                    dataProvider={dataProvider(appwriteClient, {
-                        databaseId: "teams",
-                    })}
+                    dataProvider={{
+                        default: customDataProvider(appwriteClient),
+                        team: appwriteTeamProvider(appwriteClient),
+                        teams: dataProvider(appwriteClient, {
+                            databaseId: "teams",
+                        }),
+                    }}
                     liveProvider={liveProvider(appwriteClient, {
                         databaseId: "63df174eb4161f4803ca",
                     })}

@@ -1,29 +1,13 @@
-import Bold from "@components/Bold";
 import ExtraBold from "@components/ExtraBold";
 import SideBar from "@components/SideBar";
-import { Models, Query } from "@pankod/refine-appwrite";
-import {
-    Box,
-    Flex,
-    Image,
-    Input,
-    Spinner,
-    Text,
-} from "@pankod/refine-chakra-ui";
-import moment from "moment";
-import { ComponentType, useEffect, useState } from "react";
-import { AlertTriangle, Check, Menu } from "react-feather";
-import { account, database } from "src/utility";
-import feathericons from "feather-icons";
+import { Models } from "@pankod/refine-appwrite";
+import { Box, Flex } from "@pankod/refine-chakra-ui";
+import { useState } from "react";
+import { Menu } from "react-feather";
 import { rise } from "animations";
 import NotificationList from "@components/NotificationList";
 import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
-
-interface Notification extends Models.Document {
-    icon: string;
-    message: string;
-}
 
 const Notifications = () => {
     const AnimatedElement = motion(Flex);

@@ -1,4 +1,4 @@
-import { Models, Query } from "@pankod/refine-appwrite";
+import { Models } from "@pankod/refine-appwrite";
 import {
     Box,
     Flex,
@@ -8,12 +8,13 @@ import {
     Text,
 } from "@pankod/refine-chakra-ui";
 import feathericons from "feather-icons";
-import { ComponentType, useEffect, useState } from "react";
+import { ComponentType, useState } from "react";
 import { Check } from "react-feather";
-import { account, database } from "src/utility";
+import { database } from "src/utility";
 import moment from "moment";
 import Bold from "./Bold";
 import { rise } from "animations";
+import { useGetIdentity, useList } from "@pankod/refine-core";
 
 interface NotificationListProps {
     container: ComponentType<any>;
@@ -29,39 +30,25 @@ const NotificationList: React.FC<NotificationListProps> = ({
     container: Container,
     animatedelement: AnimatedElement,
 }) => {
-    const [notifications, set_notifications] = useState<Array<Notification>>(
-        []
-    );
+    const { data: currentUser } =
+        useGetIdentity<Models.Account<{}>>();
+
+    const { data, isLoading, refetch } = useList<Notification>({
+        resource: `notifications-${currentUser?.name}`,
+    });
     const [filter, set_filter] = useState<string>("");
     const icons: { [key: string]: any } = new Object(feathericons.icons);
-    const [loading, set_loading] = useState<boolean>(true);
-
-    useEffect(() => {
-        const fetch_data = async () => {
-            const current_user = await account.get();
-
-            set_notifications(
-                (
-                    await database.listDocuments<Notification>(
-                        current_user.name,
-                        "notifications",
-                        [Query.orderDesc("$createdAt")]
-                    )
-                ).documents
-            );
-
-            set_loading(false);
-        };
-
-        fetch_data();
-    }, []);
 
     const remove_notification = async (id: string) => {
-        set_notifications(notifications.filter((v) => v.$id !== id));
+        // Delete the document
+        await database.deleteDocument(
+            currentUser?.name ?? "",
+            "notifications",
+            id
+        );
 
-        const current_user = await account.get();
-
-        await database.deleteDocument(current_user.name, "notifications", id);
+        // Refetch new documents
+        refetch();
     };
 
     return (
@@ -79,13 +66,13 @@ const NotificationList: React.FC<NotificationListProps> = ({
                 marginBottom={5}
                 style={{ animationDelay: "50ms" }}
             />
-            
-            {notifications.map((n) => {
+
+            {data?.data.map((n) => {
                 if (!n.message.includes(filter)) return;
 
                 return (
                     <AnimatedElement
-                        key={n.$id}
+                        key={n.id}
                         bg="#dde0f2"
                         alignItems="center"
                         padding={3}
@@ -131,7 +118,7 @@ const NotificationList: React.FC<NotificationListProps> = ({
                         </Text>
                         <Box
                             bg="#a6d3a6"
-                            onClick={() => remove_notification(n.$id)}
+                            onClick={() => remove_notification(n.id)}
                             padding={3}
                             cursor="pointer"
                             borderRadius="lg"
@@ -141,7 +128,7 @@ const NotificationList: React.FC<NotificationListProps> = ({
                     </AnimatedElement>
                 );
             })}
-            {loading ? (
+            {isLoading ? (
                 <Flex
                     width="full"
                     height="50vh"
@@ -150,7 +137,7 @@ const NotificationList: React.FC<NotificationListProps> = ({
                 >
                     <Spinner color="#2E3440" />
                 </Flex>
-            ) : notifications.length == 0 ? (
+            ) : data?.data.length == 0 ? (
                 <Flex
                     width="full"
                     height="50vh"

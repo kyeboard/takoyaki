@@ -16,6 +16,7 @@ import {
     Permission,
     Role,
     ID,
+    Teams,
 } from "appwrite";
 
 const getRefineEvent = (event: string): LiveEvent["type"] | undefined => {
@@ -105,13 +106,13 @@ export const getAppwritePagination = (pagination: Pagination) => {
     return [Query.offset((current - 1) * pageSize), Query.limit(pageSize)];
 };
 
-export const customDataProvider = (
-    appwriteClient: Appwrite,
-    options: { databaseId: string } = { databaseId: "default" }
+export const appwriteTeamProvider = (
+    appwriteClient: Appwrite
 ): Required<DataProvider> => {
-    const { databaseId } = options;
-
+    const teams = new Teams(appwriteClient);
     const database = new Databases(appwriteClient);
+
+    const databaseId = "defualt";
 
     return {
         getList: async ({
@@ -121,25 +122,11 @@ export const customDataProvider = (
             filters,
             sort,
         }) => {
-            const [collectionId, customDatabaseId] = resource.split("-");
-
             const appwriteFilters = getAppwriteFilters(filters);
-            const appwritePagination = hasPagination
-                ? getAppwritePagination(pagination)
-                : [];
 
-            const appwriteSorts = getAppwriteSorting(sort);
-
-            const { total: total, documents: data } =
-                await database.listDocuments<any>(
-                    customDatabaseId ?? databaseId,
-                    collectionId,
-                    [
-                        ...appwriteFilters,
-                        ...appwritePagination,
-                        ...appwriteSorts,
-                    ]
-                );
+            const { total: total, teams: data } = await teams.list([
+                ...appwriteFilters,
+            ]);
 
             return {
                 data: data.map(({ $id, ...restData }: { $id: string }) => ({

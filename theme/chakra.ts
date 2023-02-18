@@ -9,6 +9,8 @@ const theme = extendTheme({
             },
         },
     },
+    initialColorMode: "light",
+    useSystemColorMode: false,
     breakpoints: {
         // Nav Bar breakpoints
         nav_sm: "",

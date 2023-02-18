@@ -17,7 +17,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     name,
     animatedelement: AnimatedElement,
 }) => {
-    const { data, isLoading } = useOne<Project>({ resource: "teams", id });
+    const { data, isLoading } = useOne<Project>({
+        resource: "teams",
+        id,
+        dataProviderName: "teams",
+    });
     const router = useRouter();
 
     if (!isLoading) {

@@ -8,11 +8,12 @@ import {
 } from "@pankod/refine-chakra-ui";
 import Link from "next/link";
 import moment from "moment";
-import { ComponentType, useEffect, useState } from "react";
+import { ComponentType, useState } from "react";
 import { Models } from "@pankod/refine-appwrite";
 import { Check, Mail, X } from "react-feather";
-import { account, database } from "src/utility";
+import { database } from "src/utility";
 import { rise } from "animations";
+import { GetListResponse, useGetIdentity, useList } from "@pankod/refine-core";
 
 interface Invitation extends Models.Document {
     name: string;
@@ -21,52 +22,44 @@ interface Invitation extends Models.Document {
 
 interface InvitationsListProps {
     animatedelement: ComponentType<any>;
+    identity: Models.Account<{}> | undefined;
+    identityLoading: boolean;
+    data: GetListResponse<Invitation> | undefined;
+    isLoading: boolean;
+    refetch: any;
 }
 
 const InvitationsList: React.FC<InvitationsListProps> = ({
     animatedelement: AnimatedElement,
+    identity,
+    identityLoading,
+    data,
+    isLoading,
+    refetch,
 }) => {
-    const [invitations, set_invitations] = useState<Array<Invitation>>([]);
-    const [loading, set_loading] = useState<boolean>(true);
+    // Show that the invitation is being removed
     const [removing, set_removing] = useState<string>("-");
 
-    useEffect(() => {
-        const fetch_data = async () => {
-            const current_user = await account.get();
-
-            set_invitations(
-                (
-                    await database.listDocuments<Invitation>(
-                        current_user.name,
-                        "invitations"
-                    )
-                ).documents
-            );
-
-            set_loading(false);
-        };
-
-        fetch_data();
-    }, []);
-
     const remove_invitation = async (id: string) => {
+        // Set removing
         set_removing(id);
 
-        const current_user = await account.get();
+        // Delete the document
+        await database.deleteDocument(identity?.name ?? "", "invitations", id);
 
-        await database.deleteDocument(current_user.name, "invitations", id);
+        // Refresh the data
+        refetch();
 
-        set_invitations(invitations.filter((f) => f.$id !== id));
-
+        // Remove the loading icon
         set_removing("-");
     };
 
     return (
         <Flex direction="column" gap={5} marginTop={8}>
-            {invitations.map((n) => {
+            {data?.data.map((n) => {
                 return (
                     <AnimatedElement
-                        key={n.$id}
+                        key={n.id ?? Math.random().toString()}
                         bg="#dde0f2"
                         alignItems="center"
                         initial={{ opacity: 0, transform: "translateY(30px)" }}
@@ -99,7 +92,7 @@ const InvitationsList: React.FC<InvitationsListProps> = ({
                                 paddingY={6}
                                 paddingX={4}
                                 width={{ sm: 32 }}
-                                onClick={() => remove_invitation(n.$id)}
+                                onClick={() => remove_invitation(n.id)}
                                 _hover={{ bg: "#d2d8f3" }}
                                 borderRadius="lg"
                             >
@@ -151,7 +144,7 @@ const InvitationsList: React.FC<InvitationsListProps> = ({
                     </AnimatedElement>
                 );
             })}
-            {loading ? (
+            {isLoading ? (
                 <Flex
                     width="full"
                     height="50vh"
@@ -161,7 +154,7 @@ const InvitationsList: React.FC<InvitationsListProps> = ({
                 >
                     <Spinner color="#2e3440" />
                 </Flex>
-            ) : invitations.length == 0 ? (
+            ) : data?.data.length == 0 ? (
                 <Flex
                     width="full"
                     height="50vh"

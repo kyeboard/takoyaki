@@ -9,10 +9,24 @@ import { rise } from "animations";
 import InvitationsList from "@components/InvitationsList";
 import { motion } from "framer-motion";
 import Head from "next/head";
+import { useGetIdentity, useList } from "@pankod/refine-core";
+
+interface Invitation extends Models.Document {
+    name: string;
+    accept_url: string;
+}
 
 const Invitations = () => {
     const animatedelement = motion(Flex);
     const [expand, set_expand] = useState<boolean>(false);
+    // Get current user
+    const { data: identity, isLoading: identityLoading } =
+        useGetIdentity<Models.Account<{}>>();
+
+    // Get the invitations
+    const { data, isLoading, refetch } = useList<Invitation>({
+        resource: `invitations-${identity?.name}`,
+    });
 
     return (
         <Flex>
@@ -58,7 +72,14 @@ const Invitations = () => {
                     width="full"
                     padding={6}
                 />
-                <InvitationsList animatedelement={animatedelement} />
+                <InvitationsList
+                    animatedelement={animatedelement}
+                    refetch={refetch}
+                    isLoading={isLoading}
+                    identity={identity}
+                    identityLoading={identityLoading}
+                    data={data}
+                />
             </Box>
         </Flex>
     );
