@@ -2,30 +2,13 @@ import Bold from "@components/Bold";
 import ExtraBold from "@components/ExtraBold";
 import SideBar from "@components/SideBar";
 import { Models } from "@pankod/refine-appwrite";
-import {
-    Box,
-    Button,
-    Flex,
-    Image,
-    Input,
-    Spinner,
-    Text,
-} from "@pankod/refine-chakra-ui";
-import moment from "moment";
-import { useEffect, useState } from "react";
-import { Check, Mail, Menu } from "react-feather";
-import { account, database } from "src/utility";
-import feathericons from "feather-icons";
-import Link from "next/link";
+import { Box, Flex, Input } from "@pankod/refine-chakra-ui";
+import { useState } from "react";
+import { Menu } from "react-feather";
 import { rise } from "animations";
 import InvitationsList from "@components/InvitationsList";
 import { motion } from "framer-motion";
 import Head from "next/head";
-
-interface Invitation extends Models.Document {
-    name: string;
-    accept_url: string;
-}
 
 const Invitations = () => {
     const animatedelement = motion(Flex);

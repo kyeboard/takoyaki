@@ -1,3 +1,4 @@
+// Import dependencies
 import { Models } from "@pankod/refine-appwrite";
 import {
     Box,
@@ -16,19 +17,22 @@ import { teams } from "src/utility";
 import Bold from "./Bold";
 import ProjectCard from "./ProjectsCard";
 
+// Props 
 interface ProjectsListProps {
     refresh: boolean;
     set_refresh: (status: boolean) => void;
-    animatedelement: ComponentType<any>;
+    animatedElement: ComponentType<any>;
     set_show_new: (show: boolean) => void;
 }
 
+// The amazingly beautiful component
 const ProjectsList: React.FC<ProjectsListProps> = ({
     refresh,
     set_refresh,
-    animatedelement: AnimatedElement,
+    animatedElement: AnimatedElement,
     set_show_new,
 }) => {
+    // States
     const [user_teams, set_user_teams] = useState<Array<Models.Team>>();
     const [loading, set_loading] = useState<boolean>(false);
     const [filter, set_filter] = useState<string>("");

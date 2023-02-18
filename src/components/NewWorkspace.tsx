@@ -14,6 +14,7 @@ import { rise, unfade } from "animations";
 import feathericons from "feather-icons";
 import { useRouter } from "next/router";
 import { database } from "src/utility";
+import Head from "next/head";
 const nunito = Nunito({ subsets: ["latin"], weight: "800" });
 
 const NewWorkspace: React.FC<{
@@ -37,10 +38,6 @@ const NewWorkspace: React.FC<{
     const router = useRouter();
     const [has_sumbitted, set_has_sumbitted] = useState<boolean>(false);
     const icons: { [key: string]: any } = new Object(feathericons.icons);
-
-    useEffect(() => {
-        document.title = "Create a new workspace - kyeboard";
-    }, []);
 
     const create_workspace = async (e: any) => {
         // Prevent form redirection
@@ -332,7 +329,7 @@ const NewWorkspace: React.FC<{
                 </AnimatedElement>
                 {show_loader ? (
                     <Flex
-                        position={"fixed"}
+                        position={"absolute"}
                         height="100vh"
                         width="100vw"
                         zIndex={100000}

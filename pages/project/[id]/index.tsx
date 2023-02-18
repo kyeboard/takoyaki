@@ -12,15 +12,14 @@ import { account, database } from "src/utility";
 import { Models } from "@pankod/refine-appwrite";
 import { useEffect, useState } from "react";
 import feather from "feather-icons";
-import { Nunito } from "@next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import NewWorkspace from "@components/NewWorkspace";
 import { AnimatePresence, motion } from "framer-motion";
 import { rise } from "animations";
-import { Plus } from "react-feather";
-
-const font = Nunito({ subsets: ["latin"], weight: "800" });
+import { Menu, Plus } from "react-feather";
+import ExtraBold from "@components/ExtraBold";
+import Head from "next/head";
 
 const DashBoard: React.FC<{}> = () => {
     const [user, set_user] = useState<Models.Account<{}> | null>(null);
@@ -29,6 +28,7 @@ const DashBoard: React.FC<{}> = () => {
     const [show_newproject, set_newproject] = useState<boolean>(false);
     const [reload, set_reload] = useState<boolean>(false);
     const router = useRouter();
+    const [expand, set_expand] = useState<boolean>(false);
     const icons: { [key: string]: any } = new Object(feather.icons);
 
     useEffect(() => {
@@ -57,6 +57,9 @@ const DashBoard: React.FC<{}> = () => {
 
     return (
         <Flex paddingBottom={1}>
+            <Head>
+                <title>Your workspaces - planetary</title>
+            </Head>
             <AnimatePresence>
                 {show_newproject && (
                     <NewWorkspace
@@ -69,7 +72,11 @@ const DashBoard: React.FC<{}> = () => {
                     />
                 )}
             </AnimatePresence>
-            <SideBarProject current={"todos"} />
+            <SideBarProject
+                current={"todos"}
+                expand={expand}
+                destroy_self={() => set_expand(false)}
+            />
             <Flex
                 width={{
                     sm: "calc(100% - 150px)",
@@ -81,14 +88,22 @@ const DashBoard: React.FC<{}> = () => {
                 marginLeft={{ base: 0, sm: "80px", sidebar_md: "350px" }}
                 paddingTop={{ base: 28, sm: 40 }}
             >
-                <Text
-                    fontSize={24}
-                    className={font.className}
-                    animation={`${rise} 300ms ease-in-out forwards`}
+                <Flex
+                    alignItems={"center"}
+                    gap={5}
                     opacity={0}
+                    animation={`${rise} 500ms ease-in-out forwards`}
                 >
-                    Hello, {user?.name}!
-                </Text>
+                    <Box
+                        display={{ sm: "none", base: "inherit" }}
+                        onClick={() => set_expand(true)}
+                    >
+                        <Menu />
+                    </Box>
+                    <ExtraBold fontSize={{ sm: 28, base: 20 }}>
+                        Invitations
+                    </ExtraBold>
+                </Flex>
                 <Flex gap={5} marginTop={4} width="full">
                     <Input
                         width="full"
@@ -173,13 +188,12 @@ const DashBoard: React.FC<{}> = () => {
                                                         ].toSvg(),
                                                     }}
                                                 />
-                                                <Text
+                                                <ExtraBold
                                                     marginTop={2}
                                                     fontSize={24}
-                                                    className={font.className}
                                                 >
                                                     {w.title}
-                                                </Text>
+                                                </ExtraBold>
                                                 <Text color="gray.600">
                                                     {w.description}
                                                 </Text>

@@ -10,7 +10,10 @@ import Head from "next/head";
 import { Menu } from "react-feather";
 
 const DashBoard = () => {
+    // Get today's date
     const date = new Date();
+
+    // States of the application
     const [show_new, set_show_new] = useState<boolean>(false);
     const [refresh, set_refresh] = useState<boolean>(true);
     const [expand, set_expand] = useState<boolean>(false);
@@ -31,10 +34,12 @@ const DashBoard = () => {
         "December",
     ];
 
+    // Globally creating the framer-motion component so that they dont refresh on every state update (e.g. Input box change)
     const Container = motion(Flex);
     const AnimatedElement = motion(Flex);
     const ProjectCardAnimated = motion(Flex);
 
+    // The awesome UI
     return (
         <Flex
             width={"100vw"}
@@ -99,7 +104,7 @@ const DashBoard = () => {
                         refresh={refresh}
                         set_refresh={set_refresh}
                         set_show_new={set_show_new}
-                        animatedelement={ProjectCardAnimated}
+                        animatedElement={ProjectCardAnimated}
                     />
                 </Box>
             </Flex>
