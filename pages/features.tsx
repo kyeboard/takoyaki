@@ -34,12 +34,19 @@ const Features = () => {
                 style={{ animationDelay: "50ms" }}
                 align={"center"}
                 maxW="450px"
+                paddingX={5}
             >
                 Our app&apos;s features are like a personal assistant - but
                 better, because they won&apos;t call in sick or drink all your
                 coffee!
             </Text>
-            <Flex wrap="wrap" marginTop={8} gap={6} justifyContent="center">
+            <Flex
+                wrap="wrap"
+                marginTop={8}
+                gap={2}
+                padding={5}
+                justifyContent="center"
+            >
                 <Flex
                     bg="#dce0f3"
                     padding={7}

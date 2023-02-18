@@ -33,7 +33,7 @@ export const QuickLink: React.FC<QuickLinkProps> = ({
                 marginTop={4}
                 bg={current ? "#d2d8f3" : "transparent"}
                 cursor="pointer"
-                width={{ sidebar_md: "300px", base: "fit-content" }}
+                width={{ sidebar_md: "300px", sm: "fit-content", base: "full" }}
                 padding={4}
                 paddingX={6}
                 borderRadius={10}
@@ -44,7 +44,7 @@ export const QuickLink: React.FC<QuickLinkProps> = ({
                 animation={`${rise} 500ms ease-in-out forwards`}
             >
                 {icon}
-                <Text display={{ sidebar_md: "block", base: "none" }}>
+                <Text display={{ sidebar_md: "block", sm: "none", base: "block" }}>
                     {title}
                 </Text>
             </Flex>

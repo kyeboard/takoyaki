@@ -28,7 +28,7 @@ import {
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { database } from "src/utility";
-import { Check, Edit, X } from "react-feather";
+import { Check, Edit, Plus, X } from "react-feather";
 import EditTask from "@components/EditTask";
 
 interface Todo extends Models.Document {
@@ -111,31 +111,12 @@ const Todos = () => {
         fetch_todos();
     }, [router]);
 
-    const filter_with_difference = (
-        key: moment.unitOfTime.Diff
-    ): Array<Todo> => {
-        const filter_todos: Todo[] = [];
-        const today = moment(moment.now());
-
-        for (const todo of all_todos) {
-            const due_date_moment = moment(todo.due_date);
-
-            if (due_date_moment.isSame(today, key)) {
-                filter_todos.push(todo);
-            }
-        }
-
-        return filter_todos;
-    };
-
     const filter_todos = (key: string) => {
         const today = moment(moment.now());
         const tomorrow = moment(moment.now()).add(1, "day");
         const end_week = moment(moment.now()).endOf("week");
         const end_month = moment(moment.now()).endOf("month");
         const end_year = moment(moment.now()).endOf("month");
-
-        console.log(tomorrow.format("MMMM Do YYYY, h:mm:ss a"));
 
         switch (key) {
             case "all":
@@ -197,7 +178,10 @@ const Todos = () => {
     const AnimatedElement = motion(Flex);
 
     return (
-        <Flex marginLeft={"350px"} width="full">
+        <Flex
+            marginLeft={{ sidebar_md: "350px", sm: "110px", base: 0 }}
+            width="full"
+        >
             <AnimatePresence>
                 {popup_state && (
                     <NewTask
@@ -218,7 +202,15 @@ const Todos = () => {
                 )}
             </AnimatePresence>
             <SideBarProject current="todos" />
-            <Box paddingY={40} paddingX={10} width="calc(100% - 350px)">
+            <Box
+                paddingY={{ sm: 40, base: 32 }}
+                paddingX={{ sm: 10, base: 4 }}
+                width={{
+                    sidebar_md: "calc(100% - 350px)",
+                    sm: "calc(100% - 110px)",
+                    base: "calc(100%)",
+                }}
+            >
                 <Text
                     className={font.className}
                     fontSize={34}
@@ -238,7 +230,7 @@ const Todos = () => {
                     />
                     <Button
                         padding={6}
-                        width="250px"
+                        width={{ sm: "250px", base: "50px" }}
                         _hover={{ bg: "#2E3440" }}
                         bg="#2E3440"
                         onClick={() => set_popup_state(true)}
@@ -247,14 +239,19 @@ const Todos = () => {
                         opacity={0}
                         animation={`${rise} 500ms ease-in-out forwards`}
                     >
-                        Create new task
+                        <Text display={{ sm: "inherit", base: "none" }}>
+                            Create new task
+                        </Text>
+                        <Box display={{ sm: "none", base: "inherit" }}>
+                            <Plus />
+                        </Box>
                     </Button>
                 </Flex>
                 <Tabs
                     marginTop={5}
                     onChange={(index) => filter_todos(actions[index])}
                 >
-                    <TabList gap={6}>
+                    <TabList gap={6} maxW={"100vw"} overflow="scroll">
                         <Tab
                             _selected={{
                                 borderBottomColor: "#2E3440",
@@ -497,6 +494,8 @@ const Todos = () => {
                             style={{ animationDelay: "50ms" }}
                             animation={`${rise} 500ms ease-in-out forwards`}
                             marginTop={5}
+                            textAlign="center"
+                            paddingX={{ base: 4, sm: 0 }}
                         >
                             When there&apos;s nothing on the to-do list, the day
                             is your oyster!

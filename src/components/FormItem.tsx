@@ -43,6 +43,7 @@ const FormItem: React.FC<FormItemProps> = ({
             {is_textarea ? (
                 <Textarea
                     bg="#dde0f2"
+                    _placeholder={{ color: "gray.500" }}
                     onChange={(e) => set_value(e.target.value)}
                     paddingX={6}
                     paddingY={4}
@@ -54,6 +55,7 @@ const FormItem: React.FC<FormItemProps> = ({
             ) : (
                 <Input
                     bg="#dde0f2"
+                    _placeholder={{ color: "gray.500" }}
                     onChange={(e) => set_value(e.target.value)}
                     padding={6}
                     value={value}

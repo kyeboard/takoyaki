@@ -22,6 +22,7 @@ const Index = () => {
             <Box
                 width={{ sm: "50%", base: "100%" }}
                 paddingX={{ sm: 28, base: 6 }}
+                paddingBottom={10}
             >
                 <Box
                     marginTop={{ sm: 16, base: 32 }}

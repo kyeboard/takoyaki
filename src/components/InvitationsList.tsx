@@ -1,9 +1,16 @@
-import { Button, Flex, Image, Spinner, Text } from "@pankod/refine-chakra-ui";
+import {
+    Box,
+    Button,
+    Flex,
+    Image,
+    Spinner,
+    Text,
+} from "@pankod/refine-chakra-ui";
 import Link from "next/link";
 import moment from "moment";
 import { ComponentType, useEffect, useState } from "react";
 import { Models } from "@pankod/refine-appwrite";
-import { Mail } from "react-feather";
+import { Check, Mail, X } from "react-feather";
 import { account, database } from "src/utility";
 import { rise } from "animations";
 
@@ -82,27 +89,47 @@ const InvitationsList: React.FC<InvitationsListProps> = ({
                             marginLeft={"7"}
                             marginRight={13}
                             color="gray.600"
+                            noOfLines={1}
                         >
                             {moment(n.$createdAt).fromNow()}
                         </Text>
                         <Flex gap={4} marginLeft={"auto"} borderRadius="lg">
                             <Button
                                 bg="#d2d8f3"
-                                padding={6}
-                                width={32}
+                                paddingY={6}
+                                paddingX={4}
+                                width={{ sm: 32 }}
                                 onClick={() => remove_invitation(n.$id)}
                                 _hover={{ bg: "#d2d8f3" }}
                                 borderRadius="lg"
                             >
                                 {removing == n.$id ? (
-                                    <Spinner size="sm" />
+                                    <Spinner size={{ sm: "sm", base: "xs" }} />
                                 ) : (
-                                    <Text>Ignore</Text>
+                                    <>
+                                        <Text
+                                            display={{
+                                                sm: "inherit",
+                                                base: "none",
+                                            }}
+                                        >
+                                            Ignore
+                                        </Text>
+                                        <Box
+                                            display={{
+                                                base: "inherit",
+                                                sm: "none",
+                                            }}
+                                        >
+                                            <X />
+                                        </Box>
+                                    </>
                                 )}
                             </Button>
                             <Link href={n.accept_url}>
                                 <Button
                                     width={32}
+                                    display={{ sm: "flex", base: "none" }}
                                     bg="#a6d3a6"
                                     _hover={{ bg: "#a6d3a6" }}
                                     padding={6}
@@ -110,6 +137,15 @@ const InvitationsList: React.FC<InvitationsListProps> = ({
                                 >
                                     Accept
                                 </Button>
+                                <Box
+                                    display={{ base: "inherit", sm: "none" }}
+                                    bg="#a6d3a6"
+                                    _hover={{ bg: "#a6d3a6" }}
+                                    padding={3}
+                                    borderRadius="lg"
+                                >
+                                    <Check />
+                                </Box>
                             </Link>
                         </Flex>
                     </AnimatedElement>
@@ -139,7 +175,7 @@ const InvitationsList: React.FC<InvitationsListProps> = ({
                         width={24}
                         alt="No invitations"
                     />
-                    <Text>
+                    <Text textAlign="center">
                         Well, this is awkward...there&apos;s no one asking you
                         to join their team.
                     </Text>

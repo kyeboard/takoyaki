@@ -7,11 +7,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import ExtraBold from "@components/ExtraBold";
 import ProjectsList from "@components/ProjectsList";
 import Head from "next/head";
+import { Menu } from "react-feather";
 
 const DashBoard = () => {
+    // Get today's date
     const date = new Date();
+
+    // States of the application
     const [show_new, set_show_new] = useState<boolean>(false);
     const [refresh, set_refresh] = useState<boolean>(true);
+    const [expand, set_expand] = useState<boolean>(false);
 
     // Create an array full of month's name
     const month = [
@@ -29,21 +34,31 @@ const DashBoard = () => {
         "December",
     ];
 
+    // Globally creating the framer-motion component so that they dont refresh on every state update (e.g. Input box change)
     const Container = motion(Flex);
     const AnimatedElement = motion(Flex);
     const ProjectCardAnimated = motion(Flex);
 
+    // The awesome UI
     return (
-        <Flex width={"100vw"} height="100vh">
+        <Flex
+            width={"100vw"}
+            height="100vh"
+            direction={{ sm: "row", base: "column" }}
+        >
             <Head>
                 <title>Your dashboard - planetary</title>
             </Head>
-            <SideBar current="dashboard" />
+            <SideBar
+                current="dashboard"
+                expand={expand}
+                destroy_self={() => set_expand(false)}
+            />
             <Flex
                 direction="column"
                 marginTop={5}
-                paddingLeft={{ sidebar_md: 12, sm: 8, base: 4 }}
-                paddingRight={{ sidebar_md: 12, sm: 0, base: 4 }}
+                paddingLeft={{ sidebar_md: 12, sm: 8, base: 6 }}
+                paddingRight={{ sidebar_md: 12, sm: 0, base: 6 }}
                 width={{
                     sidebar_md: "calc(100vw - 350px)",
                     sm: "calc(100vw - 100px)",
@@ -66,21 +81,30 @@ const DashBoard = () => {
                     )}
                 </AnimatePresence>
                 <Flex direction={"column"} height="fit-content" paddingTop={32}>
-                    <ExtraBold
-                        fontSize={28}
+                    <Flex
+                        alignItems={"center"}
+                        gap={5}
                         opacity={0}
                         style={{ animationDelay: "140ms" }}
                         animation={`${rise} 500ms ease-in-out forwards`}
                     >
-                        Today, {date.getDate()} {month[date.getMonth()]}
-                    </ExtraBold>
+                        <Box
+                            display={{ sm: "none", base: "inherit" }}
+                            onClick={() => set_expand(true)}
+                        >
+                            <Menu />
+                        </Box>
+                        <ExtraBold fontSize={{ sm: 28, base: 20 }}>
+                            Today, {date.getDate()} {month[date.getMonth()]}
+                        </ExtraBold>
+                    </Flex>
                 </Flex>
                 <Box width="full">
                     <ProjectsList
                         refresh={refresh}
                         set_refresh={set_refresh}
                         set_show_new={set_show_new}
-                        animatedelement={ProjectCardAnimated}
+                        animatedElement={ProjectCardAnimated}
                     />
                 </Box>
             </Flex>

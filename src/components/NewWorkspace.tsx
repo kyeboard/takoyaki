@@ -14,6 +14,7 @@ import { rise, unfade } from "animations";
 import feathericons from "feather-icons";
 import { useRouter } from "next/router";
 import { database } from "src/utility";
+import Head from "next/head";
 const nunito = Nunito({ subsets: ["latin"], weight: "800" });
 
 const NewWorkspace: React.FC<{
@@ -32,16 +33,11 @@ const NewWorkspace: React.FC<{
         "Setting up your workspace..."
     );
     const [show_loader, set_show_loader] = useState<boolean>(false);
-    const [email, set_email] = useState<string>("");
+    const [filter, set_filter] = useState<string>("");
     const [icon, set_icon] = useState<string>("bookmark");
     const router = useRouter();
     const [has_sumbitted, set_has_sumbitted] = useState<boolean>(false);
-    const [invalid, set_invalid] = useState<boolean>(false);
     const icons: { [key: string]: any } = new Object(feathericons.icons);
-
-    useEffect(() => {
-        document.title = "Create a new workspace - kyeboard";
-    }, []);
 
     const create_workspace = async (e: any) => {
         // Prevent form redirection
@@ -240,21 +236,24 @@ const NewWorkspace: React.FC<{
                                     bg="#dde1f3"
                                     padding={6}
                                     opacity={0}
-                                    onChange={(e) => set_email(e.target.value)}
+                                    onChange={(e) => set_filter(e.target.value)}
                                     style={{ animationDelay: `260ms` }}
                                     animation={`${rise} 500ms ease-in-out forwards`}
-                                    placeholder="search for the coffee icon..."
+                                    placeholder="Search for the perfect icon..."
                                 />
                             </Flex>
                             <Flex
-                                height={"65vh"}
+                                height={"fit-content"}
+                                maxH="65vh"
                                 overflow="scroll"
                                 wrap={"wrap"}
                                 gap={6}
+                                justify="center"
                                 marginTop={5}
                             >
                                 {Object.keys(feathericons.icons).map(
                                     (key, value) => {
+                                        if (!key.includes(filter)) return;
                                         return (
                                             <Flex
                                                 padding={4}
@@ -273,7 +272,7 @@ const NewWorkspace: React.FC<{
                                                 opacity={0}
                                                 style={{
                                                     animationDelay: `${
-                                                        value * 2 + 300
+                                                        value * 2 + 100
                                                     }ms`,
                                                 }}
                                                 animation={`${rise} 300ms ease-in-out forwards`}
@@ -337,8 +336,6 @@ const NewWorkspace: React.FC<{
                         bg="rgba(46, 52, 64, 0.6)"
                         backdropFilter="auto"
                         backdropBlur="6px"
-                        left="0"
-                        top={0}
                         opacity={0}
                         style={{ animationDelay: `120ms` }}
                         animation={`${unfade} 500ms ease-in-out forwards`}

@@ -8,6 +8,7 @@ import {
     ReadyPage,
     ErrorComponent,
     Box,
+    Flex,
 } from "@pankod/refine-chakra-ui";
 import routerProvider from "@pankod/refine-nextjs-router";
 import { dataProvider, liveProvider } from "@pankod/refine-appwrite";
@@ -20,11 +21,13 @@ import { Title, Sider, Layout, Header } from "@components/layout";
 import { OffLayoutArea } from "@components/offLayoutArea";
 import theme from "theme/chakra";
 import { Nunito } from "@next/font/google";
+import { motion } from "framer-motion";
 
 const nunito = Nunito({ subsets: ["latin"], weight: "600" });
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     const { t, i18n } = useTranslation();
+    const AnimatedElement = motion(Flex);
 
     const i18nProvider = {
         translate: (key: string, params: object) => t(key, params),
@@ -57,7 +60,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                     resources={[{ name: "projects" }]}
                 >
                     <Box className={nunito.className}>
-                        <NavBar user={true} />
+                        <NavBar user={true} animatedelement={AnimatedElement} />
                         <Component {...pageProps} />
                     </Box>
                 </Refine>

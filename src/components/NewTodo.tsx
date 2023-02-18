@@ -91,7 +91,6 @@ const NewTask: React.FC<NewTaskProps> = ({
 
         // Set has sumbitted
         set_has_sumbitted(true);
-        set_loading(true);
 
         // Parse the input date
         const parsed_date = moment(date);
@@ -106,6 +105,8 @@ const NewTask: React.FC<NewTaskProps> = ({
         ) {
             return; // The form is not correctly filled up
         }
+
+        set_loading(true);
 
         // Create a new todo
         await database.createDocument(
@@ -137,6 +138,7 @@ const NewTask: React.FC<NewTaskProps> = ({
             position={"fixed"}
             top="0"
             left="0"
+            overflow="scroll"
             zIndex={2000}
             backdropFilter="auto"
             backdropBlur="6px"
@@ -147,6 +149,7 @@ const NewTask: React.FC<NewTaskProps> = ({
                 bg="#e7e7f2"
                 marginTop="10vh"
                 opacity="0"
+                height="fit-content"
                 direction="column"
                 initial={{ opacity: 0, transform: "translateY(30px)" }}
                 animate={{ opacity: 1, transform: "translateY(0px)" }}
@@ -157,15 +160,20 @@ const NewTask: React.FC<NewTaskProps> = ({
                 <Text
                     className={font.className}
                     textAlign="center"
-                    fontSize={34}
+                    fontSize={{ sm: 34, base: 28 }}
                     opacity="0"
                     style={{ animationDelay: "80ms" }}
                     animation={`${rise} 300ms ease-in-out forwards`}
                 >
                     Create a new todo
                 </Text>
-                <Flex marginTop={14} gap={20}>
-                    <Box width="60%">
+                <Flex
+                    marginTop={14}
+                    gap={20}
+                    height="fit-content"
+                    direction={{ sm: "row", base: "column" }}
+                >
+                    <Box width={{ sm: "60%", base: "100%" }}>
                         <form onSubmit={handle_sumbit}>
                             <Flex direction="column" gap={5}>
                                 <FormItem
@@ -250,7 +258,7 @@ const NewTask: React.FC<NewTaskProps> = ({
                             </Flex>
                         </form>
                     </Box>
-                    <Box width="40%">
+                    <Box width={{ sm: "40%", base: "100%" }}>
                         <Text
                             className={font_bold.className}
                             opacity="0"

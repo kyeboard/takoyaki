@@ -3,17 +3,21 @@ import { Models } from "@pankod/refine-appwrite";
 import { Box, Button, Flex, Image, Text } from "@pankod/refine-chakra-ui";
 import { rise, rise_reverse } from "animations";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Menu } from "react-feather";
+import { ComponentType, useEffect, useState } from "react";
+import { Menu, X } from "react-feather";
 import { account, storage } from "src/utility";
 
 interface NavBarProps {
     user: boolean;
+    animatedelement: ComponentType<any>;
 }
 
 const nunito = Nunito({ subsets: ["latin"], weight: "800" });
 
-const NavBar: React.FC<NavBarProps> = ({ user }) => {
+const NavBar: React.FC<NavBarProps> = ({
+    user,
+    animatedelement: AnimatedElement,
+}) => {
     const [open_dropdown, set_open_dropdown] = useState<boolean>(false);
 
     const google_oauth = async () => {
@@ -55,7 +59,7 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
                     <Text fontSize={18}>Planetary</Text>
                 </Flex>
             </Link>
-            <Flex
+            <AnimatedElement
                 marginX={"auto"}
                 gap={{ sm: 10, base: 6 }}
                 position={{ sm: "relative", base: "absolute" }}
@@ -67,37 +71,63 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
                 overflow="hidden"
                 direction={{ sm: "row", base: "column" }}
                 textAlign={{ sm: "start", base: "center" }}
-                top={{ sm: 0, base: 32 }}
-                animation={
-                    open_dropdown
-                        ? `${rise_reverse} 500ms ease-in-out forwards`
-                        : ""
-                }
+                paddingTop={{ sm: "0px", base: open_dropdown ? 10 : 0 }}
+                top={{ sm: 0, base: 24 }}
+                initial={{
+                    base: { opacity: 0, transform: "translateY(30px)" },
+                }}
+                animate={{ base: { opacity: 1, transform: "translateY(0px)" } }}
+                exit={{ base: { opacity: 0, transform: "translateY(30px)" } }}
                 left={0}
                 color="#2E3440"
-                bg="rgb(231, 231 ,242)"
+                bg="rgb(231, 231 , 242)"
             >
-                <Link href="/" replace>
-                    <Button bg={"transparent"} _hover={{ bg: "#dce0f3" }}>
+                <Link href="/">
+                    <Button
+                        onClick={() => set_open_dropdown(false)}
+                        bg={"transparent"}
+                        _hover={{ bg: "#dce0f3" }}
+                    >
                         Home
                     </Button>
                 </Link>
-                <Link href="/dashboard" replace>
-                    <Button bg={"transparent"} _hover={{ bg: "#dce0f3" }}>
+                <Link href="/dashboard">
+                    <Button
+                        onClick={() => set_open_dropdown(false)}
+                        bg={"transparent"}
+                        _hover={{ bg: "#dce0f3" }}
+                    >
                         Dashboard
                     </Button>
                 </Link>
-                <Link href="/changelog" replace>
-                    <Button bg={"transparent"} _hover={{ bg: "#dce0f3" }}>
+                <Link href="/features">
+                    <Button
+                        onClick={() => set_open_dropdown(false)}
+                        bg={"transparent"}
+                        _hover={{ bg: "#dce0f3" }}
+                    >
+                        Features
+                    </Button>
+                </Link>
+                <Link href="https://www.github.com/kyeboard/planetary/releases">
+                    <Button
+                        onClick={() => set_open_dropdown(false)}
+                        bg={"transparent"}
+                        _hover={{ bg: "#dce0f3" }}
+                    >
                         Changelog
                     </Button>
                 </Link>
-                <Link href="https://www.kyeboard.me/contact" replace>
-                    <Button bg={"transparent"} _hover={{ bg: "#dce0f3" }}>
+                <Link href="mailto:me@kyeboard.me">
+                    <Button
+                        onClick={() => set_open_dropdown(false)}
+                        bg={"transparent"}
+                        _hover={{ bg: "#dce0f3" }}
+                    >
                         Contact
                     </Button>
                 </Link>
-            </Flex>
+            </AnimatedElement>
             {current_user ? (
                 <Link href="/settings" replace>
                     <Flex gap={4}>
@@ -133,7 +163,11 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
                 </Button>
             )}
             <Flex marginLeft="auto" display={{ sm: "none", base: "flex" }}>
-                <Menu onClick={() => set_open_dropdown(true)} />
+                {open_dropdown ? (
+                    <X onClick={() => set_open_dropdown(false)} />
+                ) : (
+                    <Menu onClick={() => set_open_dropdown(true)} />
+                )}
             </Flex>
         </Flex>
     );

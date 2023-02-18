@@ -20,6 +20,7 @@ specifiers:
   '@types/react-dom': ^18.0.6
   '@types/validatorjs': ^3.15.0
   '@typescript-eslint/parser': ^4.9.1
+  appwrite: ^10.2.0
   cross-env: ^7.0.3
   eslint: 8.33.0
   eslint-config-next: 13.1.6
@@ -54,6 +55,7 @@ dependencies:
   '@pankod/refine-react-hook-form': 3.37.2_22xhyyut3xutxvxxvynjf2g4qu
   '@pankod/refine-react-table': 4.9.1_fj3rbkhwgsny3zuzxkpyd5umoa
   '@tabler/icons': 1.119.0_biqbaboplfbrettd7655fr4n2y
+  appwrite: 10.2.0
   feather-icons: 4.29.0
   framer-motion: 9.0.2_biqbaboplfbrettd7655fr4n2y
   googleapis: 110.0.0
