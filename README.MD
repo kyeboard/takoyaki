@@ -10,14 +10,14 @@ I worked solo on this project and killed it, but I'm pretty sure I also killed a
 - GitHub: https://www.github.com/kyeboard
 - Twitter: [https://www.twitter.com/kyeboard_](https://www.twitter.com/kyeboard_)
 
-# Prerequisites
+## Prerequisites
 In order to setup and run this project locally, you must have:
 
 - [Docker](https://www.docker.com/)
 - [Appwrite](https://www.appwrite.io/)
 - Brain (IYKYK)
 
-# Install project
+## Install project
 To run this awesome website locally, first:
 
 - Clone the github repo
