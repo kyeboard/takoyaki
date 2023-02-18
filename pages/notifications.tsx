@@ -67,16 +67,6 @@ const Notifications = () => {
                         Notifications
                     </ExtraBold>
                 </Flex>
-                <Input
-                    marginTop={4}
-                    placeholder="Filter your notifications..."
-                    bg="#dde0f2"
-                    width="full"
-                    padding={6}
-                    animation={`${rise} 500ms ease-in-out forwards`}
-                    opacity={0}
-                    style={{ animationDelay: "50ms" }}
-                />
                 <AnimatePresence>
                     <NotificationList
                         animatedelement={AnimatedElement}

@@ -1,11 +1,19 @@
 import { Models, Query } from "@pankod/refine-appwrite";
-import { Box, Flex, Image, Spinner, Text } from "@pankod/refine-chakra-ui";
+import {
+    Box,
+    Flex,
+    Image,
+    Input,
+    Spinner,
+    Text,
+} from "@pankod/refine-chakra-ui";
 import feathericons from "feather-icons";
 import { ComponentType, useEffect, useState } from "react";
 import { Check } from "react-feather";
 import { account, database } from "src/utility";
 import moment from "moment";
 import Bold from "./Bold";
+import { rise } from "animations";
 
 interface NotificationListProps {
     container: ComponentType<any>;
@@ -24,6 +32,7 @@ const NotificationList: React.FC<NotificationListProps> = ({
     const [notifications, set_notifications] = useState<Array<Notification>>(
         []
     );
+    const [filter, set_filter] = useState<string>("");
     const icons: { [key: string]: any } = new Object(feathericons.icons);
     const [loading, set_loading] = useState<boolean>(true);
 
@@ -56,8 +65,24 @@ const NotificationList: React.FC<NotificationListProps> = ({
     };
 
     return (
-        <Container direction="column" gap={5} marginTop={8}>
+        <Container direction="column" gap={5}>
+            <Input
+                marginTop={4}
+                placeholder="Filter your notifications..."
+                bg="#dde0f2"
+                width="full"
+                onChange={(e) => set_filter(e.target.value)}
+                value={filter}
+                padding={6}
+                animation={`${rise} 500ms ease-in-out forwards`}
+                opacity={0}
+                marginBottom={5}
+                style={{ animationDelay: "50ms" }}
+            />
+            
             {notifications.map((n) => {
+                if (!n.message.includes(filter)) return;
+
                 return (
                     <AnimatedElement
                         key={n.$id}
@@ -93,7 +118,7 @@ const NotificationList: React.FC<NotificationListProps> = ({
                         </Flex>
                         <Bold marginLeft={6}>{n.message}</Bold>
                         <Text
-                            maxW={20}
+                            maxW={{ sm: "fit-content", base: 20 }}
                             w="full"
                             noOfLines={1}
                             textOverflow="ellipsis"
