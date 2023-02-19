@@ -1,8 +1,17 @@
 import { Nunito } from "@next/font/google";
 import { Models } from "@pankod/refine-appwrite";
-import { Box, Button, Flex, Image, Text } from "@pankod/refine-chakra-ui";
+import {
+    Box,
+    Button,
+    Flex,
+    Image,
+    Spinner,
+    Text,
+} from "@pankod/refine-chakra-ui";
+import { useAuthenticated } from "@pankod/refine-core";
 import { rise, rise_reverse } from "animations";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { ComponentType, useEffect, useState } from "react";
 import { Menu, X } from "react-feather";
 import { account, storage } from "src/utility";
@@ -19,22 +28,34 @@ const NavBar: React.FC<NavBarProps> = ({
     animatedelement: AnimatedElement,
 }) => {
     const [open_dropdown, set_open_dropdown] = useState<boolean>(false);
-
-    const google_oauth = async () => {
-        account.createOAuth2Session(
-            "google",
-            window.location.href + "dashboard"
-        );
-    };
-    const [current_user, set_current_user] =
-        useState<Models.Account<{}> | null>(null);
+    const { isLoading, isError, refetch } = useAuthenticated();
+    const [logging_out, set_logging_out] = useState<boolean>(false);
+    const router = useRouter();
 
     useEffect(() => {
-        // const fetch_user = async () => {
-        //     set_current_user(await account.get());
-        // };
-        // fetch_user();
-    }, [set_current_user]);
+        if (isError) {
+            router.push("/");
+        }
+    }, [isError]);
+
+    const toggle_auth = async () => {
+        if (isError) {
+            account.createOAuth2Session(
+                "google",
+                window.location.href + "dashboard"
+            );
+        } else {
+            set_logging_out(true);
+
+            await account.deleteSession("current");
+
+            set_logging_out(false);
+
+            router.push("/");
+
+            refetch();
+        }
+    };
 
     return (
         <Flex
@@ -128,40 +149,24 @@ const NavBar: React.FC<NavBarProps> = ({
                     </Button>
                 </Link>
             </AnimatedElement>
-            {current_user ? (
-                <Link href="/settings" replace>
-                    <Flex gap={4}>
-                        <Image
-                            src={
-                                storage.getFilePreview(
-                                    "63dfd4b2bf3364da5f0c",
-                                    current_user.name
-                                ).href
-                            }
-                            width={12}
-                            alt={"User pfp"}
-                            borderRadius="full"
-                        />
-                        <Box>
-                            <Text className={nunito.className}>
-                                {current_user.name}
-                            </Text>
-                            <Text color="gray.600">{current_user.email}</Text>
-                        </Box>
-                    </Flex>
-                </Link>
-            ) : (
-                <Button
-                    bg="#dce0f3"
-                    display={{ sm: "inherit", base: "none" }}
-                    padding={6}
-                    onClick={google_oauth}
-                    width={"150px"}
-                    _hover={{ bg: "#dce0f3" }}
-                >
-                    Login
-                </Button>
-            )}
+            <Button
+                bg="#dce0f3"
+                display={{ sm: "inherit", base: "none" }}
+                padding={6}
+                onClick={toggle_auth}
+                width={"150px"}
+                _hover={{ bg: "#dce0f3" }}
+            >
+                {isLoading ? (
+                    <Spinner size="sm" />
+                ) : isError ? (
+                    <Text>Login</Text>
+                ) : !logging_out ? (
+                    <Text>Logout</Text>
+                ) : (
+                    <Spinner size="sm" />
+                )}
+            </Button>
             <Flex marginLeft="auto" display={{ sm: "none", base: "flex" }}>
                 {open_dropdown ? (
                     <X onClick={() => set_open_dropdown(false)} />
