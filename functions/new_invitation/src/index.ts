@@ -45,7 +45,7 @@ const new_invitation = async function (req: Request, res: Response) {
 
     for (const membership of (await teams.listMemberships(data.teamId))
         .memberships) {
-        if (membership.userName == data.userName) return;
+        if (membership.userName == data.userName && membership.confirm) return;
     }
 
     await databases.createDocument(data.userName, "invitations", data.teamId, {

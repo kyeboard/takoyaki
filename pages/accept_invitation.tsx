@@ -27,6 +27,8 @@ const AcceptInvitation = () => {
                     }
                 );
 
+                await new Promise(r => setTimeout(r, 1000));
+
                 router.push("/dashboard");
             } catch (err) {
                 set_error("Invalid invitation!");

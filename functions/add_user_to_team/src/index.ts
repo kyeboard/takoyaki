@@ -51,17 +51,20 @@ const add_user_to_team = async function (req: Request, res: Response) {
     );
 
     try {
+        let invited_user;
         const invitation: any = await databases.getDocument(
             data.$databaseId,
             "invitations",
             data.$id
         );
 
-        let invited_user;
+        for (const membership of (await teams.listMemberships(data.$id))
+            .memberships) {
+            if (membership.userName == data.$databaseId) {
+                invited_user = membership;
 
-        for (const user of (await account.list()).users) {
-            if (user.name == data.$databaseId) {
-                invited_user = user;
+                // Remove user
+                teams.deleteMembership(data.$id, membership.$id);
             }
         }
 
@@ -72,7 +75,7 @@ const add_user_to_team = async function (req: Request, res: Response) {
         if (invitation.status == true) {
             await teams.createMembership(
                 data.$id,
-                invited_user.email,
+                invited_user.userEmail,
                 [],
                 "https://planetary.kyeboard.me/dashboard"
             );
