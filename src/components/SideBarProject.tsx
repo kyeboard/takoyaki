@@ -1,5 +1,7 @@
 import { Flex, Image, Text, Box } from "@pankod/refine-chakra-ui";
+import { useGetIdentity } from "@pankod/refine-core";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import {
     Settings,
     Folder,
@@ -23,7 +25,14 @@ const SideBarProject: React.FC<SideBarProps> = ({
     expand,
     destroy_self,
 }) => {
+    const { data: user, isError } = useGetIdentity();
     const router = useRouter();
+
+    useEffect(() => {
+        if (isError) {
+            router.push("/");
+        }
+    }, [isError]);
 
     return (
         <Flex

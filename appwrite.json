@@ -8,10 +8,7 @@
             "runtime": "node-16.0",
             "path": "functions/change_username_to_email",
             "entrypoint": "src/index.js",
-            "ignore": [
-                "node_modules",
-                ".npm"
-            ],
+            "ignore": ["node_modules", ".npm"],
             "execute": [],
             "events": [],
             "schedule": "",
@@ -23,10 +20,7 @@
             "runtime": "node-16.0",
             "path": "functions/upload_user_profile",
             "entrypoint": "src/index.js",
-            "ignore": [
-                "node_modules",
-                ".npm"
-            ],
+            "ignore": ["node_modules", ".npm"],
             "execute": [],
             "events": [],
             "schedule": "",
@@ -38,10 +32,7 @@
             "runtime": "node-16.0",
             "path": "functions/setup_workspace",
             "entrypoint": "src/index.js",
-            "ignore": [
-                "node_modules",
-                ".npm"
-            ],
+            "ignore": ["node_modules", ".npm"],
             "execute": [],
             "events": [],
             "schedule": "",
@@ -53,10 +44,7 @@
             "runtime": "node-16.0",
             "path": "functions/setup_user_workspace",
             "entrypoint": "src/index.js",
-            "ignore": [
-                "node_modules",
-                ".npm"
-            ],
+            "ignore": ["node_modules", ".npm"],
             "execute": [],
             "events": [],
             "schedule": "",
@@ -68,10 +56,7 @@
             "runtime": "node-16.0",
             "path": "functions/push_notifications",
             "entrypoint": "src/index.js",
-            "ignore": [
-                "node_modules",
-                ".npm"
-            ],
+            "ignore": ["node_modules", ".npm"],
             "execute": [],
             "events": [],
             "schedule": "",
@@ -83,12 +68,23 @@
             "runtime": "node-16.0",
             "path": "functions/new_invitation",
             "entrypoint": "src/index.js",
-            "ignore": [
-                "node_modules",
-                ".npm"
-            ],
+            "ignore": ["node_modules", ".npm"],
             "execute": [],
-            "events": [],
+            "events": ["teams.*.memberships.*.create"],
+            "schedule": "",
+            "timeout": 15
+        },
+        {
+            "$id": "63f1a7b8741c48e8e37d",
+            "name": "add_user_to_team",
+            "runtime": "node-16.0",
+            "path": "functions/add_user_to_team",
+            "entrypoint": "src/index.js",
+            "ignore": ["node_modules", ".npm"],
+            "execute": [],
+            "events": [
+                "databases.*.collections.invitations.documents.*.update"
+            ],
             "schedule": "",
             "timeout": 15
         }

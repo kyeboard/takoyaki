@@ -1,4 +1,4 @@
-import { Client, Databases, Models } from "node-appwrite";
+import { Client, Databases, Models, Teams } from "node-appwrite";
 
 interface Request {
     headers: {
@@ -22,6 +22,7 @@ const new_invitation = async function (req: Request, res: Response) {
 
     // You can remove services you don't use
     const databases = new Databases(client);
+    const teams = new Teams(client);
 
     if (
         !req.variables["APPWRITE_FUNCTION_ENDPOINT"] ||
@@ -41,6 +42,11 @@ const new_invitation = async function (req: Request, res: Response) {
     const data: Models.Membership = JSON.parse(
         req.variables["APPWRITE_FUNCTION_EVENT_DATA"]
     );
+
+    for (const membership of (await teams.listMemberships(data.teamId))
+        .memberships) {
+        if (membership.userName == data.userName) return;
+    }
 
     await databases.createDocument(data.userName, "invitations", data.teamId, {
         name: data.teamName,

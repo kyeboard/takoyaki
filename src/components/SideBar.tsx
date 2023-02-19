@@ -1,14 +1,8 @@
 import { Flex, Image, Text, Box, keyframes } from "@pankod/refine-chakra-ui";
-import { useEffect, useState } from "react";
-import {
-    BarChart2,
-    Bell,
-    Settings,
-    Calendar,
-    Inbox,
-    Menu,
-    X,
-} from "react-feather";
+import { useGetIdentity } from "@pankod/refine-core";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { BarChart2, Bell, Inbox, X } from "react-feather";
 import { account, storage } from "src/utility";
 import { QuickLink } from "./QuickLink";
 
@@ -30,15 +24,14 @@ const rise = keyframes`
 `;
 
 const SideBar: React.FC<SideBarProps> = ({ current, expand, destroy_self }) => {
-    const [user, set_user] = useState<any>(null);
+    const { data: user, isError } = useGetIdentity();
+    const router = useRouter();
 
     useEffect(() => {
-        const fetch_user = async () => {
-            set_user(await account.get());
-        };
-
-        fetch_user();
-    }, [set_user]);
+        if (isError) {
+            router.push("/");
+        }
+    }, [isError]);
 
     return (
         <Flex
