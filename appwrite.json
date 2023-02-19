@@ -34,7 +34,7 @@
             "entrypoint": "src/index.js",
             "ignore": ["node_modules", ".npm"],
             "execute": [],
-            "events": [],
+            "events": ["teams.*.create"],
             "schedule": "",
             "timeout": 15
         },
@@ -46,7 +46,7 @@
             "entrypoint": "src/index.js",
             "ignore": ["node_modules", ".npm"],
             "execute": [],
-            "events": [],
+            "events": ["users.*.sessions.*.create"],
             "schedule": "",
             "timeout": 15
         },
@@ -57,7 +57,11 @@
             "path": "functions/push_notifications",
             "entrypoint": "src/index.js",
             "ignore": ["node_modules", ".npm"],
-            "execute": [],
+            "execute": [
+                "teams.*.memberships.*.create",
+                "databases.*.collections.todos.documents.*.create",
+                "databases.*.collections.events.documents.*.create"
+            ],
             "events": [],
             "schedule": "",
             "timeout": 15

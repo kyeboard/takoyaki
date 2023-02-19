@@ -114,7 +114,6 @@ const database_structure = {
                 },
             ],
         },
-       
     ],
 };
 
