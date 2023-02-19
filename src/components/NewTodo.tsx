@@ -25,6 +25,7 @@ const font_bold = Nunito({ subsets: ["latin"], weight: "700" });
 
 interface NewTaskProps {
     close: () => void;
+    afterAll: () => void;
     container: ComponentType<any>;
     animatedelement: ComponentType<any>;
 }
@@ -51,6 +52,7 @@ const rise = keyframes`
 
 const NewTask: React.FC<NewTaskProps> = ({
     close,
+    afterAll,
     container: Container,
     animatedelement: AnimatedElement,
 }) => {
@@ -123,6 +125,8 @@ const NewTask: React.FC<NewTaskProps> = ({
         );
 
         set_loading(false);
+
+        afterAll();
 
         close();
     };

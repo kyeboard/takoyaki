@@ -27,15 +27,17 @@ import {
 } from "@pankod/refine-chakra-ui";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { database } from "src/utility";
+import { database, storage } from "src/utility";
 import { Check, Edit, Plus, X } from "react-feather";
 import EditTask from "@components/EditTask";
+import Head from "next/head";
+import { useList } from "@pankod/refine-core";
 
 interface Todo extends Models.Document {
     status: boolean;
     title: string;
     due_date: string;
-    assignee: string;
+    assignee: string[];
     priority: number;
 }
 
@@ -82,109 +84,63 @@ const complete = keyframes`
 const font = Nunito({ subsets: ["latin"], weight: "800" });
 
 const Todos = () => {
-    const [todos, set_todos] = useState<Array<Todo>>([]);
-    const [loading, set_loading] = useState<boolean>(true);
-    const [all_todos, set_all_todos] = useState<Array<Todo>>([]);
     const router = useRouter();
-    const actions = ["all", "today", "tomorrow", "week", "month", "year"];
     const [popup_state, set_popup_state] = useState<boolean>(false);
     const [edit_state, set_edit_state] = useState<string>("-");
+    const [filter, set_filter] = useState<string>("");
+    const [completing, set_completing] = useState<string>("-");
 
-    useEffect(() => {
-        if (!router.isReady) return;
-
-        const fetch_todos = async () => {
-            const todos = (
-                await database.listDocuments<Todo>(
-                    router.query.id as string,
-                    "todos"
-                )
-            ).documents;
-
-            set_all_todos(todos);
-
-            set_todos(todos);
-
-            set_loading(false);
-        };
-
-        fetch_todos();
-    }, [router]);
-
-    const filter_todos = (key: string) => {
-        const today = moment(moment.now());
-        const tomorrow = moment(moment.now()).add(1, "day");
-        const end_week = moment(moment.now()).endOf("week");
-        const end_month = moment(moment.now()).endOf("month");
-        const end_year = moment(moment.now()).endOf("month");
-
-        switch (key) {
-            case "all":
-                set_todos(all_todos);
-                break;
-
-            case "today":
-                set_todos(
-                    all_todos.filter((t) =>
-                        moment(t.due_date).isSame(today, "day")
-                    )
-                );
-                break;
-
-            case "tomorrow":
-                set_todos(
-                    all_todos.filter((t) =>
-                        moment(t.due_date).isSame(tomorrow, "day")
-                    )
-                );
-                break;
-
-            case "week":
-                set_todos(
-                    all_todos.filter(
-                        (t) =>
-                            moment(t.due_date).isSameOrAfter(today) &&
-                            moment(t.due_date).isSameOrBefore(end_week)
-                    )
-                );
-                break;
-
-            case "month":
-                set_todos(
-                    all_todos.filter(
-                        (t) =>
-                            moment(t.due_date).isSameOrAfter(today) &&
-                            moment(t.due_date).isSameOrBefore(end_month)
-                    )
-                );
-                break;
-
-            case "year":
-                set_todos(
-                    all_todos.filter(
-                        (t) =>
-                            moment(t.due_date).isSameOrAfter(today) &&
-                            moment(t.due_date).isSameOrBefore(end_year)
-                    )
-                );
-                break;
-
-            default:
-        }
-    };
+    const {
+        data: todos,
+        isLoading: loading,
+        refetch,
+    } = useList<Todo>({
+        resource: `todos-${router.query.id}`,
+        config: {
+            sort: [
+                {
+                    field: "due_date",
+                    order: "asc",
+                },
+            ],
+            filters: [
+                {
+                    field: "category",
+                    operator: "eq",
+                    value: router.query.workspace_id,
+                },
+            ],
+        },
+    });
 
     const MotionFlex = motion(Flex);
     const Container = motion(Flex);
     const AnimatedElement = motion(Flex);
+
+    const complete_todo = async (id: string) => {
+        set_completing(id);
+
+        await database.updateDocument(router.query.id as string, "todos", id, {
+            completed: true,
+        });
+
+        refetch();
+
+        set_completing("-");
+    };
 
     return (
         <Flex
             marginLeft={{ sidebar_md: "350px", sm: "110px", base: 0 }}
             width="full"
         >
+            <Head>
+                <title>Your tasks</title>
+            </Head>
             <AnimatePresence>
                 {popup_state && (
                     <NewTask
+                        afterAll={refresh}
                         container={Container}
                         animatedelement={AnimatedElement}
                         close={() => set_popup_state(false)}
@@ -195,6 +151,7 @@ const Todos = () => {
                 {edit_state !== "-" && (
                     <EditTask
                         destroy_self={() => set_edit_state("-")}
+                        afterAll={refetch}
                         container={Container}
                         animatedelement={AnimatedElement}
                         todo_id={edit_state}
@@ -225,6 +182,7 @@ const Todos = () => {
                         bg="#dde0f2"
                         style={{ animationDelay: "10ms" }}
                         opacity={0}
+                        onChange={(e) => set_filter(e.target.value)}
                         animation={`${rise} 500ms ease-in-out forwards`}
                         placeholder="Searching for a needle in haystack? Start here..."
                     />
@@ -247,87 +205,7 @@ const Todos = () => {
                         </Box>
                     </Button>
                 </Flex>
-                <Tabs
-                    marginTop={5}
-                    onChange={(index) => filter_todos(actions[index])}
-                >
-                    <TabList gap={6} maxW={"100vw"} overflow="scroll">
-                        <Tab
-                            _selected={{
-                                borderBottomColor: "#2E3440",
-                                borderBottomWidth: "2px",
-                                transition: "border-bottom 0.2s",
-                            }}
-                            style={{ animationDelay: "30ms" }}
-                            opacity={0}
-                            animation={`${rise} 500ms ease-in-out forwards`}
-                            onSelect={() => filter_todos("today")}
-                        >
-                            All tasks
-                        </Tab>
-                        <Tab
-                            _selected={{
-                                borderBottomColor: "#2E3440",
-                                borderBottomWidth: "2px",
-                                transition: "border-bottom 0.2s",
-                            }}
-                            style={{ animationDelay: "50ms" }}
-                            opacity={0}
-                            animation={`${rise} 500ms ease-in-out forwards`}
-                        >
-                            Today
-                        </Tab>
-                        <Tab
-                            _selected={{
-                                borderBottomColor: "#2E3440",
-                                borderBottomWidth: "2px",
-                                transition: "border-bottom 0.2s",
-                            }}
-                            style={{ animationDelay: "70ms" }}
-                            opacity={0}
-                            animation={`${rise} 500ms ease-in-out forwards`}
-                        >
-                            Tomorrow
-                        </Tab>
-                        <Tab
-                            _selected={{
-                                borderBottomColor: "#2E3440",
-                                borderBottomWidth: "2px",
-                                transition: "border-bottom 0.2s",
-                            }}
-                            style={{ animationDelay: "90ms" }}
-                            opacity={0}
-                            animation={`${rise} 500ms ease-in-out forwards`}
-                        >
-                            This week
-                        </Tab>
-                        <Tab
-                            _selected={{
-                                borderBottomColor: "#2E3440",
-                                borderBottomWidth: "2px",
-                                transition: "border-bottom 0.2s",
-                            }}
-                            style={{ animationDelay: "110ms" }}
-                            opacity={0}
-                            animation={`${rise} 500ms ease-in-out forwards`}
-                        >
-                            This month
-                        </Tab>
-                        <Tab
-                            _selected={{
-                                borderBottomColor: "#2E3440",
-                                borderBottomWidth: "2px",
-                                transition: "border-bottom 0.2s",
-                            }}
-                            style={{ animationDelay: "130ms" }}
-                            opacity={0}
-                            animation={`${rise} 500ms ease-in-out forwards`}
-                        >
-                            This year
-                        </Tab>
-                    </TabList>
-                </Tabs>
-                {todos.length > 0 ? (
+                {todos?.total ?? 0 > 0 ? (
                     <TableContainer marginTop={2}>
                         <Table
                             variant="simple"
@@ -376,15 +254,20 @@ const Todos = () => {
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {todos.map((t, i) => {
+                                {todos?.data.map((t, i) => {
+                                    if (!t.title.includes(filter)) return;
+
                                     return (
-                                        <AnimatePresence key={t.$id}>
+                                        <AnimatePresence key={t.id}>
                                             <Tr
                                                 bg={
                                                     moment(
                                                         moment.now()
                                                     ).isAfter(
-                                                        moment(t.due_date)
+                                                        moment(t.due_date).add(
+                                                            1,
+                                                            "day"
+                                                        )
                                                     )
                                                         ? "rgba(243, 139, 168, 0.1)	"
                                                         : "#dde0f2"
@@ -408,7 +291,26 @@ const Todos = () => {
                                                     }
                                                     borderLeftRadius={"xl"}
                                                 >
-                                                    {t.title}
+                                                    <Flex alignItems="center">
+                                                        {t.title}
+                                                        <Flex
+                                                            marginLeft={3}
+                                                            bg="#a6d3a6"
+                                                            padding={1}
+                                                            paddingX={4}
+                                                            fontSize="sm"
+                                                            display={
+                                                                t.completed
+                                                                    ? "flex"
+                                                                    : "none"
+                                                            }
+                                                            borderRadius={
+                                                                "full"
+                                                            }
+                                                        >
+                                                            Completed
+                                                        </Flex>
+                                                    </Flex>
                                                 </Td>
                                                 <Td
                                                     padding={5}
@@ -425,7 +327,62 @@ const Todos = () => {
                                                         "transparent"
                                                     }
                                                 >
-                                                    {t.assignee}
+                                                    <Flex
+                                                        alignItems="center"
+                                                        justifyContent="center"
+                                                    >
+                                                        {t.assignee
+                                                            .slice(0, 2)
+                                                            .map((a, i) => {
+                                                                return (
+                                                                    <Image
+                                                                        src={
+                                                                            storage.getFilePreview(
+                                                                                "63dfd4b2bf3364da5f0c",
+                                                                                a
+                                                                            )
+                                                                                .href
+                                                                        }
+                                                                        transform={`translateX(-${
+                                                                            10 *
+                                                                            i
+                                                                        }px)`}
+                                                                        width={
+                                                                            10
+                                                                        }
+                                                                        borderRadius="full"
+                                                                        border="solid"
+                                                                        borderWidth={
+                                                                            2
+                                                                        }
+                                                                        borderColor="#2E3440"
+                                                                        alt="User profile"
+                                                                        key={Math.random().toString()}
+                                                                    />
+                                                                );
+                                                            })}
+                                                        {t.assignee.length >
+                                                            2 && (
+                                                            <Flex
+                                                                minW={10}
+                                                                minH={10}
+                                                                bg="#2E3440"
+                                                                color="#D8DEE9"
+                                                                borderRadius={
+                                                                    "full"
+                                                                }
+                                                                transform={
+                                                                    "translateX(-20px)"
+                                                                }
+                                                                alignItems="center"
+                                                                justifyContent="center"
+                                                            >
+                                                                +
+                                                                {t.assignee
+                                                                    .length - 2}
+                                                            </Flex>
+                                                        )}
+                                                    </Flex>
                                                 </Td>
                                                 <Td
                                                     borderBottomColor={
@@ -441,7 +398,7 @@ const Todos = () => {
                                                     paddingX={2}
                                                     cursor="pointer"
                                                     onClick={() =>
-                                                        set_edit_state(t.$id)
+                                                        set_edit_state(t.id)
                                                     }
                                                 >
                                                     <Edit size={19} />
@@ -451,11 +408,20 @@ const Todos = () => {
                                                         "transparent"
                                                     }
                                                     cursor="pointer"
+                                                    onClick={() =>
+                                                        complete_todo(t.id)
+                                                    }
                                                     paddingX={4}
                                                     paddingRight={6}
                                                     borderRightRadius={"xl"}
                                                 >
-                                                    <Check size={20} />
+                                                    {completing == t.id ? (
+                                                        <Spinner size="sm" />
+                                                    ) : !t.completed ? (
+                                                        <Check size={20} />
+                                                    ) : (
+                                                        <></>
+                                                    )}
                                                 </Td>
                                             </Tr>
                                         </AnimatePresence>

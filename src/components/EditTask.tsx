@@ -23,12 +23,14 @@ const nunito = Nunito({ subsets: ["latin"], weight: "800" });
 
 const EditTask: React.FC<{
     destroy_self: () => void;
+    afterAll: () => void;
     container: ComponentType<any>;
     animatedelement: ComponentType<any>;
     todo_id: string;
 }> = ({
     destroy_self,
     todo_id,
+    afterAll,
     container: Container,
     animatedelement: AnimatedElement,
 }) => {
@@ -113,6 +115,8 @@ const EditTask: React.FC<{
 
         // Destroy self (no more need)
         destroy_self();
+
+        afterAll();
 
         // router.push(`/project/${team.$id}`);
     };

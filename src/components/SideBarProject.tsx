@@ -82,13 +82,6 @@ const SideBarProject: React.FC<SideBarProps> = ({
                     icon={<Users size={22} />}
                     current={current === "members"}
                 />
-                <QuickLink
-                    title="Settings"
-                    delay={130}
-                    href={`/project/${router.query.id}/settings`}
-                    icon={<Settings size={22} />}
-                    current={current === "settings"}
-                />
                 <Flex marginTop="auto" gap={5} alignItems="center">
                     <Image
                         src="https://avatars.githubusercontent.com/u/115910279?v=4"
