@@ -64,6 +64,7 @@ const setup_user_workspace = async function (req: Request, res: Response) {
     // Create collection for invitations
     await database.createCollection(user.$id, "invitations", "Invitations", [
         Permission.read(Role.user(user.$id)),
+        Permission.update(Role.user(user.$id)),
         Permission.delete(Role.user(user.$id)),
     ]);
 
@@ -83,6 +84,15 @@ const setup_user_workspace = async function (req: Request, res: Response) {
         "accept_url",
         true
     );
+
+    await database.createBooleanAttribute(
+        user.$id,
+        "invitations",
+        "accept_url",
+        false,
+        false
+    );
+
 
     // Notifications collection
     // Create collection for invitations

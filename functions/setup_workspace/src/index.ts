@@ -82,6 +82,16 @@ const database_structure = {
                     required: true,
                     array: true,
                 },
+                {
+                    key: "category",
+                    required: true,
+                    array: false,
+                },
+                {
+                    key: "completed",
+                    required: false,
+                    array: false,
+                },
             ],
         },
         {
@@ -104,41 +114,7 @@ const database_structure = {
                 },
             ],
         },
-        {
-            name: "events",
-            rules: [
-                {
-                    key: "title",
-                    required: true,
-                    array: false,
-                },
-                {
-                    key: "description",
-                    required: true,
-                    array: false,
-                },
-                {
-                    key: "location",
-                    required: true,
-                    array: false,
-                },
-                {
-                    key: "start",
-                    required: true,
-                    array: false,
-                },
-                {
-                    key: "end",
-                    required: true,
-                    array: false,
-                },
-                {
-                    key: "attendees",
-                    required: false,
-                    array: true,
-                },
-            ],
-        },
+       
     ],
 };
 
