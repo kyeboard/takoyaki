@@ -17,6 +17,22 @@ In order to setup and run this project locally, you must have:
 - [Appwrite](https://www.appwrite.io/)
 - Brain (IYKYK)
 
+## Setup Appwrite
+Before starting the development server, you must have your Appwrite project setup.
+
+- Create a new Appwrite project with any name but with the id of planetary.
+- In the Auth tab, go to Settings and setup Google OAuth provider with your google client credentials.
+- In the Databases section, create a new database with the id of `teams`.
+  - In that database, create a database with the id of `teams` as well.
+- Next, you need to setup your collection with attributes
+  - Create a new string attribute with the name of `title`, `string` type and `required`.
+  - Create a new string attribute with the name of `description`, `string` type and `required`.
+  - Create a new string attribute with the name of `color`, `string` type and `required`.
+  - Create a new boolean attribute with the name of `completed`, `integer` type and `not required`.
+- Create six functions (all with NodeJs environment ) and deploy all the folder in the `functions/` folder to each of the functions. It doesnt really matter if the id is same or different, but if you want to ease your deployment, then you can use the id from the `appwrite.json` and run `appwrite deploy functions` to quickly deploy all your functions (Make sure to build them before deploying, it is written in typescript).
+
+Boom! You are done, all the best with the next steps ;)
+
 ## Install project
 To run this awesome website locally, first:
 
@@ -28,11 +44,6 @@ git clone https://www.github.com/kyeboard/planetary.git
 - Change the directory to the folder
 ```
 cd planetary
-```
-
-- Setup your Appwrite instance with the required project, collections etc.
-```
-bash setup.sh
 ```
 
 - Install required dependencies
